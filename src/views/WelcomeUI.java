@@ -9,15 +9,9 @@ import java.awt.*;
 public class WelcomeUI extends JFrame{
 
     public WelcomeUI() {
-
-        this.setTitle("Codenames Desktop Game");
-        this.setIconImage(new ImageIcon("assets/icon.jpg").getImage());
-        this.setSize(1080, 810);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
         GridBagLayout gridBagLayout = new GridBagLayout();
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+
         JPanel panel = new JPanel(gridBagLayout);
         panel.setBackground(Color.decode("#713C3C"));
         this.setContentPane(panel);
