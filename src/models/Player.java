@@ -2,7 +2,7 @@ package models;
 
 public class Player {
 
-    private int playerId;
+
     private String username;
     private String password;
 
@@ -10,19 +10,12 @@ public class Player {
     public Player() {
     }
 
-    public Player(int playerId, String username, String password) {
-        this.playerId = playerId;
+    public Player( String username, String password) {
+
         this.username = username;
         this.password = password;
     }
 
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
-    }
 
     public String getUsername() {
         return username;
@@ -44,8 +37,14 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "playerId=" + playerId +
                 ", username='" + username + '\'' +
                 '}';
+    }
+    public void registerPlayer() {
+        // registration logic
+    }
+
+    public void loginPlayer() {
+        // login logic
     }
 }

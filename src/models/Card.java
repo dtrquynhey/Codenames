@@ -1,42 +1,18 @@
 package models;
-
-import models.enums.CardType;
+import models.enums.Color;
 
 public class Card {
-
-    private int cardId;
-    private int gameId;
     private String word;
-    private CardType type;
-    private Boolean isGuessed;
-
+    private Boolean isRevealed;
+    private Color color;
 
     public Card() {
     }
 
-    public Card(int cardId, int gameId, String word, CardType type, Boolean isGuessed) {
-        this.cardId = cardId;
-        this.gameId = gameId;
+    public Card(String word, Boolean isRevealed, Color color) {
         this.word = word;
-        this.type = type;
-        this.isGuessed = isGuessed;
-    }
-
-
-    public int getCardId() {
-        return cardId;
-    }
-
-    public void setCardId(int cardId) {
-        this.cardId = cardId;
-    }
-
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
+        this.isRevealed = isRevealed;
+        this.color = color;
     }
 
     public String getWord() {
@@ -47,31 +23,28 @@ public class Card {
         this.word = word;
     }
 
-    public CardType getType() {
-        return type;
+    public Boolean getRevealed() {
+        return isRevealed;
     }
 
-    public void setType(CardType type) {
-        this.type = type;
+    public void setRevealed(Boolean revealed) {
+        isRevealed = revealed;
     }
 
-    public Boolean getGuessed() {
-        return isGuessed;
+    public Color getColor() {
+        return color;
     }
 
-    public void setGuessed(Boolean guessed) {
-        isGuessed = guessed;
+    public void setColor(Color color) {
+        this.color = color;
     }
-
 
     @Override
     public String toString() {
         return "Card{" +
-                "cardId=" + cardId +
-                ", gameId=" + gameId +
-                ", word='" + word + '\'' +
-                ", type=" + type +
-                ", isGuessed=" + isGuessed +
+                "word='" + word + '\'' +
+                ", isRevealed=" + isRevealed +
+                ", color=" + color +
                 '}';
     }
 }

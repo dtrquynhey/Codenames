@@ -1,7 +1,7 @@
 package models.enums;
 
-public enum GameStatus {
+public enum Status {
     LOBBY,
     ONGOING,
-    COMPLETED
+    FINISHED
 }
