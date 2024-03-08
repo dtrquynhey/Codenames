@@ -16,9 +16,7 @@ public class WelcomeUI extends Frame {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel lblTitle = new ShadowLabel("CODENAMES");
-        lblTitle.setForeground(Color.WHITE);
-        lblTitle.setFont(new Font("Cambria", Font.PLAIN, 80));
+        JLabel lblTitle = new ShadowLabel("CODENAMES", 87, Color.WHITE);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);

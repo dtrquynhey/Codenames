@@ -18,17 +18,19 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        try {
-            final Image backgroundImage = ImageIO.read(new File("src/assets/background.png"));
-            panel = new JPanel(layoutManager) {
-                @Override
-                public void paintComponent(Graphics g) {
-                    g.drawImage(backgroundImage, 0, 0, null);
-                }
-            };
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            final Image backgroundImage = ImageIO.read(new File("src/assets/background.png"));
+//            panel = new JPanel(layoutManager) {
+//                @Override
+//                public void paintComponent(Graphics g) {
+//                    g.drawImage(backgroundImage, 0, 0, null);
+//                }
+//            };
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        panel = new JPanel(layoutManager);
+        panel.setBackground(Color.decode("#713C3C"));
         setContentPane(panel);
         setVisible(true);
     }

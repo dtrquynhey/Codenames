@@ -1,6 +1,7 @@
 package views.GUI;
 
 import views.customPalettes.Frame;
+import views.customPalettes.Label;
 import views.customPalettes.RoundedButton;
 import views.customPalettes.ShadowLabel;
 
@@ -13,9 +14,7 @@ public class RulesUI extends Frame {
         super(new GridBagLayout());
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel lblComingSoon = new ShadowLabel("This feature is coming soon...!");
-        lblComingSoon.setForeground(Color.WHITE);
-        lblComingSoon.setFont(new Font("Cambria", Font.PLAIN, 22));
+        JLabel lblComingSoon = new Label("This feature is coming soon ^_^ ", 20, Color.WHITE );
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
@@ -42,7 +41,6 @@ public class RulesUI extends Frame {
     }
 
     public static void main(String[] args) {
-
         new RulesUI();
     }
 }
