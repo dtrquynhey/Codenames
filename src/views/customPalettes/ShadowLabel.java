@@ -5,7 +5,7 @@ import java.awt.*;
 
 // Custom label class with drop shadow effect
 public class ShadowLabel extends JLabel {
-    private final Color shadowColor = new Color(0, 0, 0, 50);
+    private final Color shadowColor = new Color(0, 0, 0, 100);
     private static final String FONT_FAMILY = "Bookman Old Style";
     private static final int FONT_STYLE = Font.PLAIN;
 
