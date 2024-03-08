@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 
 public class WelcomeUI extends Frame {
 
-    private JButton button1;
-
     public WelcomeUI() {
         super(new GridBagLayout());
 
@@ -38,17 +36,13 @@ public class WelcomeUI extends Frame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(4, 0, 0, 0);
-
         panel.add(btnReadRules, gridBagConstraints);
 
-        // Add ActionListener to the "Read Rules" button
-        btnReadRules.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Open RuleUI when the button is clicked
-                openRulesUI();
-            }
+        btnReadRules.addActionListener(e -> {
+            // Open RuleUI when the button is clicked
+            openRulesUI();
         });
+
         this.setVisible(true);
 
     }
