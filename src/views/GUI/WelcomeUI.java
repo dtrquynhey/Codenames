@@ -6,8 +6,12 @@ import views.customPalettes.ShadowLabel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class WelcomeUI extends Frame {
+
+    private JButton button1;
 
     public WelcomeUI() {
         super(new GridBagLayout());
@@ -16,7 +20,7 @@ public class WelcomeUI extends Frame {
 
         JLabel lblTitle = new ShadowLabel("CODENAMES");
         lblTitle.setForeground(Color.WHITE);
-        lblTitle.setFont(new Font("Bookman Old Style", Font.PLAIN, 80));
+        lblTitle.setFont(new Font("Cambria Math", Font.PLAIN, 80));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 25, 0);
@@ -37,8 +41,22 @@ public class WelcomeUI extends Frame {
 
         panel.add(btnReadRules, gridBagConstraints);
 
+        // Add ActionListener to the "Read Rules" button
+        btnReadRules.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open RuleUI when the button is clicked
+                openRulesUI();
+            }
+        });
         this.setVisible(true);
 
+    }
+
+    private void openRulesUI() {
+
+        RulesUI ruleUI = new RulesUI();
+        ruleUI.setVisible(true);
     }
 
     public static void main(String[] args) {

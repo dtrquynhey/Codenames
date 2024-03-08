@@ -23,7 +23,9 @@ public class ShadowLabel extends JLabel {
         g2.drawString(getText(), shadowOffset, getHeight() - shadowOffset);
 
         // Draw text
-        g2.setColor(getForeground());
+        g2.setColor(Color.WHITE);
+
+
         g2.drawString(getText(), 0, getHeight());
 
         g2.dispose();
