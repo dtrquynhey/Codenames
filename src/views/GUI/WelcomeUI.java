@@ -20,10 +20,10 @@ public class WelcomeUI extends Frame {
 
         JLabel lblTitle = new ShadowLabel("CODENAMES");
         lblTitle.setForeground(Color.WHITE);
-        lblTitle.setFont(new Font("Cambria Math", Font.PLAIN, 80));
+        lblTitle.setFont(new Font("Cambria", Font.PLAIN, 80));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new Insets(0, 0, 25, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         panel.add(lblTitle, gridBagConstraints);
 
         RoundedButton btnNewGame = new RoundedButton("New Game");
@@ -37,7 +37,7 @@ public class WelcomeUI extends Frame {
         btnReadRules.setBackground(Color.decode("#E4F241"));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+        gridBagConstraints.insets = new Insets(4, 0, 0, 0);
 
         panel.add(btnReadRules, gridBagConstraints);
 
