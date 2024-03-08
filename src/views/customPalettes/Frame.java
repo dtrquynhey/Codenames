@@ -13,7 +13,7 @@ public class Frame extends JFrame {
     public Frame(LayoutManager layoutManager) {
         setTitle("Codenames Desktop Game");
         setIconImage(new ImageIcon("src/assets/icon.jpeg").getImage());
-        setSize(1020, 755);
+        setSize(1280, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
