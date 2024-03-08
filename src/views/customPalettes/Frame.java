@@ -15,7 +15,7 @@ public class Frame extends JFrame {
         setResizable(false);
 
         panel = new JPanel(layoutManager);
-        panel.setBackground(Color.decode("#713C3C"));
+        panel.setBackground(Color.decode("#43766C"));
         setContentPane(panel);
         setVisible(true);
     }

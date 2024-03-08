@@ -18,7 +18,9 @@ public class RoundedButton extends JButton {
         this.arcHeight = 17;
         this.shadowColor = new Color(0, 0, 0, 90); // Semi-transparent black color for shadow
         this.setFont(new Font("Bookman Old Style", Font.BOLD, 14));
-        this.setPreferredSize(new Dimension(117, 32));
+        this.setPreferredSize(new Dimension(500, 500));
+        this.setMaximumSize(new Dimension(250, 150));
+        this.setMinimumSize(new Dimension(250, 150));
 
         this.setContentAreaFilled(false); // Make the button transparent
         this.setFocusPainted(false); // Remove focus border

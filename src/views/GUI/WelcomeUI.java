@@ -23,14 +23,14 @@ public class WelcomeUI extends Frame {
         panel.add(lblTitle, gridBagConstraints);
 
         RoundedButton btnNewGame = new RoundedButton("New Game");
-        btnNewGame.setBackground(Color.decode("#52D547"));
+        btnNewGame.setBackground(Color.decode("#88E0EF"));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 4, 0);
         panel.add(btnNewGame, gridBagConstraints);
 
         RoundedButton btnReadRules = new RoundedButton("Read Rules");
-        btnReadRules.setBackground(Color.decode("#E4F241"));
+        btnReadRules.setBackground(Color.decode("#FF5151"));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(4, 0, 0, 0);
