@@ -1,27 +1,25 @@
-package views;
+package views.GUI;
 
+import views.customPalettes.Frame;
 import views.customPalettes.RoundedButton;
 import views.customPalettes.ShadowLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class WelcomeUI extends JFrame{
+public class WelcomeUI extends Frame {
 
     public WelcomeUI() {
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        super(new GridBagLayout());
 
-        JPanel panel = new JPanel(gridBagLayout);
-        panel.setBackground(Color.decode("#713C3C"));
-        this.setContentPane(panel);
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         JLabel lblTitle = new ShadowLabel("CODENAMES");
         lblTitle.setForeground(Color.WHITE);
-        lblTitle.setFont(new Font("Cambria", Font.PLAIN, 100));
+        lblTitle.setFont(new Font("Bookman Old Style", Font.PLAIN, 80));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 25, 0);
         panel.add(lblTitle, gridBagConstraints);
 
         RoundedButton btnNewGame = new RoundedButton("New Game");
@@ -44,6 +42,7 @@ public class WelcomeUI extends JFrame{
     }
 
     public static void main(String[] args) {
+
         new WelcomeUI();
     }
 

@@ -5,7 +5,7 @@ import java.awt.*;
 
 // Custom label class with drop shadow effect
 public class ShadowLabel extends JLabel {
-    private final Color shadowColor = new Color(0, 0, 0, 90);
+    private final Color shadowColor = new Color(0, 0, 0, 150);
 
     public ShadowLabel(String text) {
         super(text);
@@ -19,7 +19,7 @@ public class ShadowLabel extends JLabel {
 
         // Draw shadow
         g2.setColor(shadowColor);
-        int shadowOffset = 3;
+        int shadowOffset = -5;
         g2.drawString(getText(), shadowOffset, getHeight() - shadowOffset);
 
         // Draw text

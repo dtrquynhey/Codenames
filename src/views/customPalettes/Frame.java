@@ -1,24 +1,39 @@
 package views.customPalettes;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Frame extends JFrame {
 
-    public Frame() {
+    protected JPanel panel;
+
+    public Frame(LayoutManager layoutManager) {
         setTitle("Codenames Desktop Game");
-        setIconImage(new ImageIcon("assets/icon.jpeg").getImage());
-        setSize(1080, 810);
+        setIconImage(new ImageIcon("src/assets/icon.jpeg").getImage());
+        setSize(1020, 755);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
-
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        JPanel panel = new JPanel(gridBagLayout);
-        panel.setBackground(Color.decode("#713C3C"));
+        try {
+            final Image backgroundImage = ImageIO.read(new File("src/assets/background.png"));
+            panel = new JPanel(layoutManager) {
+                @Override
+                public void paintComponent(Graphics g) {
+                    g.drawImage(backgroundImage, 0, 0, null);
+                }
+            };
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         setContentPane(panel);
         setVisible(true);
-
     }
 
+    public static void main(String[] args) {
+        new Frame(new GridLayout());
+    }
 }
