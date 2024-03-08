@@ -20,8 +20,7 @@ public class RulesUI extends Frame {
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         panel.add(lblComingSoon, gridBagConstraints);
 
-        RoundedButton btnGoBack = new RoundedButton("Go Back");
-        btnGoBack.setBackground(Color.decode("#E4F241"));
+        RoundedButton btnGoBack = new RoundedButton("Go Back", 120, 42, Color.decode("#FC9355"));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 4, 0);

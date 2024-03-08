@@ -12,13 +12,14 @@ public class RoundedButton extends JButton {
     private final Color shadowColor;
     private boolean isHovered;
 
-    public RoundedButton(String text) {
+    public RoundedButton(String text, int width, int height, Color color) {
         super(text);
         this.arcWidth = 17;
         this.arcHeight = 17;
         this.shadowColor = new Color(0, 0, 0, 90); // Semi-transparent black color for shadow
         this.setFont(new Font("Bookman Old Style", Font.BOLD, 18));
-        this.setPreferredSize(new Dimension(140, 45));
+        this.setBackground(color);
+        this.setPreferredSize(new Dimension(width, height));
 
         this.setContentAreaFilled(false); // Make the button transparent
         this.setFocusPainted(false); // Remove focus border
