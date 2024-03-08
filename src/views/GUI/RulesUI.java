@@ -3,7 +3,6 @@ package views.GUI;
 import views.customPalettes.Frame;
 import views.customPalettes.Label;
 import views.customPalettes.RoundedButton;
-import views.customPalettes.ShadowLabel;
 
 import javax.swing.*;
 import java.awt.*;
