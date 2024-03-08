@@ -38,6 +38,7 @@ public class LoginUI extends Frame {
         Panel buttonPanel = new Panel(buttonLayout);
         JButton buttonLogIn = new RoundedButton("Log In", 110, 42, Color.decode("#E5D1D2"));
         JButton buttonSignUp = new RoundedButton("Sign Up", 110, 42, Color.decode("#E4C988"));
+
         buttonPanel.add(buttonLogIn);
         buttonPanel.add(buttonSignUp);
         gridBagConstraints.gridx = 0;
