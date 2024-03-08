@@ -14,14 +14,14 @@ public class RulesUI extends Frame {
         super(new GridBagLayout());
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel lblComingSoon = new Label("This feature is coming soon ^_^ ", 20, Color.WHITE );
+        JLabel lblComingSoon = new Label("This feature is coming soon ^_^ ", 18, Color.WHITE);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         panel.add(lblComingSoon, gridBagConstraints);
 
         RoundedButton btnGoBack = new RoundedButton("Go Back");
-        btnGoBack.setBackground(Color.decode("#E4F241"));
+        btnGoBack.setBackground(Color.decode("#FC9355"));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 4, 0);
