@@ -9,8 +9,6 @@ import java.awt.*;
 
 public class LoginUI extends Frame {
 
-    private JPanel panel1;
-
     public LoginUI() {
         super(new GridBagLayout());
 
