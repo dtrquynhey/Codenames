@@ -29,7 +29,7 @@ public class RulesUI extends Frame {
         panel.add(btnGoBack, gridBagConstraints);
 
         btnGoBack.addActionListener(e -> {
-            // Open RuleUI when the button is clicked
+            // Go back to WelcomeUI when the button is clicked
             backToWelcomeUI();
         });
 
