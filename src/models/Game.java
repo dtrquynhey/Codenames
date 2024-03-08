@@ -1,68 +1,81 @@
 package models;
 
-import models.enums.GameStatus;
-
 import java.sql.Timestamp;
+import java.util.List;
+
+import models.enums.Status;
 
 public class Game {
-
-    private int gameId;
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private GameStatus status;
-
+    private String gameId;
+    private List<Card> listOfCards;
+    private List<Team> listOfTeams;
+    private Status status;
 
     public Game() {
     }
 
-    public Game(int gameId, Timestamp startTime, Timestamp endTime, GameStatus status) {
+    public Game(String gameId, List<Card> listOfCards, List<Team> listOfTeams, Status status) {
         this.gameId = gameId;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.listOfCards = listOfCards;
+        this.listOfTeams = listOfTeams;
         this.status = status;
     }
 
-
-    public int getGameId() {
+    public String getGameId() {
         return gameId;
     }
 
-    public void setGameId(int gameId) {
+    public void setGameId(String gameId) {
         this.gameId = gameId;
     }
 
-    public Timestamp getStartTime() {
-        return startTime;
+    public List<Card> getListOfCards() {
+        return listOfCards;
     }
 
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
+    public void setListOfCards(List<Card> listOfCards) {
+        this.listOfCards = listOfCards;
     }
 
-    public Timestamp getEndTime() {
-        return endTime;
+    public List<Team> getListOfTeams() {
+        return listOfTeams;
     }
 
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
+    public void setListOfTeams(List<Team> listOfTeams) {
+        this.listOfTeams = listOfTeams;
     }
 
-    public GameStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(GameStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
-
 
     @Override
     public String toString() {
         return "Game{" +
-                "gameId=" + gameId +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
+                "gameId='" + gameId + '\'' +
+                ", listOfCards=" + listOfCards +
+                ", listOfTeams=" + listOfTeams +
                 ", status=" + status +
                 '}';
+    }
+    public void startGame() {
+        // start game logic
+    }
+
+    public boolean checkWinCondition() {
+        // win condition checking logic
+        return false;
+    }
+
+    public void revealCard() {
+        // reveal card logic
+    }
+
+    public void operation() {
+        // additional operations
     }
 }

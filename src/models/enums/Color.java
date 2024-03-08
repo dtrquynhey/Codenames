@@ -1,6 +1,6 @@
 package models.enums;
 
-public enum CardType {
+public enum Color {
     RED,
     BLUE,
     NEUTRAL,
