@@ -13,17 +13,15 @@ public class Frame extends JFrame {
         setTitle("Codenames Desktop Game");
         setIconImage(new ImageIcon("src/assets/icon.jpeg").getImage());
         setSize(1280, 800);
+        setBackground(Color.decode("#43766C"));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
         topFlowPanel = new TopFlowPanel();
         centerGridBagPanel = new CenterGridBagPanel();
-
         panel = new JPanel(new BorderLayout());
-        panel.setBackground(Color.decode("#43766C"));
 
-        topFlowPanel = new TopFlowPanel();
         panel.add(topFlowPanel, BorderLayout.NORTH);
         panel.add(centerGridBagPanel, BorderLayout.CENTER);
 
