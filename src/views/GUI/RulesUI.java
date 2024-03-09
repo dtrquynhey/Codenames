@@ -10,23 +10,22 @@ import java.awt.*;
 public class RulesUI extends Frame {
 
     public RulesUI() {
-        super(new GridBagLayout());
+        super();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel lblComingSoon = new Label("This feature is coming soon ^_^ ", Font.PLAIN, 20, Color.WHITE );
+        JLabel lblComingSoon = new Label("This feature is coming soon!", Font.PLAIN, 16 , Color.WHITE );
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-        panel.add(lblComingSoon, gridBagConstraints);
+        centerGridBagPanel.add(lblComingSoon, gridBagConstraints);
 
-        RoundedButton btnGoBack = new RoundedButton("Go Back", 120, 42, Color.decode("#FC9355"));
+        RoundedButton btnGoBack = new RoundedButton("Go Back", 120, 42, Color.decode("#ACA7A7"));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 4, 0);
-        panel.add(btnGoBack, gridBagConstraints);
+        centerGridBagPanel.add(btnGoBack, gridBagConstraints);
 
         btnGoBack.addActionListener(e -> {
-            // Go back to WelcomeUI when the button is clicked
             backToWelcomeUI();
         });
 
