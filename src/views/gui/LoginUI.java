@@ -1,4 +1,4 @@
-package views.GUI;
+package views.gui;
 
 import views.customPalettes.*;
 import views.customPalettes.Frame;
