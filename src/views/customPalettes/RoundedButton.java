@@ -12,7 +12,7 @@ public class RoundedButton extends JButton {
 
     public RoundedButton(String text, int width, int height, Color color) {
         super(text);
-        this.shadowColor = new Color(0, 0, 0, 90); // Semi-transparent black color for shadow
+        this.shadowColor = new Color(0, 0, 0, 50); // Semi-transparent black color for shadow
         this.setFont(new Font("Bookman Old Style", Font.BOLD, 18));
         this.setBackground(color);
         this.setPreferredSize(new Dimension(width, height));
@@ -45,16 +45,16 @@ public class RoundedButton extends JButton {
 
         // Draw shadow
         g2.setColor(shadowColor);
-        g2.fill(new RoundRectangle2D.Float(3, 3, getWidth() - 4, getHeight() - 4, 17, 17));
+        g2.fill(new RoundRectangle2D.Float(3, 3, getWidth() - 3, getHeight() - 3, 17, 17));
 
         // Paint the background with the button's background color or a different color when hovered
         if (isHovered) {
-            g2.draw(new RoundRectangle2D.Float(0, 0, getWidth() - 4, getHeight() - 4, 17, 17));
+            g2.draw(new RoundRectangle2D.Float(0, 0, getWidth() - 3, getHeight() - 3, 17, 17));
             g2.setColor(getBackground().brighter()); // Brighten the background color when hovered
         } else {
             g2.setColor(getBackground());
         }
-        g2.fill(new RoundRectangle2D.Float(0, 0, getWidth() - 4, getHeight() - 4, 17, 17));
+        g2.fill(new RoundRectangle2D.Float(0, 0, getWidth() - 3, getHeight() - 3, 17, 17));
 
         // Paint the text
         super.paintComponent(g2);

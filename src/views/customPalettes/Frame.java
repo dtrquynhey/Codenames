@@ -5,6 +5,8 @@ import java.awt.*;
 public class Frame extends JFrame {
 
     protected JPanel panel;
+    protected TopFlowPanel topFlowPanel;
+
 
     public Frame(LayoutManager layoutManager) {
         setTitle("Codenames Desktop Game");
@@ -14,8 +16,13 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
+        topFlowPanel = new TopFlowPanel();
+
         panel = new JPanel(layoutManager);
         panel.setBackground(Color.decode("#43766C"));
+
+        panel.add(topFlowPanel, BorderLayout.NORTH);
+
         setContentPane(panel);
         setVisible(true);
     }

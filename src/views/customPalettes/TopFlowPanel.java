@@ -9,7 +9,7 @@ public class TopFlowPanel extends JPanel {
     private ArrayList<RoundedButton> buttons;
     public TopFlowPanel() {
         buttons = new ArrayList<>();
-        setLayout(new FlowLayout());
+        setLayout(new FlowLayout(FlowLayout.RIGHT));
     }
 
     public void addButton(RoundedButton button) {
