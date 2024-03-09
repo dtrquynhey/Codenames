@@ -8,8 +8,6 @@ import views.uihelpers.UIManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class LoginUI extends Frame {
 
@@ -17,8 +15,6 @@ public class LoginUI extends Frame {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, Color.decode("#84BDBF"));
-
-        buttonReadRules.addActionListener(e -> UIManager.openRulesUI());
         topFlowPanel.add(buttonReadRules);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -63,7 +59,7 @@ public class LoginUI extends Frame {
 
         bottomFlowPanel.add(signUpPanel);
 
-
+        buttonReadRules.addActionListener(e -> UIManager.openRulesUI());
 
         setVisible(true);
     }

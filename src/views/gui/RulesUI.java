@@ -27,6 +27,7 @@ public class RulesUI extends Frame {
 
         btnGoBack.addActionListener(e -> backToWelcomeUI());
 
+
         this.setVisible(true);
 
     }

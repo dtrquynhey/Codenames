@@ -14,8 +14,9 @@ public class WelcomeUI extends Frame {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, Color.decode("#84BDBF"));
-        RoundedButton buttonLogOut = new RoundedButton("Log Out", 130, 42, Color.decode("#ACA7A7"));
         topFlowPanel.add(buttonReadRules);
+
+        RoundedButton buttonLogOut = new RoundedButton("Log Out", 130, 42, Color.decode("#ACA7A7"));
         topFlowPanel.add(buttonLogOut);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
