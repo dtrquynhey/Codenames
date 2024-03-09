@@ -39,11 +39,17 @@ public class LoginUI extends Frame {
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
         panel.add(buttonLogIn, gridBagConstraints);
 
-        JLabel labelSignUp = new Label("Don't have an account yet?", Font.PLAIN, 20, Color.WHITE);
+        JLabel labelSignUp = new Label("Don't have an account yet?", Font.PLAIN, 18, Color.WHITE);
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
         panel.add(labelSignUp, gridBagConstraints);
+
+        JButton buttonSignUp = new RoundedButton("Sign Up", 110, 42, Color.decode("#E4C988"));
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        panel.add(buttonSignUp, gridBagConstraints);
 
         setVisible(true);
 
