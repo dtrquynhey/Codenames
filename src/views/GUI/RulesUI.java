@@ -13,7 +13,7 @@ public class RulesUI extends Frame {
         super(new GridBagLayout());
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel lblComingSoon = new Label("This feature is coming soon ^_^ ", 20, Color.WHITE );
+        JLabel lblComingSoon = new Label("This feature is coming soon ^_^ ", Font.PLAIN, 20, Color.WHITE );
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
