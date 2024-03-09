@@ -57,25 +57,4 @@ public class TextField extends JTextField {
     }
 
 }
-class CustomTextFieldTest {
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(CustomTextFieldTest::createAndShowGUI);
-    }
-
-    private static void createAndShowGUI() {
-        JFrame frame = new JFrame("CustomTextField Test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
-
-        // Create an instance of the custom text field
-        TextField textField = new TextField("Username", new Dimension(300, 42));
-
-        frame.add(textField);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-}
-
 

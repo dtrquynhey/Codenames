@@ -57,24 +57,3 @@ public class PasswordField extends JPasswordField {
     }
 
 }
-
-class PasswordTest {
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(PasswordTest::createAndShowGUI);
-    }
-
-    private static void createAndShowGUI() {
-        JFrame frame = new JFrame("PasswordTest Test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
-
-        // Create an instance of the custom text field
-        PasswordField textField = new PasswordField("Password", new Dimension(300, 42));
-
-        frame.add(textField);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-}
