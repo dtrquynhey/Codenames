@@ -25,9 +25,7 @@ public class RulesUI extends Frame {
         gridBagConstraints.insets = new Insets(0, 0, 4, 0);
         centerGridBagPanel.add(btnGoBack, gridBagConstraints);
 
-        btnGoBack.addActionListener(e -> {
-            backToWelcomeUI();
-        });
+        btnGoBack.addActionListener(e -> backToWelcomeUI());
 
         this.setVisible(true);
 

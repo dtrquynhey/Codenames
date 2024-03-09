@@ -3,6 +3,7 @@ package views.gui;
 import views.customPalettes.Frame;
 import views.customPalettes.RoundedButton;
 import views.customPalettes.ShadowLabel;
+import views.uihelpers.UIManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,18 +32,10 @@ public class WelcomeUI extends Frame {
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
         centerGridBagPanel.add(btnNewGame, gridBagConstraints);
 
-        buttonReadRules.addActionListener(e -> {
-            openRulesUI();
-        });
+        buttonReadRules.addActionListener(e -> UIManager.openRulesUI());
 
         this.setVisible(true);
 
-    }
-
-    private void openRulesUI() {
-
-        RulesUI ruleUI = new RulesUI();
-        ruleUI.setVisible(true);
     }
 
     public static void main(String[] args) {
