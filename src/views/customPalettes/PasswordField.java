@@ -6,7 +6,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class PasswordField extends JPasswordField {
 
-    private final Color shadowColor = new Color(0, 0, 0, 90); // Semi-transparent black color for shadow
+    private final Color shadowColor = new Color(0, 0, 0, 50); // Semi-transparent black color for shadow
     private String placeholder;
 
     public PasswordField(String placeholder, Dimension dimension) {
@@ -30,11 +30,11 @@ public class PasswordField extends JPasswordField {
 
         // Draw shadow border
         g2d.setColor(shadowColor);
-        g2d.fill(new RoundRectangle2D.Float(3, 3, getWidth() - 4, getHeight() - 4, 17, 17));
+        g2d.fill(new RoundRectangle2D.Float(3, 3, getWidth() - 3, getHeight() - 3, 17, 17));
 
         // Draw text field background
         g2d.setColor(getBackground());
-        g2d.fill(new RoundRectangle2D.Float(0, 0, getWidth() - 4, getHeight() - 4, 17, 17));
+        g2d.fill(new RoundRectangle2D.Float(0, 0, getWidth() - 3, getHeight() - 3, 17, 17));
 
         // Draw text or placeholder text
         if (getText().isEmpty() && placeholder != null) {

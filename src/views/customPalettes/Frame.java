@@ -7,6 +7,7 @@ public class Frame extends JFrame {
     protected JPanel panel;
     protected TopFlowPanel topFlowPanel;
     protected CenterGridBagPanel centerGridBagPanel;
+    protected BottomFlowPanel bottomFlowPanel;
 
 
     public Frame() {
@@ -18,12 +19,15 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
+        panel = new JPanel(new BorderLayout());
+
         topFlowPanel = new TopFlowPanel();
         centerGridBagPanel = new CenterGridBagPanel();
-        panel = new JPanel(new BorderLayout());
+        bottomFlowPanel = new BottomFlowPanel();
 
         panel.add(topFlowPanel, BorderLayout.NORTH);
         panel.add(centerGridBagPanel, BorderLayout.CENTER);
+        panel.add(bottomFlowPanel, BorderLayout.SOUTH);
 
         setContentPane(panel);
         setVisible(true);
