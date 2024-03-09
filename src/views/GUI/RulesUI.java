@@ -10,7 +10,7 @@ import java.awt.*;
 public class RulesUI extends Frame {
 
     public RulesUI() {
-        super(new GridBagLayout());
+        super();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         JLabel lblComingSoon = new Label("This feature is coming soon ^_^ ", Font.PLAIN, 20, Color.WHITE );

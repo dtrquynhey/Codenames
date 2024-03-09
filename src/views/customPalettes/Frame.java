@@ -8,7 +8,7 @@ public class Frame extends JFrame {
     protected TopFlowPanel topFlowPanel;
 
 
-    public Frame(LayoutManager layoutManager) {
+    public Frame() {
         setTitle("Codenames Desktop Game");
         setIconImage(new ImageIcon("src/assets/icon.jpeg").getImage());
         setSize(1280, 800);
@@ -18,9 +18,10 @@ public class Frame extends JFrame {
 
         topFlowPanel = new TopFlowPanel();
 
-        panel = new JPanel(layoutManager);
+        panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.decode("#43766C"));
 
+        topFlowPanel = new TopFlowPanel();
         panel.add(topFlowPanel, BorderLayout.NORTH);
 
         setContentPane(panel);
@@ -28,6 +29,6 @@ public class Frame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Frame(new GridLayout());
+        new Frame();
     }
 }

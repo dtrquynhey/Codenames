@@ -11,49 +11,52 @@ import java.awt.*;
 public class LoginUI extends Frame {
 
     public LoginUI() {
-        super(new GridBagLayout());
+        super();
+        topFlowPanel.addButton(new RoundedButton("Read Rules", 140, 42, Color.decode("#84BDBF")));
 
+        GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        JPanel centerPanel = new JPanel(gridBagLayout);
 
         JLabel lblTitle = new ShadowLabel("CODENAMES", 96, Color.WHITE);
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-        panel.add(lblTitle, gridBagConstraints);
+        centerPanel.add(lblTitle,gridBagConstraints);
 
         JTextField textFieldUsername = new TextField("Username", new Dimension(225, 42));
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
-        panel.add(textFieldUsername, gridBagConstraints);
+        centerPanel.add(textFieldUsername, gridBagConstraints);
 
         JPasswordField passwordField = new PasswordField("Password", new Dimension(225, 42));
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
-        panel.add(passwordField, gridBagConstraints);
+        centerPanel.add(passwordField, gridBagConstraints);
 
         JButton buttonLogIn = new RoundedButton("Log In", 110, 42, Color.decode("#FC9355"));
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
-        panel.add(buttonLogIn, gridBagConstraints);
+        centerPanel.add(buttonLogIn, gridBagConstraints);
 
         JLabel labelSignUp = new Label("Don't have an account yet?", Font.PLAIN, 18, Color.WHITE);
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
-        panel.add(labelSignUp, gridBagConstraints);
+        centerPanel.add(labelSignUp, gridBagConstraints);
 
         JButton buttonSignUp = new RoundedButton("Sign Up", 110, 42, Color.decode("#E4C988"));
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
-        panel.add(buttonSignUp, gridBagConstraints);
+        centerPanel.add(buttonSignUp, gridBagConstraints);
+
+        add(centerPanel, BorderLayout.CENTER);
 
         setVisible(true);
-
-
     }
 
     public static void main(String[] args) {

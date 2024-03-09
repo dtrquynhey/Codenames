@@ -3,6 +3,7 @@ package views.GUI;
 import views.customPalettes.Frame;
 import views.customPalettes.RoundedButton;
 import views.customPalettes.ShadowLabel;
+import views.customPalettes.TopFlowPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +11,9 @@ import java.awt.*;
 public class WelcomeUI extends Frame {
 
     public WelcomeUI() {
-        super(new GridBagLayout());
+        super();
 
+        topFlowPanel.addButton(new RoundedButton("Read Rules", 110, 42, Color.decode("#84BDBF")));
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         JLabel lblTitle = new ShadowLabel("CODENAMES", 96, Color.WHITE);
