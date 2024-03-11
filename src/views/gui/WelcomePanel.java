@@ -1,16 +1,13 @@
 package views.gui;
 
-import views.customPalettes.Frame;
 import views.customPalettes.RoundedButton;
 import views.customPalettes.ShadowLabel;
-import views.uihelpers.UIManager;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class WelcomeUI extends Frame {
+public class WelcomePanel extends MainPanel {
 
-    public WelcomeUI() {
+    public WelcomePanel() {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, Color.decode("#84BDBF"));
@@ -21,7 +18,7 @@ public class WelcomeUI extends Frame {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel lblTitle = new ShadowLabel("CODENAMES", 100, Color.WHITE);
+        ShadowLabel lblTitle = new ShadowLabel("CODENAMES", 100, Color.WHITE);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
@@ -33,15 +30,9 @@ public class WelcomeUI extends Frame {
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
         centerGridBagPanel.add(btnNewGame, gridBagConstraints);
 
-        buttonReadRules.addActionListener(e -> UIManager.openRulesUI());
+        //buttonReadRules.addActionListener(e -> UIManager.openRulesUI());
 
         this.setVisible(true);
-
-    }
-
-    public static void main(String[] args) {
-
-        new WelcomeUI();
     }
 
 }
