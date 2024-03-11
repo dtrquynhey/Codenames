@@ -7,7 +7,7 @@ import java.awt.*;
 public class ShadowLabel extends JLabel {
     private final Color shadowColor = new Color(0, 0, 0, 100);
     private static final String FONT_FAMILY = "Bookman Old Style";
-    private static final int FONT_STYLE = Font.PLAIN;
+    private static final int FONT_STYLE = Font.BOLD;
 
 
     public ShadowLabel(String text, int fontSize, Color foreGroundColor) {

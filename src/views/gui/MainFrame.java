@@ -1,9 +1,14 @@
 package views.gui;
 
+import views.customPalettes.CustomColor;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+
+    private JPanel currentPanel;
+    private JPanel previousPanel;
 
     private LoginPanel loginPanel;
     private SignupPanel signupPanel;
@@ -12,15 +17,14 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         super("Codenames Desktop Game");
-        setIconImage(new ImageIcon("src/assets/icon.jpeg").getImage());
+        setIconImage(new ImageIcon("src/assets/icon-app.jpeg").getImage());
         setSize(1280, 800);
-        setBackground(Color.decode("#43766C"));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
         initializePanels();
-        showRulesPanel();
+        showLoginPanel();
 
         setVisible(true);
     }
@@ -33,31 +37,35 @@ public class MainFrame extends JFrame {
         rulesPanel = new RulesPanel();
     }
 
-
-    private void showLoginPanel() {
-        setContentPane(loginPanel);
+    private void showPanel(JPanel panel) {
+        previousPanel = currentPanel; // Store the current panel as the previous panel
+        currentPanel = panel; // Set the current panel to the new panel
+        setContentPane(currentPanel);
         revalidate();
         repaint();
     }
 
-    private void showSignupPanel() {
-        setContentPane(signupPanel);
-        revalidate();
-        repaint();
+    public void showLoginPanel() {
+        showPanel(loginPanel);
     }
 
-    private void showWelcomePanel() {
-        setContentPane(welcomePanel);
-        revalidate();
-        repaint();
+    public void showSignupPanel() {
+        showPanel(signupPanel);
     }
 
-    private void showRulesPanel() {
-        setContentPane(rulesPanel);
-        revalidate();
-        repaint();
+    public void showWelcomePanel() {
+        showPanel(welcomePanel);
     }
 
+    public void showRulesPanel() {
+        showPanel(rulesPanel);
+    }
+
+    public void goBack() {
+        if (previousPanel != null) {
+            showPanel(previousPanel);
+        }
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MainFrame::new);

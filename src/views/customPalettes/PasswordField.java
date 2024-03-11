@@ -13,8 +13,9 @@ public class PasswordField extends JPasswordField {
         super();
         setPlaceholder(placeholder);
         setFont(new Font("Bookman Old Style", Font.PLAIN, 18));
-        setPreferredSize(dimension); // Set preferred size
-        setBackground(Color.decode("#C1F6E7"));
+        setPreferredSize(dimension);
+        setForeground(Color.WHITE);
+        setBackground(CustomColor.LIGHTBROWN.getColor());
         setOpaque(false); // Make the text field transparent
         setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Add padding to the text field
     }
@@ -38,7 +39,7 @@ public class PasswordField extends JPasswordField {
 
         // Draw text or placeholder text
         if (getText().isEmpty() && placeholder != null) {
-            g2d.setColor(getForeground().brighter().brighter().brighter()); // Darken the text color for placeholder
+            g2d.setColor(Color.WHITE.darker()); // Darken the text color for placeholder
             FontMetrics metrics = getFontMetrics(getFont());
             int x = getInsets().left;
             int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
@@ -54,6 +55,11 @@ public class PasswordField extends JPasswordField {
             g2d.setColor(getCaretColor());
             g2d.drawLine(caretX, caretY, caretX, caretY + getFontMetrics(getFont()).getHeight());
         }
+    }
+
+    @Override
+    public Color getCaretColor() {
+        return Color.WHITE;
     }
 
 }

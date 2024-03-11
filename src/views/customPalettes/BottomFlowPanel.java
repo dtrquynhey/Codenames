@@ -6,7 +6,7 @@ import java.awt.*;
 public class BottomFlowPanel extends JPanel {
 
     public BottomFlowPanel() {
-        setBackground(Color.decode("#43766C"));
-        setLayout(new FlowLayout(FlowLayout.CENTER));
+        setBackground(CustomColor.BROWN.getColor());
+        setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
     }
 }

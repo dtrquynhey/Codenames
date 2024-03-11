@@ -2,6 +2,7 @@ package views.gui;
 
 import views.customPalettes.BottomFlowPanel;
 import views.customPalettes.CenterGridBagPanel;
+import views.customPalettes.CustomColor;
 import views.customPalettes.TopFlowPanel;
 
 import javax.swing.*;
@@ -15,7 +16,6 @@ public class MainPanel extends JPanel {
 
     public MainPanel() {
         setLayout(new BorderLayout());
-        setBackground(Color.decode("#43766C"));
 
         topFlowPanel = new TopFlowPanel();
         centerGridBagPanel = new CenterGridBagPanel();

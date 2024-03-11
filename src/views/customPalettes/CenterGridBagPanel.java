@@ -6,11 +6,7 @@ import java.awt.*;
 public class CenterGridBagPanel extends JPanel {
 
     public CenterGridBagPanel() {
-        setBackground(Color.decode("#43766C"));
+        setBackground(CustomColor.BROWN.getColor());
         setLayout(new GridBagLayout());
-    }
-
-    public void addComponent(Component component, GridBagConstraints constraints) {
-        add(component, constraints);
     }
 }
