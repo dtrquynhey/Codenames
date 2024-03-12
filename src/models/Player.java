@@ -36,15 +36,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                ", username='" + username + '\'' +
-                '}';
-    }
-    public void registerPlayer() {
-        // registration logic
-    }
-
-    public void loginPlayer() {
-        // login logic
+        return "Username: " + username;
     }
 }

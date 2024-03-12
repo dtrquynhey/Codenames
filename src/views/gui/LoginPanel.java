@@ -73,6 +73,7 @@ public class LoginPanel extends MainPanel {
 
 
         buttonLogIn.addActionListener(e -> {
+
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
             mainFrame.showWelcomePanel();
         });

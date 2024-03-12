@@ -1,5 +1,6 @@
 package views.gui;
 
+import controllers.PlayerController;
 import views.customPalettes.*;
 import views.customPalettes.Label;
 
@@ -71,6 +72,10 @@ public class SignupPanel extends MainPanel {
         logInPanel.add(buttonLogIn, gridBagConstraints);
 
         bottomFlowPanel.add(logInPanel);
+
+        buttonSignUp.addActionListener(e -> {
+            PlayerController.getInstance().signUpButtonClicked(usernamePanel.getTextFieldUsername(), passwordPanel.getPasswordField(), confirmPasswordPanel.getPasswordField());
+        });
 
         buttonLogIn.addActionListener(e -> {
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(SignupPanel.this);

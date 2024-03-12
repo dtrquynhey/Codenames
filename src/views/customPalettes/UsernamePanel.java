@@ -5,6 +5,9 @@ import java.awt.*;
 
 public class UsernamePanel extends JPanel {
 
+
+    private final TextField textFieldUsername;
+
     public UsernamePanel(String placeholder) {
         setLayout(new GridBagLayout());
         setBackground(CustomColor.BROWN.getColor());
@@ -18,10 +21,18 @@ public class UsernamePanel extends JPanel {
         add(imageLabel, gridBagConstraints);
 
 
-        TextField textField = new TextField(placeholder, new Dimension(275, 42));
+        textFieldUsername = new TextField(placeholder, new Dimension(275, 42));
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        add(textField, gridBagConstraints);
+        add(textFieldUsername, gridBagConstraints);
     }
 
+
+    public String getTextFieldUsername() {
+        return textFieldUsername.getText();
+    }
+
+    public void setTextFieldUsername(String username) {
+        this.textFieldUsername.setText(username);
+    }
 }

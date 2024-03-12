@@ -2,8 +2,10 @@ package views.customPalettes;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class PasswordPanel extends JPanel {
+
 
     private final PasswordField passwordField;
     private final ImageButton buttonShowPassword;
@@ -33,6 +35,11 @@ public class PasswordPanel extends JPanel {
         add(buttonShowPassword, gridBagConstraints);
 
         buttonShowPassword.addActionListener(e -> togglePasswordFieldVisibility());
+    }
+
+
+    public String getPasswordField() {
+        return Arrays.toString(passwordField.getPassword());
     }
 
     private void togglePasswordFieldVisibility() {
