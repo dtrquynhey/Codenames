@@ -1,11 +1,18 @@
 package views.gui;
 
+import controllers.UserController;
+import repositories.DbConfig;
+import repositories.UserRepository;
+import repositories.mappers.UserMapper;
 import views.customPalettes.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class MainFrame extends JFrame {
+    private final UserController userController;
 
     private JPanel currentPanel;
     private JPanel previousPanel;
@@ -15,13 +22,24 @@ public class MainFrame extends JFrame {
     private WelcomePanel welcomePanel;
     private RulesPanel rulesPanel;
 
-    public MainFrame() {
+    public MainFrame(){
         super("Codenames Desktop Game");
         setIconImage(new ImageIcon("src/assets/icon-app.jpeg").getImage());
         setSize(1280, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+
+        Connection connection;
+        try {
+            connection = DbConfig.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        UserMapper userMapper = new UserMapper();
+        UserRepository userRepository = new UserRepository(connection, userMapper);
+
+        userController = UserController.getInstance(userRepository);
 
         initializePanels();
         showLoginPanel();
@@ -32,7 +50,7 @@ public class MainFrame extends JFrame {
 
     private void initializePanels() {
         loginPanel = new LoginPanel();
-        signupPanel = new SignupPanel();
+        signupPanel = new SignupPanel(userController);
         welcomePanel = new WelcomePanel();
         rulesPanel = new RulesPanel();
     }

@@ -1,6 +1,7 @@
 package views.gui;
 
 import controllers.UserController;
+import models.User;
 import views.customPalettes.*;
 import views.customPalettes.Label;
 
@@ -9,7 +10,7 @@ import java.awt.*;
 
 public class SignupPanel extends MainPanel {
 
-    public SignupPanel() {
+    public SignupPanel(UserController userController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -74,7 +75,16 @@ public class SignupPanel extends MainPanel {
         bottomFlowPanel.add(logInPanel);
 
         buttonSignUp.addActionListener(e -> {
-            UserController.getInstance().signUpButtonClicked(usernamePanel.getTextFieldUsername(), passwordPanel.getPasswordField(), confirmPasswordPanel.getPasswordField());
+            String username = usernamePanel.getTextFieldUsername();
+            String password = String.valueOf(passwordPanel.getPasswordField());
+            String confirmPassword = String.valueOf(confirmPasswordPanel.getPasswordField());
+
+            switch (userController.registerUser(username, password, confirmPassword)) {
+                case EMPTY_FIELDS -> JOptionPane.showMessageDialog(this, "Empty fields");
+                case PASSWORD_MISMATCH -> JOptionPane.showMessageDialog(this, "Password mismatch");
+                case EXISTING_USER -> JOptionPane.showMessageDialog(this, "Existing user");
+                case SUCCESS -> JOptionPane.showMessageDialog(this, "Success");
+            }
         });
 
         buttonLogIn.addActionListener(e -> {

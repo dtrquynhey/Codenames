@@ -1,52 +1,62 @@
 package controllers;
 
-import contracts.PlayerContract;
+import contracts.UserContract;
 import models.User;
+import repositories.UserRepository;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.SQLException;
 
-public class UserController implements PlayerContract {
+public class UserController implements UserContract {
 
     private static UserController instance;
+    private final UserRepository userRepository;
 
-    private UserController() {
-
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public static UserController getInstance() {
+    public static UserController getInstance(UserRepository userRepository) {
+
         if (instance == null) {
-            instance = new UserController();
+            instance = new UserController(userRepository);
         }
         return instance;
     }
 
-    public void signUpButtonClicked(String username, String password, String confirmedPassword) {
-        if (password.equals(confirmedPassword)) {
-            try {
-                FileWriter writer = new FileWriter("player_credentials.txt", true);
-                writer.write("Username: " + username + ", Password: " + password + "\n");
-                writer.close();
+    @Override
+    public AuthenticationResult registerUser(String username, String password, String confirmedPassword) {
 
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
+            return AuthenticationResult.EMPTY_FIELDS;
+
+        } else if (!password.equals(confirmedPassword)) {
+            return AuthenticationResult.PASSWORD_MISMATCH;
+
+        } else if (isUniqueUsername(username)) {
+            return AuthenticationResult.EXISTING_USER;
+
+        } else {
+            try {
+                User user = new User(username, password);
+                userRepository.createUser(user);
+                return AuthenticationResult.SUCCESS;
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
-
     @Override
-    public boolean isExistedPlayer(String username) {
-        return false;
+    public AuthenticationResult logUserIn(String username, String password) {
+        return null;
     }
 
-    @Override
-    public void registerPlayer(User user) {
-
-    }
-
-    @Override
-    public boolean isValidLogin(String username, String password) {
-        return false;
+    public boolean isUniqueUsername(String username) {
+        try {
+            return userRepository.isUniqueUsername(username);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error checking is username is unique", e);
+        }
     }
 }

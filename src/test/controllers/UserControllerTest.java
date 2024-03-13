@@ -1,37 +1,59 @@
 package controllers;
 
+import models.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import repositories.UserRepository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class UserControllerTest {
 
-    @Test
-    void signUpButtonClicked_withMatchPasswords_writeToFile() {
-        UserController userController = UserController.getInstance();
-        String username = "quynh";
-        String password = "123";
-        String confirmedPassword = "111";
-        String expectedContent = "Username: quynh, Password: 123";
+    private UserRepository userRepository;
+    private UserController userController;
 
-        userController.signUpButtonClicked(username, password, confirmedPassword);
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("user_credentials.txt"))) {
-            String line;
-            StringBuilder actualContent = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                actualContent.append(line.trim());
-            }
-            assertEquals(expectedContent, actualContent.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail("IOException occurred while reading file");
-        }
+    @BeforeEach
+    void setUp() {
+        userRepository = mock(UserRepository.class);
+        userController = new UserController(userRepository);
     }
 
+    @Test
+    void testRegisterUser_emptyFields() {
+        // Test with empty fields
+        assertEquals(AuthenticationResult.EMPTY_FIELDS, userController.registerUser("", "", ""));
+        // Verify that createUser method is not called
+        verifyNoInteractions(userRepository);
+    }
+
+    @Test
+    void testRegisterUser_passwordMismatch() {
+        // Test with password mismatch
+        assertEquals(AuthenticationResult.PASSWORD_MISMATCH, userController.registerUser("username", "password1", "password2"));
+        // Verify that createUser method is not called
+        verifyNoInteractions(userRepository);
+    }
+
+    @Test
+    void testRegisterUser_successfulRegistration() {
+        // Test successful registration
+        assertEquals(AuthenticationResult.SUCCESS, userController.registerUser("username", "password", "password"));
+        // Verify that createUser method is called with the correct User object
+        try {
+            ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+            // Verify that createUser method is called with the correct User object
+            verify(userRepository).createUser(userCaptor.capture());
+            // Retrieve the captured User object
+            User capturedUser = userCaptor.getValue();
+            // Assert that the captured User object has the expected content
+            assertEquals("username", capturedUser.getUsername());
+            assertEquals("password", capturedUser.getPassword());
+        } catch (SQLException e) {
+            System.out.println("Error while creating new user!");
+        }
+    }
 }
