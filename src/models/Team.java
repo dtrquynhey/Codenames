@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Team {
     private String teamId;
-    private List<GamePlayer> listOfPlayers;
+    private List<Player> listOfPlayers;
     private Color color;
     private int score;
     private int numOfGuess;
@@ -18,11 +18,11 @@ public class Team {
         this.teamId = teamId;
     }
 
-    public List<GamePlayer> getListOfPlayers() {
+    public List<Player> getListOfPlayers() {
         return listOfPlayers;
     }
 
-    public void setListOfPlayers(List<GamePlayer> listOfPlayers) {
+    public void setListOfPlayers(List<Player> listOfPlayers) {
         this.listOfPlayers = listOfPlayers;
     }
 
@@ -59,9 +59,5 @@ public class Team {
                 ", score=" + score +
                 ", numOfGuess=" + numOfGuess +
                 '}';
-    }
-
-    public void addNumOfGuess() {
-        // add number of guesses logic
     }
 }

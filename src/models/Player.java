@@ -1,41 +1,24 @@
 package models;
 
-public class Player {
+import models.enums.Role;
 
+public class Player extends User {
+    private Role role;
 
-    private String username;
-    private String password;
-
-
-    public Player() {
+    public Player(Role role) {
+        this.role = role;
     }
 
-    public Player( String username, String password) {
-
-        this.username = username;
-        this.password = password;
+    public Player(String username, String password, Role role) {
+        super(username, password);
+        this.role = role;
     }
 
-
-    public String getUsername() {
-        return username;
+    public Role getRole() {
+        return role;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Username: " + username;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

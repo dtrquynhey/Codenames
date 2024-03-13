@@ -1,6 +1,6 @@
 package views.gui;
 
-import controllers.PlayerController;
+import controllers.UserController;
 import views.customPalettes.*;
 import views.customPalettes.Label;
 
@@ -74,7 +74,7 @@ public class SignupPanel extends MainPanel {
         bottomFlowPanel.add(logInPanel);
 
         buttonSignUp.addActionListener(e -> {
-            PlayerController.getInstance().signUpButtonClicked(usernamePanel.getTextFieldUsername(), passwordPanel.getPasswordField(), confirmPasswordPanel.getPasswordField());
+            UserController.getInstance().signUpButtonClicked(usernamePanel.getTextFieldUsername(), passwordPanel.getPasswordField(), confirmPasswordPanel.getPasswordField());
         });
 
         buttonLogIn.addActionListener(e -> {

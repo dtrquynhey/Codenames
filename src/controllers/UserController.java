@@ -1,23 +1,22 @@
 package controllers;
 
 import contracts.PlayerContract;
-import models.Player;
+import models.User;
 
-import javax.swing.*;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class PlayerController implements PlayerContract {
+public class UserController implements PlayerContract {
 
-    private static PlayerController instance;
+    private static UserController instance;
 
-    private PlayerController() {
+    private UserController() {
 
     }
 
-    public static PlayerController getInstance() {
+    public static UserController getInstance() {
         if (instance == null) {
-            instance = new PlayerController();
+            instance = new UserController();
         }
         return instance;
     }
@@ -42,7 +41,7 @@ public class PlayerController implements PlayerContract {
     }
 
     @Override
-    public void registerPlayer(Player player) {
+    public void registerPlayer(User user) {
 
     }
 

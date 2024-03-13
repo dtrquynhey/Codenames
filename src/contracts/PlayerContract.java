@@ -1,10 +1,10 @@
 package contracts;
 
-import models.Player;
+import models.User;
 
 public interface PlayerContract {
 
     boolean isExistedPlayer(String username);
-    void registerPlayer(Player player);
+    void registerPlayer(User user);
     boolean isValidLogin(String username, String password);
 }

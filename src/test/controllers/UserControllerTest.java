@@ -8,19 +8,19 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerControllerTest {
+class UserControllerTest {
 
     @Test
     void signUpButtonClicked_withMatchPasswords_writeToFile() {
-        PlayerController playerController = PlayerController.getInstance();
+        UserController userController = UserController.getInstance();
         String username = "quynh";
         String password = "123";
         String confirmedPassword = "111";
         String expectedContent = "Username: quynh, Password: 123";
 
-        playerController.signUpButtonClicked(username, password, confirmedPassword);
+        userController.signUpButtonClicked(username, password, confirmedPassword);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("player_credentials.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("user_credentials.txt"))) {
             String line;
             StringBuilder actualContent = new StringBuilder();
             while ((line = reader.readLine()) != null) {
