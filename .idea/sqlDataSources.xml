@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="79c39573-f2d4-4575-b2d7-42e0bdfbcf56" name="codenamesdb@localhost Mapping">
+      <data-sources db="32c2f13a-1367-4b07-9957-fc2f13bcf082" ddl="b9ed82e4-e66f-4594-b0e6-8760c3e05023" />
+      <scope>
+        <node kind="schema" qname="codenamesdb" />
+      </scope>
+    </mapping>
+  </component>
+</project>
