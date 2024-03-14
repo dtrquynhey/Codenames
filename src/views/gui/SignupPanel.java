@@ -80,10 +80,10 @@ public class SignupPanel extends MainPanel {
             String confirmPassword = String.valueOf(confirmPasswordPanel.getPasswordField());
 
             switch (userController.registerUser(username, password, confirmPassword)) {
-                case EMPTY_FIELDS -> JOptionPane.showMessageDialog(this, "Empty fields");
-                case PASSWORD_MISMATCH -> JOptionPane.showMessageDialog(this, "Password mismatch");
-                case EXISTING_USER -> JOptionPane.showMessageDialog(this, "Existing user");
-                case SUCCESS -> JOptionPane.showMessageDialog(this, "Success");
+                case EMPTY_FIELDS -> new MessageDialog(this, "Empty fields", "Error");
+                case PASSWORD_MISMATCH -> new MessageDialog(this, "Password mismatch", "Error");
+                case EXISTING_USER -> new MessageDialog(this, "Existing user", "Error");
+                case SUCCESS -> new MessageDialog(this, "Success", "Success");
             }
         });
 
