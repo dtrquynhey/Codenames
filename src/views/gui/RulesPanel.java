@@ -1,6 +1,6 @@
 package views.gui;
 
-import views.customPalettes.CustomColor;
+import views.customPalettes.enums.CustomColor;
 import views.customPalettes.Label;
 import views.customPalettes.RoundedButton;
 

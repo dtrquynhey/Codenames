@@ -8,15 +8,16 @@ import java.sql.SQLException;
 
 public class UserMapper {
 
-    public void mapInsertStatement(User user, PreparedStatement statement) throws SQLException {
-        statement.setString(1, user.getUsername());
-        statement.setString(2, user.getPassword());
+    // Map a ResultSet to a User object
+    public User mapFromResultSet(ResultSet resultSet) throws SQLException {
+        String username = resultSet.getString("username");
+        String password = resultSet.getString("password");
+        return new User(username, password);
     }
 
-    public User mapResultSet(ResultSet resultSet) throws SQLException {
-        User user = new User();
-        user.setUsername(resultSet.getString("username"));
-        user.setPassword(resultSet.getString("password"));
-        return user;
+    // Map a User object to a PreparedStatement
+    public void mapToPreparedStatement(User user, PreparedStatement statement) throws SQLException {
+        statement.setString(1, user.getUsername());
+        statement.setString(2, user.getPassword());
     }
 }

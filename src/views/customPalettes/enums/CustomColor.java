@@ -1,4 +1,4 @@
-package views.customPalettes;
+package views.customPalettes.enums;
 
 import java.awt.*;
 

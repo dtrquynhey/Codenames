@@ -1,5 +1,7 @@
 package views.customPalettes;
 
+import views.customPalettes.enums.CustomColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -38,8 +40,12 @@ public class PasswordPanel extends JPanel {
     }
 
 
-    public String getPasswordField() {
-        return Arrays.toString(passwordField.getPassword());
+    public String getPassword() {
+        return passwordField.getText();
+    }
+
+    public void setPassword(String password) {
+        passwordField.setText(password);
     }
 
     private void togglePasswordFieldVisibility() {

@@ -1,5 +1,7 @@
 package views.customPalettes;
 
+import views.customPalettes.enums.CustomColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -17,7 +19,7 @@ public class PasswordField extends JPasswordField {
         setForeground(Color.WHITE);
         setBackground(CustomColor.LIGHTBROWN.getColor());
         setOpaque(false); // Make the text field transparent
-        setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Add padding to the text field
+        setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
     }
 
     public void setPlaceholder(String placeholder) {

@@ -2,7 +2,6 @@ package views.gui;
 
 import views.customPalettes.BottomFlowPanel;
 import views.customPalettes.CenterGridBagPanel;
-import views.customPalettes.CustomColor;
 import views.customPalettes.TopFlowPanel;
 
 import javax.swing.*;

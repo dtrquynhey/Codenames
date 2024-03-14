@@ -1,5 +1,7 @@
 package views.customPalettes;
 
+import views.customPalettes.enums.CustomColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -16,12 +18,11 @@ public class TextField extends JTextField {
         setForeground(Color.WHITE);
         setBackground(CustomColor.LIGHTBROWN.getColor());
         setOpaque(false); // Make the text field transparent
-        setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Add padding to the text field
+        setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20)); // Add padding to the text field
     }
 
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
-
     }
 
     @Override
@@ -61,6 +62,4 @@ public class TextField extends JTextField {
     public Color getCaretColor() {
         return Color.WHITE;
     }
-
 }
-

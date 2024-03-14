@@ -1,6 +1,7 @@
 package controllers;
 
 import contracts.UserContract;
+import controllers.enums.AuthenticationResult;
 import models.User;
 import repositories.UserRepository;
 
@@ -23,17 +24,19 @@ public class UserController implements UserContract {
         return instance;
     }
 
+    // registerUser() validates the input parameters and returns whether they are valid
+    // Then, the receiver (SignupPanel.buttonSignUp) will act upon the return result
     @Override
     public AuthenticationResult registerUser(String username, String password, String confirmedPassword) {
 
         if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
             return AuthenticationResult.EMPTY_FIELDS;
 
-        } else if (!password.equals(confirmedPassword)) {
-            return AuthenticationResult.PASSWORD_MISMATCH;
-
         } else if (isUniqueUsername(username)) {
             return AuthenticationResult.EXISTING_USER;
+
+        } else if (!password.equals(confirmedPassword)) {
+            return AuthenticationResult.PASSWORD_MISMATCH;
 
         } else {
             try {
@@ -47,16 +50,23 @@ public class UserController implements UserContract {
         }
     }
 
+    // logUserIn() validates the input and returns whether they are valid
+    // Then, the receiver (LoginPanel.buttonLogIn) will act upon the return result
     @Override
     public AuthenticationResult logUserIn(String username, String password) {
+        // TODO: Third. logUserIn()
+        // UserController implements the Login contract
+        // By using repositories.UserRepository.findUserByUsernameAndPassword()
+        // Return controllers.enum.AuthenticationResult (EMPTY_FIELDS or SUCCESS)
         return null;
     }
 
+
     public boolean isUniqueUsername(String username) {
         try {
-            return userRepository.isUniqueUsername(username);
+            return userRepository.findUserByUsername(username);
         } catch (SQLException e) {
-            throw new RuntimeException("Error checking is username is unique", e);
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,14 +1,18 @@
 package views.gui;
 
 import controllers.UserController;
-import models.User;
 import views.customPalettes.*;
 import views.customPalettes.Label;
+import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SignupPanel extends MainPanel {
+
+    private final UsernamePanel usernamePanel;
+    private final PasswordPanel passwordPanel;
+    private final PasswordPanel confirmPasswordPanel;
 
     public SignupPanel(UserController userController) {
         super();
@@ -24,39 +28,45 @@ public class SignupPanel extends MainPanel {
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(labelTitle, gridBagConstraints);
 
-
         JPanel signupFieldPanel = new JPanel(new GridBagLayout());
         signupFieldPanel.setBackground(CustomColor.BROWN.getColor());
-        GridBagConstraints signupFieldGridBagConstraints = new GridBagConstraints();
-
-        UsernamePanel usernamePanel = new UsernamePanel("Username");
-        signupFieldGridBagConstraints.gridx = 0;
-        signupFieldGridBagConstraints.gridy = 0;
-        signupFieldGridBagConstraints.anchor = GridBagConstraints.WEST;
-        signupFieldPanel.add(usernamePanel, signupFieldGridBagConstraints);
-
-        PasswordPanel passwordPanel = new PasswordPanel("Password");
-        signupFieldGridBagConstraints.gridx = 0;
-        signupFieldGridBagConstraints.gridy = 1;
-        signupFieldGridBagConstraints.insets = new Insets(5, 0, 0, 0);
-        signupFieldPanel.add(passwordPanel, signupFieldGridBagConstraints);
-
-        PasswordPanel confirmPasswordPanel = new PasswordPanel("Confirm Password");
-        signupFieldGridBagConstraints.gridx = 0;
-        signupFieldGridBagConstraints.gridy = 2;
-        signupFieldGridBagConstraints.insets = new Insets(5, 0, 0, 0);
-        signupFieldPanel.add(confirmPasswordPanel, signupFieldGridBagConstraints);
-
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
         centerGridBagPanel.add(signupFieldPanel, gridBagConstraints);
 
+        GridBagConstraints signupFieldGridBagConstraints = new GridBagConstraints();
+
+        usernamePanel = new UsernamePanel("Username");
+        signupFieldGridBagConstraints.gridx = 0;
+        signupFieldGridBagConstraints.gridy = 0;
+        signupFieldGridBagConstraints.anchor = GridBagConstraints.WEST;
+        signupFieldPanel.add(usernamePanel, signupFieldGridBagConstraints);
+
+        passwordPanel = new PasswordPanel("Password");
+        signupFieldGridBagConstraints.gridx = 0;
+        signupFieldGridBagConstraints.gridy = 1;
+        signupFieldGridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        signupFieldPanel.add(passwordPanel, signupFieldGridBagConstraints);
+
+        confirmPasswordPanel = new PasswordPanel("Confirm Password");
+        signupFieldGridBagConstraints.gridx = 0;
+        signupFieldGridBagConstraints.gridy = 2;
+        signupFieldGridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        signupFieldPanel.add(confirmPasswordPanel, signupFieldGridBagConstraints);
+
         RoundedButton buttonSignUp = new RoundedButton("Sign Up", 110, 42, CustomColor.GREEN.getColor());
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
         centerGridBagPanel.add(buttonSignUp, gridBagConstraints);
+
+        IconLabelPanel labelError = new IconLabelPanel("");
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new Insets(15, 0, 0, 0);
+        labelError.setVisible(false);
+        centerGridBagPanel.add(labelError, gridBagConstraints);
 
         CenterGridBagPanel logInPanel = new CenterGridBagPanel();
 
@@ -76,14 +86,18 @@ public class SignupPanel extends MainPanel {
 
         buttonSignUp.addActionListener(e -> {
             String username = usernamePanel.getTextFieldUsername();
-            String password = String.valueOf(passwordPanel.getPasswordField());
-            String confirmPassword = String.valueOf(confirmPasswordPanel.getPasswordField());
+            String password = String.valueOf(passwordPanel.getPassword());
+            String confirmPassword = String.valueOf(confirmPasswordPanel.getPassword());
 
             switch (userController.registerUser(username, password, confirmPassword)) {
-                case EMPTY_FIELDS -> new MessageDialog(this, "Empty fields", "Error");
-                case PASSWORD_MISMATCH -> new MessageDialog(this, "Password mismatch", "Error");
-                case EXISTING_USER -> new MessageDialog(this, "Existing user", "Error");
-                case SUCCESS -> new MessageDialog(this, "Success", "Success");
+                case EMPTY_FIELDS -> showError(labelError, "All the fields are required.");
+                case PASSWORD_MISMATCH -> showError(labelError, "Passwords do not match.");
+                case EXISTING_USER -> showError(labelError, "This username is already in use.");
+                case SUCCESS -> {
+                    labelError.setVisible(false);
+                    clearFields();
+                    new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Success");
+                }
             }
         });
 
@@ -98,5 +112,15 @@ public class SignupPanel extends MainPanel {
         });
 
         setVisible(true);
+    }
+    private void showError(IconLabelPanel labelError, String errorMessage) {
+        labelError.setVisible(true);
+        labelError.setText(errorMessage);
+    }
+
+    private void clearFields() {
+        usernamePanel.setTextFieldUsername("");
+        passwordPanel.setPassword("");
+        confirmPasswordPanel.setPassword("");
     }
 }

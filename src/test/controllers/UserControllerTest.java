@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.enums.AuthenticationResult;
 import models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

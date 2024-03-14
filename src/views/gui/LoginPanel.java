@@ -1,16 +1,19 @@
 package views.gui;
 
+import controllers.UserController;
 import views.customPalettes.*;
 import views.customPalettes.Label;
-import views.customPalettes.TextField;
+import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginPanel extends MainPanel {
 
+    private final UsernamePanel usernamePanel;
+    private final PasswordPanel passwordPanel;
 
-    public LoginPanel() {
+    public LoginPanel(UserController userController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -29,13 +32,13 @@ public class LoginPanel extends MainPanel {
         loginFieldPanel.setBackground(CustomColor.BROWN.getColor());
         GridBagConstraints loginFieldGridBagConstraints = new GridBagConstraints();
 
-        UsernamePanel usernamePanel = new UsernamePanel("Username");
+        usernamePanel = new UsernamePanel("Username");
         loginFieldGridBagConstraints.gridx = 0;
         loginFieldGridBagConstraints.gridy = 0;
         loginFieldGridBagConstraints.anchor = GridBagConstraints.WEST;
         loginFieldPanel.add(usernamePanel, loginFieldGridBagConstraints);
 
-        PasswordPanel passwordPanel = new PasswordPanel("Password");
+        passwordPanel = new PasswordPanel("Password");
         loginFieldGridBagConstraints.gridx = 0;
         loginFieldGridBagConstraints.gridy = 1;
         loginFieldGridBagConstraints.insets = new Insets(5, 0, 0, 0);
@@ -52,6 +55,14 @@ public class LoginPanel extends MainPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
         centerGridBagPanel.add(buttonLogIn, gridBagConstraints);
+
+
+        IconLabelPanel labelError = new IconLabelPanel("");
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new Insets(15, 0, 0, 0);
+        labelError.setVisible(false);
+        centerGridBagPanel.add(labelError, gridBagConstraints);
 
 
         CenterGridBagPanel signUpPanel = new CenterGridBagPanel();
@@ -73,7 +84,12 @@ public class LoginPanel extends MainPanel {
 
 
         buttonLogIn.addActionListener(e -> {
+            // TODO: Last. buttonLogIn.addActionListener()
+            // Check SignupPanel.buttonSignUp.addActionListener()
+            // Call controllers.UserController.logUserIn()
 
+
+            // If successfully log in, show WelcomePanel
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
             mainFrame.showWelcomePanel();
         });
@@ -90,5 +106,10 @@ public class LoginPanel extends MainPanel {
 
 
         setVisible(true);
+    }
+
+    private void clearFields() {
+        usernamePanel.setTextFieldUsername("");
+        passwordPanel.setPassword("");
     }
 }
