@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class LoginPanel extends MainPanel {
 
-    private final UsernamePanel usernamePanel;
+    private final TextFieldPanel textFieldPanel;
     private final PasswordPanel passwordPanel;
 
     public LoginPanel(UserController userController) {
@@ -32,11 +32,11 @@ public class LoginPanel extends MainPanel {
         loginFieldPanel.setBackground(CustomColor.BROWN.getColor());
         GridBagConstraints loginFieldGridBagConstraints = new GridBagConstraints();
 
-        usernamePanel = new UsernamePanel("Username");
+        textFieldPanel = new TextFieldPanel("Username");
         loginFieldGridBagConstraints.gridx = 0;
         loginFieldGridBagConstraints.gridy = 0;
         loginFieldGridBagConstraints.anchor = GridBagConstraints.WEST;
-        loginFieldPanel.add(usernamePanel, loginFieldGridBagConstraints);
+        loginFieldPanel.add(textFieldPanel, loginFieldGridBagConstraints);
 
         passwordPanel = new PasswordPanel("Password");
         loginFieldGridBagConstraints.gridx = 0;
@@ -109,7 +109,7 @@ public class LoginPanel extends MainPanel {
     }
 
     private void clearFields() {
-        usernamePanel.setTextFieldUsername("");
+        textFieldPanel.setTextFieldUsername("");
         passwordPanel.setPassword("");
     }
 }

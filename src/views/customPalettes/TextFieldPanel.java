@@ -5,12 +5,12 @@ import views.customPalettes.enums.CustomColor;
 import javax.swing.*;
 import java.awt.*;
 
-public class UsernamePanel extends JPanel {
+public class TextFieldPanel extends JPanel {
 
 
     private final TextField textFieldUsername;
 
-    public UsernamePanel(String placeholder) {
+    public TextFieldPanel(String placeholder) {
         setLayout(new GridBagLayout());
         setBackground(CustomColor.BROWN.getColor());
 

@@ -5,7 +5,8 @@ import java.awt.*;
 public enum CustomColor {
     TITLE(Color.decode("#EBBFBF")),
     BROWN(Color.decode("#713C3C")),
-    LIGHTBROWN(Color.decode("#9D6969")),
+    LIGHT_BROWN(Color.decode("#9D6969")),
+    CONTAINER_BROWN(Color.decode("#8A5252")),
     GREEN(Color.decode("#609B62")),
     ORANGE(Color.decode("#FC9355")),
     GREY(Color.decode("#988686")),

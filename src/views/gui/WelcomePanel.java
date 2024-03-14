@@ -26,6 +26,8 @@ public class WelcomePanel extends MainPanel {
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(labelTitle,gridBagConstraints);
 
+
+
         RoundedButton buttonNewGame = new RoundedButton("New Game", 135, 42, CustomColor.PINK.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;

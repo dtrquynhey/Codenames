@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class SignupPanel extends MainPanel {
 
-    private final UsernamePanel usernamePanel;
+    private final TextFieldPanel textFieldPanel;
     private final PasswordPanel passwordPanel;
     private final PasswordPanel confirmPasswordPanel;
 
@@ -37,11 +37,11 @@ public class SignupPanel extends MainPanel {
 
         GridBagConstraints signupFieldGridBagConstraints = new GridBagConstraints();
 
-        usernamePanel = new UsernamePanel("Username");
+        textFieldPanel = new TextFieldPanel("Username");
         signupFieldGridBagConstraints.gridx = 0;
         signupFieldGridBagConstraints.gridy = 0;
         signupFieldGridBagConstraints.anchor = GridBagConstraints.WEST;
-        signupFieldPanel.add(usernamePanel, signupFieldGridBagConstraints);
+        signupFieldPanel.add(textFieldPanel, signupFieldGridBagConstraints);
 
         passwordPanel = new PasswordPanel("Password");
         signupFieldGridBagConstraints.gridx = 0;
@@ -85,7 +85,7 @@ public class SignupPanel extends MainPanel {
         bottomFlowPanel.add(logInPanel);
 
         buttonSignUp.addActionListener(e -> {
-            String username = usernamePanel.getTextFieldUsername();
+            String username = textFieldPanel.getTextFieldUsername();
             String password = String.valueOf(passwordPanel.getPassword());
             String confirmPassword = String.valueOf(confirmPasswordPanel.getPassword());
 
@@ -119,7 +119,7 @@ public class SignupPanel extends MainPanel {
     }
 
     private void clearFields() {
-        usernamePanel.setTextFieldUsername("");
+        textFieldPanel.setTextFieldUsername("");
         passwordPanel.setPassword("");
         confirmPasswordPanel.setPassword("");
     }
