@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class IconLabelPanel extends JPanel {
-    private Label label;
+    private final Label label;
 
     public IconLabelPanel(String text) {
         setLayout(new GridBagLayout());
