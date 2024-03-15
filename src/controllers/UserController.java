@@ -1,13 +1,13 @@
 package controllers;
 
-import contracts.UserContract;
+import contracts.IUserContract;
 import controllers.enums.AuthenticationResult;
 import models.User;
 import repositories.UserRepository;
 
 import java.sql.SQLException;
 
-public class UserController implements UserContract {
+public class UserController implements IUserContract {
 
     private static UserController instance;
     private final UserRepository userRepository;
