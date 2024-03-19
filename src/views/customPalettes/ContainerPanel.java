@@ -20,16 +20,13 @@ public class ContainerPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int width = getWidth();
-        int height = getHeight();
-
         // Draw shadow border
         g2d.setColor(shadowColor);
-        g2d.fillRoundRect(6, 6, width - 12, height - 12, 25, 25);
+        g2d.fillRoundRect(3, 3, getWidth() - 3, getHeight() - 3, 17, 17);
 
         // Draw rounded rectangle background
         g2d.setColor(backgroundColor);
-        g2d.fillRoundRect(0, 0, width - 6, height - 6, 25, 25);
+        g2d.fillRoundRect(0, 0, getWidth() - 3, getHeight() - 3, 17, 17);
 
         g2d.dispose();
     }

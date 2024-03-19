@@ -1,8 +1,11 @@
 package views.gui;
 
+import controllers.PlayerController;
 import controllers.UserController;
 import repositories.DbConfig;
+import repositories.PlayerRepository;
 import repositories.UserRepository;
+import repositories.mappers.PlayerMapper;
 import repositories.mappers.UserMapper;
 
 import javax.swing.*;
@@ -11,6 +14,7 @@ import java.sql.SQLException;
 
 public class MainFrame extends JFrame {
     private final UserController userController;
+    private final PlayerController playerController;
 
     private JPanel currentPanel;
     private JPanel previousPanel;
@@ -35,10 +39,11 @@ public class MainFrame extends JFrame {
             throw new RuntimeException(e);
         }
         UserMapper userMapper = new UserMapper();
+        PlayerMapper playerMapper = new PlayerMapper();
         UserRepository userRepository = new UserRepository(connection, userMapper);
-
+        PlayerRepository playerRepository = new PlayerRepository(connection, playerMapper);
         userController = UserController.getInstance(userRepository);
-
+        playerController = PlayerController.getInstance(playerRepository);
         initializePanels();
         showLoginPanel();
 
@@ -49,11 +54,11 @@ public class MainFrame extends JFrame {
     private void initializePanels() {
         loginPanel = new LoginPanel(userController);
         signupPanel = new SignupPanel(userController);
-        welcomePanel = new WelcomePanel();
+        welcomePanel = new WelcomePanel(playerController);
         rulesPanel = new RulesPanel();
     }
 
-    private void showPanel(JPanel panel) {
+    public void showPanel(JPanel panel) {
         previousPanel = currentPanel; // Store the current panel as the previous panel
         currentPanel = panel; // Set the current panel to the new panel
         setContentPane(currentPanel);
@@ -76,6 +81,8 @@ public class MainFrame extends JFrame {
     public void showRulesPanel() {
         showPanel(rulesPanel);
     }
+
+
 
     public void goBack() {
         if (previousPanel != null) {

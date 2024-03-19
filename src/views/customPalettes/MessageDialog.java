@@ -18,13 +18,13 @@ public class MessageDialog extends JDialog {
         Label messageLabel = new Label(message, Font.PLAIN, 16, Color.WHITE);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new Insets(20, 20, 0, 20);
+        gridBagConstraints.insets = new Insets(30, 30, 0, 30);
         panel.add(messageLabel, gridBagConstraints);
 
         RoundedButton buttonOk = new RoundedButton("OK", 90, 42, CustomColor.RED.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(15, 20, 20, 20);
+        gridBagConstraints.insets = new Insets(10, 30, 30, 30);
         panel.add(buttonOk, gridBagConstraints);
 
         buttonOk.addActionListener(e -> dispose());

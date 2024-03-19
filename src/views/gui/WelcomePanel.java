@@ -1,15 +1,23 @@
 package views.gui;
 
+import controllers.PlayerController;
+import controllers.TeamController;
+import repositories.DbConfig;
+import repositories.TeamRepository;
+import repositories.mappers.TeamMapper;
+import views.customPalettes.*;
 import views.customPalettes.enums.CustomColor;
-import views.customPalettes.RoundedButton;
-import views.customPalettes.ShadowLabel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class WelcomePanel extends MainPanel {
 
-    public WelcomePanel() {
+    private SetupPanel setupPanel;
+
+    public WelcomePanel(PlayerController playerController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -20,19 +28,36 @@ public class WelcomePanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, Color.WHITE);
+        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TITLE.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(labelTitle,gridBagConstraints);
 
 
-
-        RoundedButton buttonNewGame = new RoundedButton("New Game", 135, 42, CustomColor.PINK.getColor());
+        PlayersNamePanel playersNamePanel = new PlayersNamePanel();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
-        centerGridBagPanel.add(buttonNewGame, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+        centerGridBagPanel.add(playersNamePanel, gridBagConstraints);
+
+        RoundedButton buttonCreateRoom = new RoundedButton("Create Room", 160, 42, CustomColor.PINK.getColor());
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new Insets(15, 0, 0, 0);
+        centerGridBagPanel.add(buttonCreateRoom, gridBagConstraints);
+
+        buttonCreateRoom.addActionListener(e -> {
+            String[] playerNicknames = playersNamePanel.getPlayerNicknames();
+            switch (playerController.createNewRoom(playerNicknames)) {
+                case MISSING_PLAYERS -> playersNamePanel.showError("All player nicknames are required.");
+                case DUPLICATE_NAMES -> playersNamePanel.showError("Nicknames must be unique.");
+                case SUCCESS -> {
+                    showSetupPanel(playerNicknames);
+                }
+            }
+
+        });
 
         buttonReadRules.addActionListener(e -> {
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
@@ -44,7 +69,26 @@ public class WelcomePanel extends MainPanel {
             mainFrame.showLoginPanel();
         });
 
-        this.setVisible(true);
+    }
+
+    public void showSetupPanel(String[] playerNicknames) {
+
+        Connection connection;
+        try {
+            connection = DbConfig.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
+        TeamController teamController = TeamController.getInstance(teamRepository);
+        setupPanel = new SetupPanel(teamController, playerNicknames);
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+        mainFrame.showPanel(setupPanel);
+    }
+
+    private void showError(IconLabelPanel labelError, String errorMessage) {
+        labelError.setVisible(true);
+        labelError.setMessageLabel(errorMessage);
     }
 
 }

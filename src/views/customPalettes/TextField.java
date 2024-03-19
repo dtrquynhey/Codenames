@@ -17,7 +17,7 @@ public class TextField extends JTextField {
         setPreferredSize(dimension);
         setForeground(Color.WHITE);
         setBackground(CustomColor.LIGHT_BROWN.getColor());
-        setOpaque(false); // Make the text field transparent
+        setOpaque(false);
         setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20)); // Add padding to the text field
     }
 
@@ -49,14 +49,18 @@ public class TextField extends JTextField {
             g2d.drawString(placeholder, x, y);
         }
 
-        // Draw cursor if focused
-        if (!(!isFocusOwner() || !getText().isEmpty() || placeholder != null)) {
-            int caretX = getInsets().left + getFontMetrics(getFont()).stringWidth(getText());
+        // Draw cursor if focused and text is empty
+        if (isFocusOwner() && getText().isEmpty()) {
+            int caretX = getInsets().left;
             int caretY = getHeight() / 2 - getFontMetrics(getFont()).getHeight() / 2;
             g2d.setColor(getCaretColor());
             g2d.drawLine(caretX, caretY, caretX, caretY + getFontMetrics(getFont()).getHeight());
         }
+
+        g2d.dispose();
     }
+
+
 
     @Override
     public Color getCaretColor() {

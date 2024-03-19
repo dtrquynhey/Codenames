@@ -4,17 +4,27 @@ import models.enums.Color;
 import java.util.List;
 
 public class Team {
-    private String teamId;
+    private int teamId;
     private List<Player> listOfPlayers;
     private Color color;
     private int score;
     private int numOfGuess;
 
-    public String getTeamId() {
+    public Team() {
+    }
+
+    public Team(List<Player> listOfPlayers, Color color, int score, int numOfGuess) {
+        this.listOfPlayers = listOfPlayers;
+        this.color = color;
+        this.score = score;
+        this.numOfGuess = numOfGuess;
+    }
+
+    public int getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(String teamId) {
+    public void setTeamId(int teamId) {
         this.teamId = teamId;
     }
 
