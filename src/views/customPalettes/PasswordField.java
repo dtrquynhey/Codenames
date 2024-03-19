@@ -40,19 +40,19 @@ public class PasswordField extends JPasswordField {
         g2d.fill(new RoundRectangle2D.Float(0, 0, getWidth() - 3, getHeight() - 3, 17, 17));
 
         // Draw text or placeholder text
-        if (getText().isEmpty() && placeholder != null) {
+        if (!getText().isEmpty() || placeholder == null) {
+            super.paintComponent(g2d);
+        } else {
             g2d.setColor(Color.WHITE.darker()); // Darken the text color for placeholder
             FontMetrics metrics = getFontMetrics(getFont());
             int x = getInsets().left;
             int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
             g2d.drawString(placeholder, x, y);
-        } else {
-            super.paintComponent(g2d);
         }
 
-        // Draw cursor if focused
-        if (isFocusOwner() && getText().isEmpty() && placeholder == null) {
-            int caretX = getInsets().left + getFontMetrics(getFont()).stringWidth(getText());
+        // Draw cursor if focused and text is empty
+        if (isFocusOwner() && getText().isEmpty()) {
+            int caretX = getInsets().left;
             int caretY = getHeight() / 2 - getFontMetrics(getFont()).getHeight() / 2;
             g2d.setColor(getCaretColor());
             g2d.drawLine(caretX, caretY, caretX, caretY + getFontMetrics(getFont()).getHeight());

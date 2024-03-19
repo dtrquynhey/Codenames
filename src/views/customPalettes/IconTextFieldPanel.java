@@ -5,36 +5,35 @@ import views.customPalettes.enums.CustomColor;
 import javax.swing.*;
 import java.awt.*;
 
-public class TextFieldPanel extends JPanel {
+public class IconTextFieldPanel extends JPanel {
 
+    private final TextField textField;
+    private final JLabel iconLabel;
 
-    private final TextField textFieldUsername;
-
-    public TextFieldPanel(String placeholder) {
+    public IconTextFieldPanel(String placeholder, String fileName) {
         setLayout(new GridBagLayout());
-        setBackground(CustomColor.BROWN.getColor());
+        setBackground(CustomColor.CONTAINER_BROWN.getColor());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel imageLabel = new JLabel(new ImageIcon("src/assets/icon-username.png"));
+        iconLabel = new JLabel(new ImageIcon(fileName));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 10);
-        add(imageLabel, gridBagConstraints);
+        add(iconLabel, gridBagConstraints);
 
-
-        textFieldUsername = new TextField(placeholder, new Dimension(275, 42));
+        textField = new TextField(placeholder, new Dimension(275, 42));
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        add(textFieldUsername, gridBagConstraints);
+        add(textField, gridBagConstraints);
     }
 
 
     public String getTextFieldUsername() {
-        return textFieldUsername.getText();
+        return textField.getText();
     }
 
     public void setTextFieldUsername(String username) {
-        this.textFieldUsername.setText(username);
+        this.textField.setText(username);
     }
 }

@@ -9,11 +9,11 @@ public class PasswordPanel extends JPanel {
 
 
     private final PasswordField passwordField;
-    private final ImageButton buttonShowPassword;
+    private final IconButton buttonShowPassword;
 
     public PasswordPanel(String placeholder) {
         setLayout(new GridBagLayout());
-        setBackground(CustomColor.BROWN.getColor());
+        setBackground(CustomColor.CONTAINER_BROWN.getColor());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -30,7 +30,7 @@ public class PasswordPanel extends JPanel {
         gridBagConstraints.insets = new Insets(0, 0, 0, 5);
         add(passwordField, gridBagConstraints);
 
-        buttonShowPassword = new ImageButton("src/assets/icon-hide.png", 30, 42);
+        buttonShowPassword = new IconButton("src/assets/icon-hide.png", 30, 42);
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         add(buttonShowPassword, gridBagConstraints);
@@ -47,13 +47,26 @@ public class PasswordPanel extends JPanel {
         passwordField.setText(password);
     }
 
+    public void setHideIcon() {
+        buttonShowPassword.setImage("src/assets/icon-hide.png");
+    }
+
+    public void setEyeIcon() {
+        buttonShowPassword.setImage("src/assets/icon-eye.png");
+    }
+
+    public void resetPanel() {
+        passwordField.setEchoChar('*');
+        setPassword("");
+        setHideIcon();
+    }
     private void togglePasswordFieldVisibility() {
         if (passwordField.getEchoChar() != '\0') {
             passwordField.setEchoChar('\0');
-            buttonShowPassword.setImage("src/assets/icon-eye.png");
+            setEyeIcon();
         } else {
             passwordField.setEchoChar('*');
-            buttonShowPassword.setImage("src/assets/icon-hide.png");
+            setHideIcon();
         }
     }
 }

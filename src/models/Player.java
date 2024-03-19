@@ -1,24 +1,24 @@
 package models;
 
-import models.enums.Role;
-
 public class Player extends User {
-    private Role role;
 
-    public Player(Role role) {
-        this.role = role;
+    private String nickname;
+
+    public Player(String nickname) {
+        this.nickname = nickname;
     }
 
-    public Player(String username, String password, Role role) {
+    public Player(String username, String password, String nickname) {
         super(username, password);
-        this.role = role;
+        this.nickname = nickname;
     }
 
-    public Role getRole() {
-        return role;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
+
 }

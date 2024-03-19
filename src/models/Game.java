@@ -1,8 +1,6 @@
 package models;
 
-import java.sql.Timestamp;
 import java.util.List;
-
 import models.enums.Status;
 
 public class Game {
@@ -61,21 +59,5 @@ public class Game {
                 ", listOfTeams=" + listOfTeams +
                 ", status=" + status +
                 '}';
-    }
-    public void startGame() {
-        // start game logic
-    }
-
-    public boolean checkWinCondition() {
-        // win condition checking logic
-        return false;
-    }
-
-    public void revealCard() {
-        // reveal card logic
-    }
-
-    public void operation() {
-        // additional operations
     }
 }

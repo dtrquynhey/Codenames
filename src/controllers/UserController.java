@@ -12,6 +12,7 @@ public class UserController implements IUserContract {
     private static UserController instance;
     private final UserRepository userRepository;
 
+
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -27,7 +28,7 @@ public class UserController implements IUserContract {
     // registerUser() validates the input parameters and returns whether they are valid
     // Then, the receiver (SignupPanel.buttonSignUp) will act upon the return result
     @Override
-    public AuthenticationResult registerUser(String username, String password, String confirmedPassword) {
+    public AuthenticationResult signUserUp(String username, String password, String confirmedPassword) {
 
         if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
             return AuthenticationResult.EMPTY_FIELDS;
@@ -62,6 +63,7 @@ public class UserController implements IUserContract {
     }
 
 
+    @Override
     public boolean isUniqueUsername(String username) {
         try {
             return userRepository.findUserByUsername(username);

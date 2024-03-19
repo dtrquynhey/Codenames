@@ -1,75 +1,57 @@
-import views.customPalettes.ContainerPanel;
-import views.customPalettes.Label;
-import views.customPalettes.TextField;
-import views.customPalettes.TextFieldPanel;
+package views.customPalettes;
 import views.customPalettes.enums.CustomColor;
 
-import javax.swing.*;
 import java.awt.*;
-import java.security.DigestException;
 
-public class PlayersNamePanel extends JPanel {
+public class PlayersNamePanel extends ContainerPanel {
 
-    public PlayersNamePanel(Color bgColor, Dimension dimension) {
+
+    private final IconTextFieldPanel[] playerTextFields;
+    private final IconLabelPanel errorPanel;
+
+    public PlayersNamePanel() {
+        super(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(390, 300));
         setLayout(new GridBagLayout());
 
-        ContainerPanel containerPanel = new ContainerPanel(bgColor, dimension);
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
+
+        Label labelEnterPlayer = new Label("Enter 4 player nicknames.", Font.PLAIN, 16, CustomColor.TITLE.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        add(containerPanel, gridBagConstraints); // Add containerPanel with constraints
+        add(labelEnterPlayer, gridBagConstraints);
 
+        playerTextFields = new IconTextFieldPanel[4];
 
-        GridBagLayout containerGridBagLayout = new GridBagLayout();
-        containerPanel.setLayout(containerGridBagLayout);
-        GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+        for (int i = 0; i < playerTextFields.length; i++) {
+            IconTextFieldPanel textField = new IconTextFieldPanel("Player " + (i + 1), "src/assets/icon-player"+ (i + 1) + ".png");
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = i + 1;
+            gridBagConstraints.insets = new Insets(i == 0 ? 15 : 5, 0, 0, 0);
+            add(textField, gridBagConstraints);
+            playerTextFields[i] = textField;
+        }
 
-        Label labelEnterPlayer = new Label("Enter players' nickname.", Font.BOLD, 16, CustomColor.TITLE.getColor());
-        gridBagConstraints1.gridx = 0;
-        gridBagConstraints1.gridy = 0;
-        gridBagConstraints1.insets = new Insets(15, 0, 0, 0);
-        containerPanel.add(labelEnterPlayer, gridBagConstraints1);
-
-        TextField player1TextField = new TextField("Player 1", new Dimension(200, 42));
-        gridBagConstraints1.gridx = 0;
-        gridBagConstraints1.gridy = 1;
-        gridBagConstraints1.insets = new Insets(10, 0, 0, 0);
-        containerPanel.add(player1TextField, gridBagConstraints1);
-
-        TextField player2TextField = new TextField("Player 2", new Dimension(200, 42));
-        gridBagConstraints1.gridx = 0;
-        gridBagConstraints1.gridy = 2;
-        gridBagConstraints1.insets = new Insets(5, 0, 0, 0);
-        containerPanel.add(player2TextField, gridBagConstraints1);
-
-        TextField player3TextField = new TextField("Player 3", new Dimension(200, 42));
-        gridBagConstraints1.gridx = 0;
-        gridBagConstraints1.gridy = 3;
-        gridBagConstraints1.insets = new Insets(5, 0, 0, 0);
-        containerPanel.add(player3TextField, gridBagConstraints1);
-
-        TextField player4TextField = new TextField("Player 4", new Dimension(200, 42));
-        gridBagConstraints1.gridx = 0;
-        gridBagConstraints1.gridy = 4;
-        gridBagConstraints1.insets = new Insets(5, 0, 0, 0);
-        containerPanel.add(player4TextField, gridBagConstraints1);
-
+        errorPanel = new IconLabelPanel("");
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        gridBagConstraints.insets = new Insets(15, 0, 0, 0);
+        add(errorPanel, gridBagConstraints);
 
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Players Name Panel Test");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public String[] getPlayerNicknames() {
+        String[] nicknames = new String[playerTextFields.length];
+        for (int i = 0; i < playerTextFields.length; i++) {
+            nicknames[i] = playerTextFields[i].getTextFieldUsername();
+        }
+        return nicknames;
+    }
 
-            PlayersNamePanel playersNamePanel = new PlayersNamePanel(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(360, 280));
-
-            frame.add(playersNamePanel);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
+    public void showError(String message) {
+        errorPanel.setIconLabel("src/assets/icon-error.png");
+        errorPanel.setMessageLabel(message);
     }
 }

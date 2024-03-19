@@ -3,10 +3,10 @@ package views.customPalettes;
 import javax.swing.*;
 import java.awt.*;
 
-public class ImageButton extends JButton {
+public class IconButton extends JButton {
     private Image image;
 
-    public ImageButton(String imagePath, int width, int height) {
+    public IconButton(String imagePath, int width, int height) {
         ImageIcon icon = new ImageIcon(imagePath);
         image = icon.getImage();
         setPreferredSize(new Dimension(width, height));
