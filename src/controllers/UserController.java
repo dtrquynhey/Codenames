@@ -54,11 +54,26 @@ public class UserController implements UserContract {
     // Then, the receiver (LoginPanel.buttonLogIn) will act upon the return result
     @Override
     public AuthenticationResult logUserIn(String username, String password) {
+        if(username.isEmpty() || password.isEmpty()){
+            return AuthenticationResult.EMPTY_FIELDS;
+        }
+        try{
+            User user = userRepository.findUserByUsernameAndPassword(username,password);
+            if (user != null){
+                return AuthenticationResult.SUCCESS;
+            }
+            else{
+                return AuthenticationResult.INVALID_CREDENTIALS;
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+
+        }
         // TODO: Third. logUserIn()
         // UserController implements the Login contract
         // By using repositories.UserRepository.findUserByUsernameAndPassword()
         // Return controllers.enum.AuthenticationResult (EMPTY_FIELDS or SUCCESS)
-        return null;
+
     }
 
 

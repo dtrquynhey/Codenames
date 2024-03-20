@@ -84,14 +84,26 @@ public class LoginPanel extends MainPanel {
 
 
         buttonLogIn.addActionListener(e -> {
+            String username = usernamePanel.getTextFieldUsername();
+            String password = String.valueOf(passwordPanel.getPassword());
+            switch (userController.logUserIn(username, password)) {
+                case EMPTY_FIELDS -> showError(labelError, "All the fields are required.");
+                case INVALID_CREDENTIALS -> showError(labelError,"Username or Password wrong.");
+                case SUCCESS -> {
+                    labelError.setVisible(false);
+                    clearFields();
+                    new MessageDialog(this, "Welcome to the game!", "Success");
+                    // If successfully log in, show WelcomePanel
+                    MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
+                    mainFrame.showWelcomePanel();
+                }
+            }
             // TODO: Last. buttonLogIn.addActionListener()
             // Check SignupPanel.buttonSignUp.addActionListener()
             // Call controllers.UserController.logUserIn()
 
 
-            // If successfully log in, show WelcomePanel
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
-            mainFrame.showWelcomePanel();
+
         });
 
         buttonSignUp.addActionListener(e -> {
@@ -111,5 +123,9 @@ public class LoginPanel extends MainPanel {
     private void clearFields() {
         usernamePanel.setTextFieldUsername("");
         passwordPanel.setPassword("");
+    }
+    private void showError(IconLabelPanel labelError, String errorMessage) {
+        labelError.setVisible(true);
+        labelError.setText(errorMessage);
     }
 }
