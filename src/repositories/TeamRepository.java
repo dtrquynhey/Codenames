@@ -19,7 +19,7 @@ public class TeamRepository {
     }
 
     public void createTeam(Team team) throws SQLException, JsonProcessingException {
-        String insertQuery = "INSERT INTO teams (players, color, score, numOfGuess) VALUES (?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO teams (spymaster, operative, color, isWinner) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
             teamMapper.mapToPreparedStatement(team, statement);
             statement.executeUpdate();

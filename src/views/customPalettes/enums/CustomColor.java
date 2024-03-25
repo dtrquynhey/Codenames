@@ -3,12 +3,12 @@ package views.customPalettes.enums;
 import java.awt.*;
 
 public enum CustomColor {
-    TEXT_WHITE(Color.decode("#FFFFFF")),
-    FRAME_GREEN(Color.decode("#547B74")),
+    TEXT(Color.decode("#EBBFBF")),
+    FRAME(Color.decode("#8B5050")),
     FRAME_RED(Color.decode("#713C3C")),
     FRAME_BLUE(Color.decode("#1D4E84")),
-    TEXT_BG_GREEN(Color.decode("#9D6969")),
-    CONTAINER_GREEN(Color.decode("#63847D")),
+    TEXT_BG(Color.decode("#9D6969")),
+    CONTAINER_BROWN(Color.decode("#925353")),
     GREEN(Color.decode("#609B62")),
     ORANGE(Color.decode("#FC9355")),
     GREY(Color.decode("#988686")),

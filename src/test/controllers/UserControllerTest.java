@@ -26,7 +26,7 @@ class UserControllerTest {
     @Test
     void testRegisterUser_emptyFields() {
         // Test with empty fields
-        assertEquals(AuthenticationResult.EMPTY_FIELDS, userController.signUserUp("", "", ""));
+        assertEquals(AuthenticationResult.EMPTY_FIELDS, userController.isValidSignupCredentials("", "", ""));
         // Verify that createUser method is not called
         verifyNoInteractions(userRepository);
     }
@@ -34,7 +34,7 @@ class UserControllerTest {
     @Test
     void testRegisterUser_passwordMismatch() {
         // Test with password mismatch
-        assertEquals(AuthenticationResult.PASSWORD_MISMATCH, userController.signUserUp("username", "password1", "password2"));
+        assertEquals(AuthenticationResult.PASSWORD_MISMATCH, userController.isValidSignupCredentials("username", "password1", "password2"));
         // Verify that createUser method is not called
         verifyNoInteractions(userRepository);
     }
@@ -42,7 +42,7 @@ class UserControllerTest {
     @Test
     void testRegisterUser_successfulRegistration() {
         // Test successful registration
-        assertEquals(AuthenticationResult.SUCCESS, userController.signUserUp("username", "password", "password"));
+        assertEquals(AuthenticationResult.SUCCESS, userController.isValidSignupCredentials("username", "password", "password"));
         // Verify that createUser method is called with the correct User object
         try {
             ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);

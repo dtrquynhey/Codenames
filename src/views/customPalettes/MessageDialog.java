@@ -8,10 +8,10 @@ import java.awt.*;
 public class MessageDialog extends JDialog {
     public MessageDialog(Component parentComponent, String message, String title) {
         super((Frame) SwingUtilities.getWindowAncestor(parentComponent), title, true);
-        getContentPane().setBackground(CustomColor.FRAME_GREEN.getColor());
+        getContentPane().setBackground(CustomColor.FRAME.getColor());
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(CustomColor.FRAME_GREEN.getColor());
+        panel.setBackground(CustomColor.FRAME.getColor());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 

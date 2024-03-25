@@ -21,4 +21,8 @@ public class Player extends User {
         this.nickname = nickname;
     }
 
+    @Override
+    public String toString() {
+        return nickname;
+    }
 }

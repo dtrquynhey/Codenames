@@ -13,7 +13,7 @@ public class PasswordPanel extends JPanel {
 
     public PasswordPanel(String placeholder) {
         setLayout(new GridBagLayout());
-        setBackground(CustomColor.CONTAINER_GREEN.getColor());
+        setBackground(CustomColor.CONTAINER_BROWN.getColor());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -25,6 +25,7 @@ public class PasswordPanel extends JPanel {
 
 
         passwordField = new PasswordField(placeholder, new Dimension(275, 42));
+        passwordField.setEchoChar('*');
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 5);

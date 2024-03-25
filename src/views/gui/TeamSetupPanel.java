@@ -1,22 +1,19 @@
 package views.gui;
 
 import controllers.TeamController;
-import repositories.DbConfig;
-import repositories.TeamRepository;
-import repositories.mappers.TeamMapper;
+import models.Player;
 import views.customPalettes.*;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.List;
 
-public class SetupPanel extends MainPanel {
+public class TeamSetupPanel extends MainPanel {
 
     private RolesChooserPanel rolesChooserPanel;
 
-    public SetupPanel(TeamController teamController, String[] playerNicknames) {
+    public TeamSetupPanel(TeamController teamController, List<Player> playerList) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -27,7 +24,7 @@ public class SetupPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        rolesChooserPanel = new RolesChooserPanel(playerNicknames);
+        rolesChooserPanel = new RolesChooserPanel(playerList);
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -40,11 +37,11 @@ public class SetupPanel extends MainPanel {
         bottomFlowPanel.add(buttonStartGame);
 
         buttonStartGame.addActionListener(e -> {
-            if (!teamController.isValidRoom(rolesChooserPanel.getSelectedPlayers())) {
-                new MessageDialog(this, "Each player can only play one role.", "Team Selection Error");
+            if (!teamController.isValidRoom(rolesChooserPanel.getComboBoxSelectedPlayers())) {
+                new MessageDialog(this, "Each player can only play one role.", "Team Setup Error");
             } else {
                 teamController.setupTeams(rolesChooserPanel.getPlayerSelectedTeams());
-                new MessageDialog(this, "All teams are set", "Team Selection Success");
+                new MessageDialog(this, "All teams are set.", "Team Setup Success");
                 showGamePlayPanel();
             }
         });
@@ -61,7 +58,7 @@ public class SetupPanel extends MainPanel {
 //        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
 //        TeamController teamController = TeamController.getInstance(teamRepository);
         GamePlayPanel gamePlayPanel = new GamePlayPanel(rolesChooserPanel.getPlayerSelectedTeams());
-        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(SetupPanel.this);
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
         mainFrame.showPanel(gamePlayPanel);
     }
 

@@ -8,7 +8,7 @@ import java.awt.*;
 public class TopFlowPanel extends JPanel {
 
     public TopFlowPanel() {
-        setBackground(CustomColor.FRAME_GREEN.getColor());
+        setBackground(CustomColor.FRAME.getColor());
         setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 15));
     }
 

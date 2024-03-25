@@ -27,10 +27,10 @@ public class TeamMapper {
     }
 
     public void mapToPreparedStatement(Team team, PreparedStatement statement) throws SQLException, JsonProcessingException {
-        statement.setString(1, convertPlayerListToJson(team.getListOfPlayers()));
-        statement.setString(2, team.getColor().toString());
-        statement.setInt(3, team.getScore());
-        statement.setInt(4, team.getNumOfGuess());
+        statement.setString(1, team.getSpymaster());
+        statement.setString(2, team.getOperative());
+        statement.setString(3, team.getColor().toString());
+        statement.setBoolean(4, team.isWinner());
     }
 
     private List<Player> mapPlayers(String playersJson) throws JsonProcessingException {

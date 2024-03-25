@@ -3,51 +3,49 @@ package controllers;
 import contracts.IPlayerContract;
 import controllers.enums.RoomCreationResult;
 import models.Player;
-import repositories.PlayerRepository;
-import repositories.UserRepository;
-import repositories.mappers.PlayerMapper;
 
-import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PlayerController implements IPlayerContract {
 
     private static PlayerController instance;
-    private final PlayerRepository playerRepository;
 
-    public PlayerController(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
+    public PlayerController() {
     }
 
-    public static PlayerController getInstance(PlayerRepository playerRepository) {
+    public static PlayerController getInstance() {
 
         if (instance == null) {
-            instance = new PlayerController(playerRepository);
+            instance = new PlayerController();
         }
         return instance;
     }
 
     @Override
-    public RoomCreationResult createNewRoom(String[] playerNicknames) {
+    public List<Player> createRoom(String[] uniqueNicknames) {
+
+        List<Player> playerList = new ArrayList<>();
+        for (String nickname : uniqueNicknames) {
+            Player player = new Player(nickname);
+            playerList.add(player);
+        }
+        return playerList;
+    }
+
+    @Override
+    public RoomCreationResult isValidNicknames(String[] playerNicknames) {
         Set<String> uniqueNicknames = new HashSet<>();
         for (String nickname : playerNicknames) {
             if (nickname == null || nickname.trim().isEmpty()) {
-                return RoomCreationResult.MISSING_PLAYERS;
+                return RoomCreationResult.MISSING_NAMES;
             }
             if (uniqueNicknames.contains(nickname)) {
                 return RoomCreationResult.DUPLICATE_NAMES;
             }
             uniqueNicknames.add(nickname);
-        }
-        try {
-            for (String playerNickname : playerNicknames) {
-                Player player = new Player(playerNickname);
-                playerRepository.createPlayer(player);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
         return RoomCreationResult.SUCCESS;
     }

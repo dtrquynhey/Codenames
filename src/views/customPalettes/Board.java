@@ -17,7 +17,7 @@ public class Board extends JPanel {
     public Board(List<Card> cards, Boolean isOperativeBoard) {
         this.isOperativeBoard = isOperativeBoard;
         setLayout(new GridBagLayout());
-        setBackground(CustomColor.FRAME_GREEN.getColor());
+        setBackground(CustomColor.FRAME_RED.getColor());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -48,13 +48,7 @@ public class Board extends JPanel {
                     }
                 });
             }
-
         }
-
-    }
-
-    public void setBackgroundColor(Color color) {
-        setBackground(color);
     }
 
     private Color getCardColor(models.enums.Color color) {

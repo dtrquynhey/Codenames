@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
 
     private LoginPanel loginPanel;
     private SignupPanel signupPanel;
-    private WelcomePanel welcomePanel;
+    private RoomCreationPanel roomCreationPanel;
     private RulesPanel rulesPanel;
 
     public MainFrame(){
@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
         UserRepository userRepository = new UserRepository(connection, userMapper);
         PlayerRepository playerRepository = new PlayerRepository(connection, playerMapper);
         userController = UserController.getInstance(userRepository);
-        playerController = PlayerController.getInstance(playerRepository);
+        playerController = PlayerController.getInstance();
         initializePanels();
         showLoginPanel();
 
@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
     private void initializePanels() {
         loginPanel = new LoginPanel(userController);
         signupPanel = new SignupPanel(userController);
-        welcomePanel = new WelcomePanel(playerController);
+        roomCreationPanel = new RoomCreationPanel(playerController);
         rulesPanel = new RulesPanel();
     }
 
@@ -74,8 +74,8 @@ public class MainFrame extends JFrame {
         showPanel(signupPanel);
     }
 
-    public void showWelcomePanel() {
-        showPanel(welcomePanel);
+    public void showRoomCreationPanel() {
+        showPanel(roomCreationPanel);
     }
 
     public void showRulesPanel() {

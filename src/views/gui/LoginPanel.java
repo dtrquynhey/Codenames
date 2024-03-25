@@ -19,7 +19,7 @@ public class LoginPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT_WHITE.getColor());
+        JLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
@@ -61,13 +61,12 @@ public class LoginPanel extends MainPanel {
             String password = String.valueOf(loginInfoPanel.getPassword());
             switch (userController.logUserIn(username, password)) {
                 case EMPTY_FIELDS -> loginInfoPanel.showError("All the fields are required.");
-                case INVALID_CREDENTIALS -> loginInfoPanel.showError("Username or Password wrong.");
+                case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
                 case SUCCESS -> {
                     loginInfoPanel.resetPanel();
-                    new MessageDialog(this, "Welcome to the game!", "Success");
-                    // If successfully log in, show WelcomePanel
+                    new MessageDialog(this, "Welcome to Codenames!", "Log In Success");
                     MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
-                    mainFrame.showWelcomePanel();
+                    mainFrame.showRoomCreationPanel();
                 }
             }
         });

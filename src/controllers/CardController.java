@@ -54,7 +54,7 @@ public class CardController implements ICardContract {
 
             // Handle exceptions if necessary
             try {
-                cardRepository.createCard(card);
+                cardRepository.createCard(new Card(word));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

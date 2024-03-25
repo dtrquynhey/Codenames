@@ -11,6 +11,10 @@ public class Card {
     public Card() {
     }
 
+    public Card(String word) {
+        this.word = word;
+    }
+
     public Card(String word, Color color, Boolean isRevealed) {
         this.word = word;
         this.color = color;

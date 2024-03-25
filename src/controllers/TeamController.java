@@ -29,9 +29,13 @@ public class TeamController implements ITeamContract {
     }
 
     @Override
-    public void setupTeams(Map<Color, Map<Role, String>> playerSelectedTeams) {
-        Team redTeam = new Team(getPlayerListFromMap(playerSelectedTeams, Color.RED), Color.RED, 0, 0);
-        Team blueTeam = new Team(getPlayerListFromMap(playerSelectedTeams, Color.BLUE), Color.BLUE, 0, 0);
+    public void setupTeams(Map<Color, Map<Role, Player>> playerSelectedTeams) {
+        Team redTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.SPYMASTER),
+                getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
+                Color.RED, false);
+        Team blueTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
+                getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
+                Color.BLUE, false);
         try {
             teamRepository.createTeam(redTeam);
             teamRepository.createTeam(blueTeam);
@@ -47,14 +51,21 @@ public class TeamController implements ITeamContract {
         return uniqueRoles.size() == players.length;
     }
 
-    private List<Player> getPlayerListFromMap(Map<Color, Map<Role, String>> playerSelectedTeams, Color color) {
-        List<Player> players = new ArrayList<>();
-        Map<Role, String> playerRoles = playerSelectedTeams.get(color);
-        for (Map.Entry<Role, String> entry : playerRoles.entrySet()) {
-            Player player = new Player(entry.getValue());
-            players.add(player);
+
+    // Function to get all players by team color
+    private Map<Role, Player> getPlayersByColor(Map<Color, Map<Role, Player>> playerSelectedTeams, Color color) {
+        Map<Role, Player> playersByRole = new HashMap<>();
+        Map<Role, Player> playerRoles = playerSelectedTeams.get(color);
+        if (playerRoles != null) {
+            playersByRole.putAll(playerRoles);
         }
-        return players;
+        return playersByRole;
+    }
+
+    // Function to get player by role for a specific team color
+    private Player getPlayerByColorRole(Map<Color, Map<Role, Player>> playerSelectedTeams, Color color, Role role) {
+        Map<Role, Player> playerRoles = getPlayersByColor(playerSelectedTeams, color);
+        return playerRoles.get(role);// Player not found for the given role
     }
 
 }

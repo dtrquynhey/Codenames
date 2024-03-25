@@ -18,7 +18,7 @@ public class CardRepository {
     }
 
     public void createCard(Card card) throws SQLException {
-        String insertQuery = "INSERT INTO cards (word, color, isRevealed) VALUES (?, ?, ?)";
+        String insertQuery = "INSERT INTO cards (word) VALUES (?)";
         try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
             cardMapper.mapToPreparedStatement(card, statement);
             statement.executeUpdate();

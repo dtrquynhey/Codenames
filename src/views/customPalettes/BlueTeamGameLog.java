@@ -1,5 +1,6 @@
 package views.customPalettes;
 
+import models.Player;
 import models.enums.Role;
 import views.customPalettes.enums.CustomColor;
 
@@ -9,8 +10,9 @@ import java.util.Map;
 
 public class BlueTeamGameLog extends JPanel {
 
-    public BlueTeamGameLog(Map<Role, String> blueTeam) {
+    public BlueTeamGameLog(Map<Role, Player> blueTeam) {
         setLayout(new GridBagLayout());
+        setBackground(new Color(0, 0, 0, 0));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -26,7 +28,7 @@ public class BlueTeamGameLog extends JPanel {
         gridBagConstraints.insets = new Insets(2, 0, 0, 0);
         add(operativeBlueGameLog, gridBagConstraints);
 
-        Label blueScore = new Label("SCORE", Font.BOLD, 18, CustomColor.TEXT_WHITE.getColor());
+        Label blueScore = new Label("SCORE", Font.BOLD, 18, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
@@ -34,7 +36,4 @@ public class BlueTeamGameLog extends JPanel {
         add(blueScore, gridBagConstraints);
     }
 
-    public void setBackgroundColor(Color color) {
-        setBackground(color);
-    }
 }

@@ -17,7 +17,7 @@ public class PasswordField extends JPasswordField {
         setFont(new Font("Bookman Old Style", Font.PLAIN, 18));
         setPreferredSize(dimension);
         setForeground(Color.WHITE);
-        setBackground(CustomColor.TEXT_BG_GREEN.getColor());
+        setBackground(CustomColor.TEXT_BG.getColor());
         setOpaque(false); // Make the text field transparent
         setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
     }

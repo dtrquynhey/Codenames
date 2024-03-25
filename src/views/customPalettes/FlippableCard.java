@@ -23,7 +23,7 @@ public class FlippableCard extends ContainerPanel {
         frontLabel = wordLabel;
         add(frontLabel, "Front");
 
-        backLabel = new ImageContainer(backImage, new Dimension(150, 100), CustomColor.FRAME_GREEN.getColor());
+        backLabel = new ImageContainer(backImage, new Dimension(150, 100), CustomColor.FRAME.getColor());
         add(backLabel, "Back");
 
         showFront();

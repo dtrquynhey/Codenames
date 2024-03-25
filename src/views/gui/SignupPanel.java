@@ -18,7 +18,7 @@ public class SignupPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT_WHITE.getColor());
+        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
@@ -57,11 +57,12 @@ public class SignupPanel extends MainPanel {
             String password = signupInfoPanel.getPassword();
             String confirmPassword = signupInfoPanel.getConfirmPassword();
 
-            switch (userController.signUserUp(username, password, confirmPassword)) {
+            switch (userController.isValidSignupCredentials(username, password, confirmPassword)) {
                 case EMPTY_FIELDS -> signupInfoPanel.showError("All the fields are required.");
                 case PASSWORD_MISMATCH -> signupInfoPanel.showError("Passwords do not match.");
                 case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");
                 case SUCCESS -> {
+                    userController.signUserUp(username, password, confirmPassword);
                     signupInfoPanel.resetPanel();
                     new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success");
                 }

@@ -1,5 +1,6 @@
 package views.customPalettes;
 
+import models.Player;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -7,13 +8,13 @@ import java.awt.*;
 
 public class OneGameLog extends JPanel {
 
-    public OneGameLog(String playerNickname, String role, Color bgColor, Color containerColor) {
+    public OneGameLog(Player player, String role, Color bgColor, Color containerColor) {
         setLayout(new GridBagLayout());
-        //setBackground(CustomColor.FRAME_GREEN.getColor());
+        setBackground(new Color(0, 0, 0, 0));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        LabelBox playerNicknameLabel = new LabelBox(playerNickname, bgColor, Color.WHITE, new Dimension(100, 30));
+        LabelBox playerNicknameLabel = new LabelBox(player.getNickname(), bgColor, Color.WHITE, new Dimension(100, 30));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);

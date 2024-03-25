@@ -2,6 +2,7 @@ package views.gui;
 
 import controllers.PlayerController;
 import controllers.TeamController;
+import models.Player;
 import repositories.DbConfig;
 import repositories.TeamRepository;
 import repositories.mappers.TeamMapper;
@@ -12,12 +13,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
-public class WelcomePanel extends MainPanel {
+public class RoomCreationPanel extends MainPanel {
 
-    private SetupPanel setupPanel;
+    private TeamSetupPanel teamSetupPanel;
 
-    public WelcomePanel(PlayerController playerController) {
+    public RoomCreationPanel(PlayerController playerController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -28,7 +30,7 @@ public class WelcomePanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT_WHITE.getColor());
+        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
@@ -49,29 +51,30 @@ public class WelcomePanel extends MainPanel {
 
         buttonCreateRoom.addActionListener(e -> {
             String[] playerNicknames = playersNamePanel.getPlayerNicknames();
-            switch (playerController.createNewRoom(playerNicknames)) {
-                case MISSING_PLAYERS -> playersNamePanel.showError("All player nicknames are required.");
+            switch (playerController.isValidNicknames(playerNicknames)) {
+                case MISSING_NAMES -> playersNamePanel.showError("All player nicknames are required.");
                 case DUPLICATE_NAMES -> playersNamePanel.showError("Nicknames must be unique.");
                 case SUCCESS -> {
-                    showSetupPanel(playerNicknames);
+                    List<Player> playerList = playerController.createRoom(playerNicknames);
+                    new MessageDialog(this, "Room is created.", "Room Creation Success");
+                    showTeamSetupPanel(playerList);
                 }
             }
-
         });
 
         buttonReadRules.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
             mainFrame.showRulesPanel();
         });
 
         buttonLogOut.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
             mainFrame.showLoginPanel();
         });
 
     }
 
-    public void showSetupPanel(String[] playerNicknames) {
+    public void showTeamSetupPanel(List<Player> playerList) {
 
         Connection connection;
         try {
@@ -81,14 +84,8 @@ public class WelcomePanel extends MainPanel {
         }
         TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
         TeamController teamController = TeamController.getInstance(teamRepository);
-        setupPanel = new SetupPanel(teamController, playerNicknames);
-        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
-        mainFrame.showPanel(setupPanel);
+        teamSetupPanel = new TeamSetupPanel(teamController, playerList);
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
+        mainFrame.showPanel(teamSetupPanel);
     }
-
-    private void showError(IconLabelPanel labelError, String errorMessage) {
-        labelError.setVisible(true);
-        labelError.setMessageLabel(errorMessage);
-    }
-
 }

@@ -6,11 +6,22 @@ import java.util.List;
 public class Team {
     private int teamId;
     private List<Player> listOfPlayers;
+    private Player spymaster;
+    private Player operative;
     private Color color;
     private int score;
     private int numOfGuess;
+    private boolean isWinner;
 
     public Team() {
+    }
+
+
+    public Team(Player spymaster, Player operative, Color color, boolean isWinner) {
+        this.spymaster = spymaster;
+        this.operative = operative;
+        this.color = color;
+        this.isWinner = isWinner;
     }
 
     public Team(List<Player> listOfPlayers, Color color, int score, int numOfGuess) {
@@ -69,5 +80,29 @@ public class Team {
                 ", score=" + score +
                 ", numOfGuess=" + numOfGuess +
                 '}';
+    }
+
+    public String getSpymaster() {
+        return spymaster.getNickname();
+    }
+
+    public void setSpymaster(Player spymaster) {
+        this.spymaster = spymaster;
+    }
+
+    public String getOperative() {
+        return operative.getNickname();
+    }
+
+    public void setOperative(Player operative) {
+        this.operative = operative;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
+    }
+
+    public void setWinner(boolean winner) {
+        isWinner = winner;
     }
 }

@@ -1,15 +1,18 @@
 package views.customPalettes;
 
+import models.Player;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import java.util.List;
 
 public class ComboBox extends JComboBox<String> {
     private final Color shadowColor = new Color(0, 0, 0, 50); // Semi-transparent black color for shadow
 
-    public ComboBox(String[] items, Dimension dimension, Color color) {
-        super(items);
+    public ComboBox(List<Player> items, Dimension dimension, Color color) {
+        super(getNames(items));
         setFont(new Font("Bookman Old Style", Font.PLAIN, 18));
         setPreferredSize(dimension);
         setForeground(Color.WHITE);
@@ -62,5 +65,14 @@ public class ComboBox extends JComboBox<String> {
 
     public void setSelectedItem(String item) {
         super.setSelectedItem(item);
+    }
+
+    // Method to extract names from Player objects
+    private static String[] getNames(List<Player> players) {
+        String[] names = new String[players.size()];
+        for (int i = 0; i < players.size(); i++) {
+            names[i] = players.get(i).getNickname();
+        }
+        return names;
     }
 }

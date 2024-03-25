@@ -4,6 +4,7 @@ package views.gui;
 import controllers.CardController;
 import controllers.GameController;
 import models.Card;
+import models.Player;
 import models.enums.Color;
 import models.enums.Role;
 import repositories.CardRepository;
@@ -25,12 +26,8 @@ public class GamePlayPanel extends MainPanel {
 
     private JPanel cardPanel;
     private CardLayout cardLayout;
-    public GamePlayPanel(Map<Color, Map<Role, String>> playerSelectedTeams) {
+    public GamePlayPanel(Map<Color, Map<Role, Player>> playerSelectedTeams) {
         super();
-
-        topFlowPanel.setBackgroundColor(CustomColor.FRAME_RED.getColor());
-        centerGridBagPanel.setBackgroundColor(CustomColor.FRAME_RED.getColor());
-        bottomFlowPanel.setBackgroundColor(CustomColor.FRAME_RED.getColor());
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
         topFlowPanel.add(buttonReadRules);
@@ -68,17 +65,14 @@ public class GamePlayPanel extends MainPanel {
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        // Add board to card panel
         Board spymasterBoard = new Board(cards, false);
+        cardPanel.add(spymasterBoard, "SPYMASTER_BOARD");
+
         Board operativeBoard = new Board(cards, true);
         operativeBoard.setCardColor(CustomColor.CARD_NEUTRAL.getColor());
-
-        cardPanel.add(spymasterBoard, "SPYMASTER_BOARD");
         cardPanel.add(operativeBoard, "OPERATIVE_BOARD");
 
         cardLayout.show(cardPanel, "SPYMASTER_BOARD");
-
-
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 25, 0, 25);
@@ -91,12 +85,6 @@ public class GamePlayPanel extends MainPanel {
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         centerGridBagPanel.add(blueTeamGameLog, gridBagConstraints);
 
-//        blueTeamGameLog.setBackgroundColor(CustomColor.FRAME_RED.getColor());
-//        redTeamGameLog.setBackgroundColor(CustomColor.FRAME_RED.getColor());
-//        operativeBoard.setBackgroundColor(CustomColor.FRAME_RED.getColor());
-//        spymasterBoard.setBackgroundColor(CustomColor.FRAME_RED.getColor());
-
-
 
         TextField textFieldHint = new TextField("Type your hint", new Dimension(300, 42));
         bottomFlowPanel.add(textFieldHint);
@@ -107,7 +95,7 @@ public class GamePlayPanel extends MainPanel {
         RoundedButton buttonGiveClue = new RoundedButton("Give Clue", 130, 42, CustomColor.GREEN.getColor());
         bottomFlowPanel.add(buttonGiveClue);
 
-        RoundedButton buttonEndGuess = new RoundedButton("End Guess", 130, 42, CustomColor.YELLOW.getColor());
+        RoundedButton buttonEndGuess = new RoundedButton("End Guess", 140, 42, CustomColor.YELLOW.getColor());
         bottomFlowPanel.add(buttonEndGuess);
         buttonEndGuess.setVisible(false);
 

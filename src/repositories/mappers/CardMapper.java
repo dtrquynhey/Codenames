@@ -18,7 +18,5 @@ public class CardMapper {
 
     public void mapToPreparedStatement(Card card, PreparedStatement statement) throws SQLException {
         statement.setString(1, card.getWord());
-        statement.setString(2, card.getColor().toString());
-        statement.setBoolean(3, card.getIsRevealed());
     }
 }

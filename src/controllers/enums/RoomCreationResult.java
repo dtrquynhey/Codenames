@@ -1,7 +1,7 @@
 package controllers.enums;
 
 public enum RoomCreationResult {
-    MISSING_PLAYERS,
+    MISSING_NAMES,
     DUPLICATE_NAMES,
     SUCCESS,
 

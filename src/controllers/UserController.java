@@ -28,7 +28,7 @@ public class UserController implements IUserContract {
     // registerUser() validates the input parameters and returns whether they are valid
     // Then, the receiver (SignupPanel.buttonSignUp) will act upon the return result
     @Override
-    public AuthenticationResult signUserUp(String username, String password, String confirmedPassword) {
+    public AuthenticationResult isValidSignupCredentials(String username, String password, String confirmedPassword) {
 
         if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
             return AuthenticationResult.EMPTY_FIELDS;
@@ -38,16 +38,18 @@ public class UserController implements IUserContract {
 
         } else if (!password.equals(confirmedPassword)) {
             return AuthenticationResult.PASSWORD_MISMATCH;
+        }
+        return AuthenticationResult.SUCCESS;
+    }
 
-        } else {
-            try {
-                User user = new User(username, password);
-                userRepository.createUser(user);
-                return AuthenticationResult.SUCCESS;
+    @Override
+    public void signUserUp(String username, String password, String confirmPassword) {
+        try {
+            User user = new User(username, password);
+            userRepository.createUser(user);
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -59,14 +61,14 @@ public class UserController implements IUserContract {
             return AuthenticationResult.EMPTY_FIELDS;
         }
         try{
-            User user = userRepository.findUserByUsernameAndPassword(username,password);
+            User user = userRepository.findUserByUsernameAndPassword(username, password);
             if (user != null){
                 return AuthenticationResult.SUCCESS;
             }
             else{
                 return AuthenticationResult.INVALID_CREDENTIALS;
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             throw new RuntimeException(e);
 
         }
