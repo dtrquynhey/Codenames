@@ -9,7 +9,7 @@ public class LoginInfoPanel extends ContainerPanel {
     private final PasswordPanel passwordPanel;
     private final IconLabelPanel errorPanel;
     public LoginInfoPanel() {
-        super(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(390, 200));
+        super(CustomColor.CONTAINER_GREEN.getColor(), new Dimension(390, 200));
 
         setLayout(new GridBagLayout());
 

@@ -8,7 +8,11 @@ import java.awt.*;
 public class CenterGridBagPanel extends JPanel {
 
     public CenterGridBagPanel() {
-        setBackground(CustomColor.BROWN.getColor());
+        setBackground(CustomColor.FRAME_GREEN.getColor());
         setLayout(new GridBagLayout());
+    }
+
+    public void setBackgroundColor(Color color) {
+        setBackground(color);
     }
 }

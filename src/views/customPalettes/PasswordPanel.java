@@ -13,7 +13,7 @@ public class PasswordPanel extends JPanel {
 
     public PasswordPanel(String placeholder) {
         setLayout(new GridBagLayout());
-        setBackground(CustomColor.CONTAINER_BROWN.getColor());
+        setBackground(CustomColor.CONTAINER_GREEN.getColor());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 

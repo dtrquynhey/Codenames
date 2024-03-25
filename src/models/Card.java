@@ -2,17 +2,28 @@ package models;
 import models.enums.Color;
 
 public class Card {
+
+    private int cardId;
     private String word;
-    private Boolean isRevealed;
     private Color color;
+    private Boolean isRevealed;
 
     public Card() {
     }
 
-    public Card(String word, Boolean isRevealed, Color color) {
+    public Card(String word, Color color, Boolean isRevealed) {
         this.word = word;
-        this.isRevealed = isRevealed;
         this.color = color;
+        this.isRevealed = isRevealed;
+    }
+
+
+
+    public int getCardId() {
+        return cardId;
+    }
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
     }
 
     public String getWord() {
@@ -23,12 +34,12 @@ public class Card {
         this.word = word;
     }
 
-    public Boolean getRevealed() {
+    public Boolean getIsRevealed() {
         return isRevealed;
     }
 
-    public void setRevealed(Boolean revealed) {
-        isRevealed = revealed;
+    public void setIsRevealed(Boolean isRevealed) {
+        this.isRevealed = isRevealed;
     }
 
     public Color getColor() {

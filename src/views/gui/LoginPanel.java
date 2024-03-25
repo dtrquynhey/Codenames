@@ -18,7 +18,7 @@ public class LoginPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TITLE.getColor());
+        JLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT_WHITE.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);

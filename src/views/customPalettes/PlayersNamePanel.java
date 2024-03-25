@@ -10,12 +10,12 @@ public class PlayersNamePanel extends ContainerPanel {
     private final IconLabelPanel errorPanel;
 
     public PlayersNamePanel() {
-        super(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(390, 300));
+        super(CustomColor.CONTAINER_GREEN.getColor(), new Dimension(390, 300));
         setLayout(new GridBagLayout());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        Label labelEnterPlayer = new Label("Enter 4 player nicknames.", Font.PLAIN, 16, CustomColor.TITLE.getColor());
+        Label labelEnterPlayer = new Label("Enter 4 player nicknames.", Font.PLAIN, 16, CustomColor.TEXT_WHITE.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);

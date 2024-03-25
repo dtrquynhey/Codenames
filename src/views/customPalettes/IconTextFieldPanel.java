@@ -12,7 +12,7 @@ public class IconTextFieldPanel extends JPanel {
 
     public IconTextFieldPanel(String placeholder, String fileName) {
         setLayout(new GridBagLayout());
-        setBackground(CustomColor.CONTAINER_BROWN.getColor());
+        setBackground(CustomColor.CONTAINER_GREEN.getColor());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 

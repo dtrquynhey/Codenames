@@ -1,12 +1,20 @@
 package views.gui;
 
 import controllers.TeamController;
+import repositories.DbConfig;
+import repositories.TeamRepository;
+import repositories.mappers.TeamMapper;
 import views.customPalettes.*;
 import views.customPalettes.enums.CustomColor;
 
+import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class SetupPanel extends MainPanel {
+
+    private RolesChooserPanel rolesChooserPanel;
 
     public SetupPanel(TeamController teamController, String[] playerNicknames) {
         super();
@@ -19,7 +27,7 @@ public class SetupPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        RolesChooserPanel rolesChooserPanel = new RolesChooserPanel(playerNicknames);
+        rolesChooserPanel = new RolesChooserPanel(playerNicknames);
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -37,10 +45,25 @@ public class SetupPanel extends MainPanel {
             } else {
                 teamController.setupTeams(rolesChooserPanel.getPlayerSelectedTeams());
                 new MessageDialog(this, "All teams are set", "Team Selection Success");
+                showGamePlayPanel();
             }
         });
     }
 
+    private void showGamePlayPanel() {
+
+//        Connection connection;
+//        try {
+//            connection = DbConfig.getConnection();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
+//        TeamController teamController = TeamController.getInstance(teamRepository);
+        GamePlayPanel gamePlayPanel = new GamePlayPanel(rolesChooserPanel.getPlayerSelectedTeams());
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(SetupPanel.this);
+        mainFrame.showPanel(gamePlayPanel);
+    }
 
 
 }

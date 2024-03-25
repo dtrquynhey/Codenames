@@ -5,7 +5,8 @@ import java.awt.*;
 
 public class ContainerPanel extends JPanel {
     private final Color shadowColor = new Color(0, 0, 0, 50); // Semi-transparent black color for shadow
-    private final Color backgroundColor;
+    private Color backgroundColor;  // Changed to instance variable
+
     private final Dimension panelDimension;
 
     public ContainerPanel(Color bgColor, Dimension dimension) {
@@ -34,5 +35,11 @@ public class ContainerPanel extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return panelDimension; // Set preferred size
+    }
+
+    // Setter method for background color
+    public void setBackgroundColor(Color color) {
+        backgroundColor = color;
+        repaint();  // Repaint the panel to reflect the color change
     }
 }

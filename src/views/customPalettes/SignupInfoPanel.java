@@ -14,7 +14,7 @@ public class SignupInfoPanel extends ContainerPanel{
 
 
     public SignupInfoPanel() {
-        super(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(390, 220));
+        super(CustomColor.CONTAINER_GREEN.getColor(), new Dimension(390, 220));
         setLayout(new GridBagLayout());
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();

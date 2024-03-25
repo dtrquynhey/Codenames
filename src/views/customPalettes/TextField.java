@@ -16,7 +16,7 @@ public class TextField extends JTextField {
         setFont(new Font("Bookman Old Style", Font.PLAIN, 18));
         setPreferredSize(dimension);
         setForeground(Color.WHITE);
-        setBackground(CustomColor.LIGHT_BROWN.getColor());
+        setBackground(CustomColor.TEXT_BG_GREEN.getColor());
         setOpaque(false);
         setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20)); // Add padding to the text field
     }

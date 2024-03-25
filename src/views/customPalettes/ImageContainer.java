@@ -13,10 +13,10 @@ import java.io.IOException;
 public class ImageContainer extends JPanel {
     private BufferedImage backgroundImage;
 
-    public ImageContainer(String imagePath) {
+    public ImageContainer(String imagePath, Dimension dimension, Color bgColor) {
         // Set a default size
-        setPreferredSize(new Dimension(300, 200));
-        setBackground(CustomColor.CONTAINER_BROWN.getColor());
+        setPreferredSize(dimension);
+        setBackground(bgColor);
         try {
             // Load the background image
             backgroundImage = ImageIO.read(new File(imagePath));

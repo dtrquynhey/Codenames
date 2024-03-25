@@ -26,13 +26,13 @@ public class ProgressDialog extends JDialog {
         progressBar.setIndeterminate(true); // Show an indeterminate loading spinner
         progressBar.setPreferredSize(new Dimension(100, 5));
         progressBar.setBackground(CustomColor.ORANGE.getColor());
-        progressBar.setForeground(CustomColor.LIGHT_BROWN.getColor());
+        progressBar.setForeground(CustomColor.TEXT_BG_GREEN.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(10, 10, 0, 10);
         add(progressBar, gridBagConstraints);
 
-        Label label = new Label("Creating new room in progress...", Font.BOLD, 14, CustomColor.TITLE.getColor());
+        Label label = new Label("Creating new room in progress...", Font.BOLD, 14, CustomColor.TEXT_WHITE.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);

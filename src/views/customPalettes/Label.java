@@ -12,4 +12,12 @@ public class Label extends JLabel {
         setForeground(foreGroundColor);
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        // Center the text horizontally
+        FontMetrics metrics = g.getFontMetrics(getFont());
+        int x = (getWidth() - metrics.stringWidth(getText())) / 2;
+        int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+        g.drawString(getText(), x, y);
+    }
 }

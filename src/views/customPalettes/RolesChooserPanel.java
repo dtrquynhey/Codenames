@@ -19,33 +19,33 @@ public class RolesChooserPanel extends JPanel {
 
      public RolesChooserPanel(String[] playerNicknames) {
          setLayout(new BorderLayout());
-         setBackground(CustomColor.BROWN.getColor());
-         ContainerPanel containerPanel = new ContainerPanel(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(850, 515));
+         setBackground(CustomColor.FRAME_GREEN.getColor());
+         ContainerPanel containerPanel = new ContainerPanel(CustomColor.CONTAINER_GREEN.getColor(), new Dimension(850, 515));
 
          add(containerPanel, BorderLayout.CENTER);
 
          containerPanel.setLayout(new GridBagLayout());
          GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-         Label labelRed = new Label(Color.RED.toString(), Font.BOLD, 32, CustomColor.TITLE.getColor());
+         Label labelRed = new Label(Color.RED.toString(), Font.BOLD, 32, CustomColor.TEXT_WHITE.getColor());
          gridBagConstraints.gridx = 1;
          gridBagConstraints.gridy = 0;
          gridBagConstraints.insets = new Insets(0, 0, 10, 0);
          containerPanel.add(labelRed, gridBagConstraints);
 
-         Label labelBlue = new Label(Color.BLUE.toString(), Font.BOLD, 32, CustomColor.TITLE.getColor());
+         Label labelBlue = new Label(Color.BLUE.toString(), Font.BOLD, 32, CustomColor.TEXT_WHITE.getColor());
          gridBagConstraints.gridx = 2;
          gridBagConstraints.gridy = 0;
          gridBagConstraints.insets = new Insets(0, 0, 10, 0);
          containerPanel.add(labelBlue, gridBagConstraints);
 
-         Label labelOperatives = new Label(Role.SPYMASTER.toString(), Font.BOLD, 32, CustomColor.TITLE.getColor());
+         Label labelOperatives = new Label(Role.SPYMASTER.toString(), Font.BOLD, 32, CustomColor.TEXT_WHITE.getColor());
          gridBagConstraints.gridx = 0;
          gridBagConstraints.gridy = 1;
          gridBagConstraints.insets = new Insets(0, 0, 0, 10);
          containerPanel.add(labelOperatives, gridBagConstraints);
 
-         Label labelSpymasters = new Label(Role.OPERATIVE.toString(), Font.BOLD, 32, CustomColor.TITLE.getColor());
+         Label labelSpymasters = new Label(Role.OPERATIVE.toString(), Font.BOLD, 32, CustomColor.TEXT_WHITE.getColor());
          gridBagConstraints.gridx = 0;
          gridBagConstraints.gridy = 2;
          gridBagConstraints.insets = new Insets(0, 0, 0, 10);
