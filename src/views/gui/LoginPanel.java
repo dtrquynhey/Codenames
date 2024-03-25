@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class LoginPanel extends MainPanel {
 
+
     public LoginPanel(UserController userController) {
         super();
 
@@ -56,14 +57,19 @@ public class LoginPanel extends MainPanel {
 
 
         buttonLogIn.addActionListener(e -> {
-            // TODO: Last. buttonLogIn.addActionListener()
-            // You can follow the same code as SignupPanel.buttonSignUp.addActionListener()
-            // Call controllers.UserController.logUserIn()
-
-
-            // If successfully log in, show WelcomePanel
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
-            mainFrame.showWelcomePanel();
+            String username = loginInfoPanel.getUsername();
+            String password = String.valueOf(loginInfoPanel.getPassword());
+            switch (userController.logUserIn(username, password)) {
+                case EMPTY_FIELDS -> loginInfoPanel.showError("All the fields are required.");
+                case INVALID_CREDENTIALS -> loginInfoPanel.showError("Username or Password wrong.");
+                case SUCCESS -> {
+                    loginInfoPanel.resetPanel();
+                    new MessageDialog(this, "Welcome to the game!", "Success");
+                    // If successfully log in, show WelcomePanel
+                    MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
+                    mainFrame.showWelcomePanel();
+                }
+            }
         });
 
         buttonSignUp.addActionListener(e -> {
@@ -79,4 +85,13 @@ public class LoginPanel extends MainPanel {
 
         setVisible(true);
     }
+
+//    private void clearFields() {
+//        usernamePanel.setTextFieldUsername("");
+//        passwordPanel.setPassword("");
+//    }
+//    private void showError(IconLabelPanel labelError, String errorMessage) {
+//        labelError.setVisible(true);
+//        labelError.(errorMessage);
+//    }
 }

@@ -30,14 +30,16 @@ public class LoginInfoPanel extends ContainerPanel {
         errorPanel = new IconLabelPanel("");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
-        errorPanel.setVisible(false);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        gridBagConstraints.insets = new Insets(15, 0, 0, 0);
+        errorPanel.setVisible(true);
         add(errorPanel, gridBagConstraints);
     }
 
     public void resetPanel() {
         usernamePanel.setTextFieldUsername("");
         passwordPanel.resetPanel();
+        errorPanel.setVisible(false);
     }
 
     public String getUsername() {

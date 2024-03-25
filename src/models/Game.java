@@ -1,7 +1,12 @@
 package models;
 
+import java.sql.Timestamp;
 import java.util.List;
+
 import models.enums.Status;
+
+import java.util.List;
+
 
 public class Game {
     private String gameId;

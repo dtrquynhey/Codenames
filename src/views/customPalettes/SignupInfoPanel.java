@@ -43,6 +43,7 @@ public class SignupInfoPanel extends ContainerPanel{
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
+        errorPanel.setVisible(true);
         add(errorPanel, gridBagConstraints);
     }
 
