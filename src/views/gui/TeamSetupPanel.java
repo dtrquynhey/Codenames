@@ -45,6 +45,9 @@ public class TeamSetupPanel extends MainPanel {
                 showGamePlayPanel();
             }
         });
+        buttonRandomize.addActionListener(e->{
+            teamController.randomizeRolesAndTeams(playerList);
+        });
     }
 
     private void showGamePlayPanel() {

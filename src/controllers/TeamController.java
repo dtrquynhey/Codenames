@@ -51,6 +51,36 @@ public class TeamController implements ITeamContract {
         return uniqueRoles.size() == players.length;
     }
 
+    @Override
+    public void randomizeRolesAndTeams(List<Player> players) {
+        Collections.shuffle(players);
+        int halfSize = players.size() /2;
+        Map<Color, Map<Role, Player>> playerSelectedTeams = new HashMap<>();
+        playerSelectedTeams.put(Color.RED, new HashMap<>());
+        playerSelectedTeams.put(Color.BLUE, new HashMap<>());
+
+        // Assign one SPYMASTER and OPERATIVES to each team
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            Color teamColor = i < halfSize ? Color.RED : Color.BLUE;
+            Role playerRole;
+
+            // First player in each team becomes SPYMASTER, others are OPERATIVES
+            if (i == 0 || i == halfSize) {
+                playerRole = Role.SPYMASTER;
+            } else {
+                playerRole = Role.OPERATIVE;
+            }
+
+            // Assign player to their team and role
+            Map<Role, Player> teamRoles = playerSelectedTeams.get(teamColor);
+            teamRoles.put(playerRole, player);
+        }
+
+        // Setup teams with the randomized players and roles
+        setupTeams(playerSelectedTeams);
+    }
+
 
     // Function to get all players by team color
     private Map<Role, Player> getPlayersByColor(Map<Color, Map<Role, Player>> playerSelectedTeams, Color color) {
