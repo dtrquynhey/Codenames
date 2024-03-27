@@ -15,6 +15,8 @@ public class TeamController implements ITeamContract {
 
     private static TeamController instance;
     private final TeamRepository teamRepository;
+    private Map<Color, Map<Role, Player>> randomizedPlayerSelectedTeams;
+
 
     public TeamController(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
@@ -54,32 +56,22 @@ public class TeamController implements ITeamContract {
     @Override
     public void randomizeRolesAndTeams(List<Player> players) {
         Collections.shuffle(players);
-        int halfSize = players.size() /2;
-        Map<Color, Map<Role, Player>> playerSelectedTeams = new HashMap<>();
-        playerSelectedTeams.put(Color.RED, new HashMap<>());
-        playerSelectedTeams.put(Color.BLUE, new HashMap<>());
+        List<Role> roles = Arrays.asList(Role.SPYMASTER, Role.SPYMASTER, Role.OPERATIVE, Role.OPERATIVE);
+        Collections.shuffle(roles);
+        randomizedPlayerSelectedTeams = new HashMap<>();
 
-        // Assign one SPYMASTER and OPERATIVES to each team
+        randomizedPlayerSelectedTeams.put(Color.RED, new HashMap<>());
+        randomizedPlayerSelectedTeams.put(Color.BLUE, new HashMap<>());
+
         for (int i = 0; i < players.size(); i++) {
-            Player player = players.get(i);
-            Color teamColor = i < halfSize ? Color.RED : Color.BLUE;
-            Role playerRole;
-
-            // First player in each team becomes SPYMASTER, others are OPERATIVES
-            if (i == 0 || i == halfSize) {
-                playerRole = Role.SPYMASTER;
-            } else {
-                playerRole = Role.OPERATIVE;
-            }
-
-            // Assign player to their team and role
-            Map<Role, Player> teamRoles = playerSelectedTeams.get(teamColor);
-            teamRoles.put(playerRole, player);
+            Color teamColor = (i % 2 == 0) ? Color.RED : Color.BLUE;
+            randomizedPlayerSelectedTeams.get(teamColor).put(roles.get(i), players.get(i));
         }
-
-        // Setup teams with the randomized players and roles
-        setupTeams(playerSelectedTeams);
     }
+    public Map<Color, Map<Role, Player>> getRandomizedPlayerSelectedTeams() {
+        return randomizedPlayerSelectedTeams;
+    }
+
 
 
     // Function to get all players by team color
