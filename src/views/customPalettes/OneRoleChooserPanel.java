@@ -36,4 +36,9 @@ public class OneRoleChooserPanel extends JPanel {
     public Player getSelectedPlayer() {
         return new Player(Objects.requireNonNull(comboBox.getSelectedItem()).toString());
     }
+    public void setSelectedPlayer(Player player) {
+        comboBox.setSelectedItem(player.getNickname());
+    }
+
+
 }

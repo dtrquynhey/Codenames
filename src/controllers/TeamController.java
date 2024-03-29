@@ -15,6 +15,8 @@ public class TeamController implements ITeamContract {
 
     private static TeamController instance;
     private final TeamRepository teamRepository;
+    private Map<Color, Map<Role, Player>> randomizedPlayerSelectedTeams;
+
 
     public TeamController(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
@@ -50,6 +52,26 @@ public class TeamController implements ITeamContract {
         Set<String> uniqueRoles = new HashSet<>(Arrays.asList(players));
         return uniqueRoles.size() == players.length;
     }
+
+    @Override
+    public void randomizeRolesAndTeams(List<Player> players) {
+        Collections.shuffle(players);
+        List<Role> roles = Arrays.asList(Role.SPYMASTER, Role.SPYMASTER, Role.OPERATIVE, Role.OPERATIVE);
+        Collections.shuffle(roles);
+        randomizedPlayerSelectedTeams = new HashMap<>();
+
+        randomizedPlayerSelectedTeams.put(Color.RED, new HashMap<>());
+        randomizedPlayerSelectedTeams.put(Color.BLUE, new HashMap<>());
+
+        for (int i = 0; i < players.size(); i++) {
+            Color teamColor = (i % 2 == 0) ? Color.RED : Color.BLUE;
+            randomizedPlayerSelectedTeams.get(teamColor).put(roles.get(i), players.get(i));
+        }
+    }
+    public Map<Color, Map<Role, Player>> getRandomizedPlayerSelectedTeams() {
+        return randomizedPlayerSelectedTeams;
+    }
+
 
 
     // Function to get all players by team color

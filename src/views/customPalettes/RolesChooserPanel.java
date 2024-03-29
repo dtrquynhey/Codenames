@@ -107,5 +107,14 @@ public class RolesChooserPanel extends JPanel {
         return playerRoles;
     }
 
+    public void updateRoleChoosers(Map<Color, Map<Role, Player>> playerSelectedTeams) {
+        spymasterRedRoleChooser.setSelectedPlayer(playerSelectedTeams.get(Color.RED).get(Role.SPYMASTER));
+        operativeRedRoleChooser.setSelectedPlayer(playerSelectedTeams.get(Color.RED).get(Role.OPERATIVE));
+        spymasterBlueRoleChooser.setSelectedPlayer(playerSelectedTeams.get(Color.BLUE).get(Role.SPYMASTER));
+        operativeBlueRoleChooser.setSelectedPlayer(playerSelectedTeams.get(Color.BLUE).get(Role.OPERATIVE));
+    }
+
+
+
 
 }
