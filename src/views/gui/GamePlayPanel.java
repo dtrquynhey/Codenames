@@ -10,9 +10,8 @@ import models.enums.Role;
 import repositories.CardRepository;
 import repositories.DbConfig;
 import repositories.mappers.CardMapper;
-import views.customPalettes.*;
-import views.customPalettes.Label;
 import views.customPalettes.TextField;
+import views.customPalettes.*;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -26,6 +25,7 @@ public class GamePlayPanel extends MainPanel {
 
     private JPanel cardPanel;
     private CardLayout cardLayout;
+
     public GamePlayPanel(Map<Color, Map<Role, Player>> playerSelectedTeams) {
         super();
 
@@ -57,7 +57,7 @@ public class GamePlayPanel extends MainPanel {
         CardController cardController = CardController.getInstance(cardRepository);
 
 
-        java.util.List<String> randomWords = gameController.generateRandomWords();
+        List<String> randomWords = gameController.generateRandomWords();
         List<Card> cards = cardController.generateCards(randomWords);
 
 

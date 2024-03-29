@@ -84,13 +84,4 @@ public class LoginPanel extends MainPanel {
 
         setVisible(true);
     }
-
-//    private void clearFields() {
-//        usernamePanel.setTextFieldUsername("");
-//        passwordPanel.setPassword("");
-//    }
-//    private void showError(IconLabelPanel labelError, String errorMessage) {
-//        labelError.setVisible(true);
-//        labelError.(errorMessage);
-//    }
 }

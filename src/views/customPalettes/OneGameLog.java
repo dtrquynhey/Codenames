@@ -31,7 +31,15 @@ public class OneGameLog extends JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(-6, 0, 0, 0);
         add(containerPanel, gridBagConstraints);
+
+        containerPanel.setLayout(new BorderLayout());
+
+        Label gameLog = new Label("hello", Font.PLAIN, 13, CustomColor.TEXT.getColor());
+        containerPanel.add(gameLog, BorderLayout.WEST);
     }
+
+
+
 
 
 

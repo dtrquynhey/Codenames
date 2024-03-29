@@ -17,8 +17,6 @@ import java.util.List;
 
 public class RoomCreationPanel extends MainPanel {
 
-    private TeamSetupPanel teamSetupPanel;
-
     public RoomCreationPanel(PlayerController playerController) {
         super();
 
@@ -84,7 +82,7 @@ public class RoomCreationPanel extends MainPanel {
         }
         TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
         TeamController teamController = TeamController.getInstance(teamRepository);
-        teamSetupPanel = new TeamSetupPanel(teamController, playerList);
+        TeamSetupPanel teamSetupPanel = new TeamSetupPanel(teamController, playerList);
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
         mainFrame.showPanel(teamSetupPanel);
     }

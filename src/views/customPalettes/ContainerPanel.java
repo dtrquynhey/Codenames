@@ -12,6 +12,7 @@ public class ContainerPanel extends JPanel {
     public ContainerPanel(Color bgColor, Dimension dimension) {
         backgroundColor = bgColor;
         panelDimension = dimension;
+
         setOpaque(false);
     }
 

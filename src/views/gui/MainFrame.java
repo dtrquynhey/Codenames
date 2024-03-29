@@ -3,7 +3,6 @@ package views.gui;
 import controllers.PlayerController;
 import controllers.UserController;
 import repositories.DbConfig;
-import repositories.PlayerRepository;
 import repositories.UserRepository;
 import repositories.mappers.PlayerMapper;
 import repositories.mappers.UserMapper;
@@ -39,9 +38,7 @@ public class MainFrame extends JFrame {
             throw new RuntimeException(e);
         }
         UserMapper userMapper = new UserMapper();
-        PlayerMapper playerMapper = new PlayerMapper();
         UserRepository userRepository = new UserRepository(connection, userMapper);
-        PlayerRepository playerRepository = new PlayerRepository(connection, playerMapper);
         userController = UserController.getInstance(userRepository);
         playerController = PlayerController.getInstance();
         initializePanels();

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TeamSetupPanel extends MainPanel {
 
-    private RolesChooserPanel rolesChooserPanel;
+    private final RolesChooserPanel rolesChooserPanel;
 
     public TeamSetupPanel(TeamController teamController, List<Player> playerList) {
         super();
@@ -48,15 +48,6 @@ public class TeamSetupPanel extends MainPanel {
     }
 
     private void showGamePlayPanel() {
-
-//        Connection connection;
-//        try {
-//            connection = DbConfig.getConnection();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
-//        TeamController teamController = TeamController.getInstance(teamRepository);
         GamePlayPanel gamePlayPanel = new GamePlayPanel(rolesChooserPanel.getPlayerSelectedTeams());
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
         mainFrame.showPanel(gamePlayPanel);
