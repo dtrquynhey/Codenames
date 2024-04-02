@@ -75,7 +75,8 @@ public class Team {
     public String toString() {
         return "Team{" +
                 "teamId='" + teamId + '\'' +
-                ", listOfPlayers=" + listOfPlayers +
+                ", Spymaster=" + spymaster.getNickname() +
+                ", Operative=" + operative.getNickname() +
                 ", color=" + color +
                 ", score=" + score +
                 ", numOfGuess=" + numOfGuess +

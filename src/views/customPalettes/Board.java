@@ -1,6 +1,8 @@
 package views.customPalettes;
 
+import controllers.GameController;
 import models.Card;
+import models.Game;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -13,9 +15,10 @@ public class Board extends JPanel {
 
     private boolean isOperativeBoard;
 
+    public Board(List<Card> cards, Boolean isOperativeBoard, GameController gameController) {
 
-    public Board(List<Card> cards, Boolean isOperativeBoard) {
         this.isOperativeBoard = isOperativeBoard;
+
         setLayout(new GridBagLayout());
         setBackground(CustomColor.FRAME_RED.getColor());
 
@@ -36,6 +39,8 @@ public class Board extends JPanel {
                     public void mouseClicked(java.awt.event.MouseEvent e) {
                         super.mouseClicked(e);
                         flippableCard.flip();
+
+                        gameController.flipCard(card);
                     }
                 });
             } else {
