@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+
 public class GameController implements IGameContract {
 
     private static GameController _instance;
@@ -41,7 +42,7 @@ public class GameController implements IGameContract {
         flippedCards.add(card);
         System.out.println(card.getWord());
 
-        numOfGuesses =- 1;
+        numOfGuesses -= 1;
 
         System.out.println(flippedCards);
     }
@@ -104,8 +105,8 @@ public class GameController implements IGameContract {
 
 
 
-        System.out.println(STR."Current player=\{currentPlayer}");
-        System.out.println(STR."Current team=\{currentTeam}");
+        System.out.println(currentPlayer);
+        System.out.println(currentTeam);
     }
 
     public void addTeams(Map<Color, Map<Role, Player>> playerSelectedTeams){
@@ -151,5 +152,13 @@ public class GameController implements IGameContract {
             e.printStackTrace();
         }
         return wordList;
+    }
+
+    public int getNumOfGuesses() {
+        return numOfGuesses;
+    }
+
+    public Team getCurrentTeam() {
+        return currentTeam;
     }
 }

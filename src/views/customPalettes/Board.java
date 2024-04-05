@@ -38,9 +38,22 @@ public class Board extends JPanel {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent e) {
                         super.mouseClicked(e);
+                        System.out.println("Number of Guesses Left before change: " + gameController.getNumOfGuesses());
                         flippableCard.flip();
-
                         gameController.flipCard(card);
+                        // Debugging statements
+                        System.out.println("Card Color: " + card.getColor());
+                        System.out.println("Team Color: " + gameController.getCurrentTeam().getColor());
+                        System.out.println("Number of Guesses Left after change: " + gameController.getNumOfGuesses());
+
+                        if(!(gameController.canContinueGuessing(card))){
+                            System.out.println("no guess available");
+
+                        }else{
+                            System.out.println("more guess available");
+                        }
+                        //check if can continue and if not we change the turn
+                        //chexk game over
                     }
                 });
             } else {
