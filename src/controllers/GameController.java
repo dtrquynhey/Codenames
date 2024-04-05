@@ -55,12 +55,20 @@ public class GameController implements IGameContract {
         } else return card.getColor() == currentTeam.getColor() && numOfGuesses > 0 ;
     }
 
+    public void declareWinner(Team winningTeam){
+        System.out.println(winningTeam.getColor() + " team wins!");
+    }
+    public void declareLoser(Team losingTeam){
+        System.out.println(losingTeam.getColor() + " team loses!");
+    }
+
     public boolean IsGameOver(){
         int redTeamCount = 0;
         int blueTeamCount = 0;
         for (Card card : flippedCards) {
             if (card.getColor() == Color.ASSASSIN) {
-                //TODO:
+               Team losingTeam = currentTeam;
+               declareLoser(losingTeam);
                 return true;
 
             } else if (card.getColor() == redTeam.getColor()) {
@@ -72,12 +80,12 @@ public class GameController implements IGameContract {
         }
 
         if(redTeamCount == 9){
-            //set red win
+            declareWinner(redTeam);
             return true;
         }
 
         if(blueTeamCount == 8){
-            //set blue win
+            declareWinner(blueTeam);
             return true;
         }
 

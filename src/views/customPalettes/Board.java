@@ -52,8 +52,10 @@ public class Board extends JPanel {
                         }else{
                             System.out.println("more guess available");
                         }
-                        //check if can continue and if not we change the turn
-                        //chexk game over
+                        if(gameController.IsGameOver()){
+                            System.out.println("game over");
+                        }
+
                     }
                 });
             } else {
