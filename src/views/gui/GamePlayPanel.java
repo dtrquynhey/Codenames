@@ -1,32 +1,21 @@
 package views.gui;
 
 
-import controllers.CardController;
 import controllers.GameController;
-import models.Card;
 import models.Player;
 import models.enums.Color;
 import models.enums.Role;
-import repositories.CardRepository;
-import repositories.DbConfig;
-import repositories.mappers.CardMapper;
-import views.customPalettes.*;
-import views.customPalettes.Label;
 import views.customPalettes.TextField;
+import views.customPalettes.*;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 public class GamePlayPanel extends MainPanel {
 
     private GameController gameController;
-    private JPanel cardPanel;
-    private CardLayout cardLayout;
     public GamePlayPanel(Map<Color, Map<Role, Player>> playerSelectedTeams) {
         super();
 
@@ -50,13 +39,9 @@ public class GamePlayPanel extends MainPanel {
         gridBagConstraints.gridy = 0;
         centerGridBagPanel.add(redTeamGameLog, gridBagConstraints);
 
-        //gameController = new GameController();
 
-
-
-
-        cardPanel = new JPanel();
-        cardLayout = new CardLayout();
+        JPanel cardPanel = new JPanel();
+        CardLayout cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
         Board spymasterBoard = new Board(gameController.allCards, false,gameController);

@@ -38,10 +38,7 @@ public class GameController implements IGameContract {
 
     public GameController(){
 
-
-
         flippedCards = new ArrayList<Card>();
-
         Connection connection;
         try {
             connection = DbConfig.getConnection();
