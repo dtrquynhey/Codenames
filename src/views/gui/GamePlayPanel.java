@@ -94,8 +94,8 @@ public class GamePlayPanel extends MainPanel {
         TextField textFieldHint = new TextField("Type your hint", new Dimension(300, 42));
         bottomFlowPanel.add(textFieldHint);
 
-        TextField textFieldNumOfWords = new TextField("", new Dimension(50, 42));
-        bottomFlowPanel.add(textFieldNumOfWords);
+        TextField textFieldNumOfGuess = new TextField("", new Dimension(60, 42));
+        bottomFlowPanel.add(textFieldNumOfGuess);
 
         RoundedButton buttonGiveClue = new RoundedButton("Give Clue", 130, 42, CustomColor.GREEN.getColor());
         bottomFlowPanel.add(buttonGiveClue);
@@ -107,21 +107,21 @@ public class GamePlayPanel extends MainPanel {
         buttonGiveClue.addActionListener(e -> {
             cardLayout.show(cardPanel, "OPERATIVE_BOARD");
             textFieldHint.setEnabled(false);
-            textFieldNumOfWords.setEnabled(false);
+            textFieldNumOfGuess.setEnabled(false);
             buttonEndGuess.setVisible(true);
             buttonGiveClue.setVisible(false);
 
             gameController.currentClue = textFieldHint.getText();
-            gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText())+1;
+            gameController.numOfGuesses = Integer.parseInt(textFieldNumOfGuess.getText())+1;
             gameController.changeTurn();
         });
 
         buttonEndGuess.addActionListener(e -> {
             cardLayout.show(cardPanel, "SPYMASTER_BOARD");
             textFieldHint.setEnabled(true);
-            textFieldNumOfWords.setEnabled(true);
+            textFieldNumOfGuess.setEnabled(true);
             textFieldHint.setText("");
-            textFieldNumOfWords.setText("");
+            textFieldNumOfGuess.setText("");
             buttonEndGuess.setVisible(false);
             buttonGiveClue.setVisible(true);
 

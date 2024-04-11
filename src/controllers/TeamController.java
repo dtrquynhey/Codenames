@@ -68,6 +68,7 @@ public class TeamController implements ITeamContract {
             randomizedPlayerSelectedTeams.get(teamColor).put(roles.get(i), players.get(i));
         }
     }
+
     public Map<Color, Map<Role, Player>> getRandomizedPlayerSelectedTeams() {
         return randomizedPlayerSelectedTeams;
     }

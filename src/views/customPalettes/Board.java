@@ -48,6 +48,7 @@ public class Board extends JPanel {
 
                         if(!(gameController.canContinueGuessing(card))){
                             System.out.println("no guess available");
+                            // TODO: changeTurn()
 
                         }else{
                             System.out.println("more guess available");

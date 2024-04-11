@@ -45,7 +45,7 @@ public class TeamSetupPanel extends MainPanel {
                 showGamePlayPanel();
             }
         });
-        buttonRandomize.addActionListener(e->{
+        buttonRandomize.addActionListener(e-> {
             teamController.randomizeRolesAndTeams(playerList); // Randomize the roles
             rolesChooserPanel.updateRoleChoosers(teamController.getRandomizedPlayerSelectedTeams()); // Update the UI
 

@@ -12,6 +12,7 @@ import java.util.List;
 
 public class CardController implements ICardContract {
 
+
     private static CardController instance;
     private final CardRepository cardRepository;
 

@@ -26,16 +26,16 @@ public class OneGameLog extends JPanel {
         gridBagConstraints.insets = new Insets(-6, 0, 0, 0);
         add(roleLabel, gridBagConstraints);
 
-        ContainerPanel containerPanel = new ContainerPanel(containerColor, new Dimension(208, 235));
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new Insets(-6, 0, 0, 0);
-        add(containerPanel, gridBagConstraints);
-
-        containerPanel.setLayout(new BorderLayout());
-
-        Label gameLog = new Label("hello", Font.PLAIN, 13, CustomColor.TEXT.getColor());
-        containerPanel.add(gameLog, BorderLayout.WEST);
+//        ContainerPanel containerPanel = new ContainerPanel(containerColor, new Dimension(208, 235));
+//        gridBagConstraints.gridx = 0;
+//        gridBagConstraints.gridy = 2;
+//        gridBagConstraints.insets = new Insets(-6, 0, 0, 0);
+//        add(containerPanel, gridBagConstraints);
+//
+//        containerPanel.setLayout(new BorderLayout());
+//
+//        Label gameLog = new Label("hello", Font.PLAIN, 13, CustomColor.TEXT.getColor());
+//        containerPanel.add(gameLog, BorderLayout.WEST);
     }
 
 
