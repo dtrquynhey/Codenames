@@ -38,6 +38,17 @@ public class Board extends JPanel {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent e) {
                         super.mouseClicked(e);
+                        if(card.getIsRevealed() ){
+                            return;
+                        }
+
+                        if(gameController.numOfGuesses == 0){
+                            new MessageDialog(Board.this, "No more guess", "Error");
+                            return;
+                        }
+
+
+                        card.setIsRevealed(true);
                         System.out.println("Number of Guesses Left before change: " + gameController.getNumOfGuesses());
                         flippableCard.flip();
                         gameController.flipCard(card);
@@ -49,11 +60,19 @@ public class Board extends JPanel {
                         if(!(gameController.canContinueGuessing(card))){
                             System.out.println("no guess available");
 
+
+
                         }else{
                             System.out.println("more guess available");
                         }
                         if(gameController.IsGameOver()){
                             System.out.println("game over");
+                        }
+
+                        //flippableCard.setEnabled(false);
+
+                        for(Component component : flippableCard.getComponents()) {
+                            component.setEnabled(false);
                         }
 
                     }

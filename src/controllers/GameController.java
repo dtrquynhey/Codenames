@@ -6,12 +6,17 @@ import models.Player;
 import models.Team;
 import models.enums.Color;
 import models.enums.Role;
+import repositories.CardRepository;
+import repositories.DbConfig;
 import repositories.TeamRepository;
+import repositories.mappers.CardMapper;
 
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 
@@ -23,6 +28,7 @@ public class GameController implements IGameContract {
     public int numOfGuesses;
 
     private ArrayList<Card> flippedCards;
+    public ArrayList<Card> allCards;
     private Team currentTeam;
     private Team redTeam;
     private Team blueTeam;
@@ -32,7 +38,23 @@ public class GameController implements IGameContract {
 
     public GameController(){
 
+
+
         flippedCards = new ArrayList<Card>();
+
+        Connection connection;
+        try {
+            connection = DbConfig.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        CardRepository cardRepository = new CardRepository(connection, new CardMapper());
+        CardController cardController = CardController.getInstance(cardRepository);
+
+
+        java.util.List<String> randomWords = generateRandomWords();
+        allCards = (ArrayList<Card>) cardController.generateCards(randomWords);
         //listOfTeams = new ArrayList<Team>();
         //currentPlayer = listOfTeams.getFirst().getSpymaster();
     }
@@ -49,8 +71,11 @@ public class GameController implements IGameContract {
 
     public boolean canContinueGuessing(Card card){
         if (card.getColor() == Color.ASSASSIN) {
+            numOfGuesses = 0;
+
             return false;
         } else if (card.getColor() == Color.NEUTRAL) {
+            numOfGuesses = 0;
             return false;
         } else return card.getColor() == currentTeam.getColor() && numOfGuesses > 0 ;
     }

@@ -33,10 +33,11 @@ public class TeamController implements ITeamContract {
     @Override
     public void setupTeams(Map<Color, Map<Role, Player>> playerSelectedTeams) {
         Team redTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.SPYMASTER),
-                getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
+                getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.OPERATIVE),
                 Color.RED, false);
+
         Team blueTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
-                getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
+                getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.OPERATIVE),
                 Color.BLUE, false);
         try {
             teamRepository.createTeam(redTeam);

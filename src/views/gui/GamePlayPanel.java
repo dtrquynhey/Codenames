@@ -51,29 +51,18 @@ public class GamePlayPanel extends MainPanel {
         centerGridBagPanel.add(redTeamGameLog, gridBagConstraints);
 
         //gameController = new GameController();
-        Connection connection;
-        try {
-            connection = DbConfig.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        CardRepository cardRepository = new CardRepository(connection, new CardMapper());
-        CardController cardController = CardController.getInstance(cardRepository);
 
 
-        java.util.List<String> randomWords = gameController.generateRandomWords();
-        List<Card> cards = cardController.generateCards(randomWords);
 
 
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        Board spymasterBoard = new Board(cards, false,gameController);
+        Board spymasterBoard = new Board(gameController.allCards, false,gameController);
         cardPanel.add(spymasterBoard, "SPYMASTER_BOARD");
 
-        Board operativeBoard = new Board(cards, true,gameController);
+        Board operativeBoard = new Board(gameController.allCards, true,gameController);
         operativeBoard.setCardColor(CustomColor.CARD_NEUTRAL.getColor());
         cardPanel.add(operativeBoard, "OPERATIVE_BOARD");
 
@@ -111,8 +100,22 @@ public class GamePlayPanel extends MainPanel {
             buttonEndGuess.setVisible(true);
             buttonGiveClue.setVisible(false);
 
-            gameController.currentClue = textFieldHint.getText();
-            gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText())+1;
+            if(textFieldHint.getText().isEmpty()){
+                gameController.currentClue = "";
+            }else{
+                gameController.currentClue = textFieldHint.getText();
+
+            }
+
+            if(textFieldNumOfWords.getText().isEmpty()){
+                gameController.numOfGuesses = 1;
+            }else{
+                gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText())+1;
+
+            }
+
+
+
             gameController.changeTurn();
         });
 
