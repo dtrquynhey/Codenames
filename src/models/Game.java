@@ -1,27 +1,24 @@
 package models;
 
-import java.sql.Timestamp;
 import java.util.List;
 
-import models.enums.Status;
-
-import java.util.List;
+import models.enums.Result;
 
 
 public class Game {
     private String gameId;
     private List<Card> listOfCards;
     private List<Team> listOfTeams;
-    private Status status;
+    private Result result;
 
     public Game() {
     }
 
-    public Game(String gameId, List<Card> listOfCards, List<Team> listOfTeams, Status status) {
+    public Game(String gameId, List<Card> listOfCards, List<Team> listOfTeams, Result result) {
         this.gameId = gameId;
         this.listOfCards = listOfCards;
         this.listOfTeams = listOfTeams;
-        this.status = status;
+        this.result = result;
     }
 
     public String getGameId() {
@@ -48,12 +45,12 @@ public class Game {
         this.listOfTeams = listOfTeams;
     }
 
-    public Status getStatus() {
-        return status;
+    public Result getStatus() {
+        return result;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(Result result) {
+        this.result = result;
     }
 
     @Override
@@ -62,7 +59,7 @@ public class Game {
                 "gameId='" + gameId + '\'' +
                 ", listOfCards=" + listOfCards +
                 ", listOfTeams=" + listOfTeams +
-                ", status=" + status +
+                ", status=" + result +
                 '}';
     }
 }

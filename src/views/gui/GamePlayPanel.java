@@ -23,11 +23,16 @@ import java.util.Map;
 
 public class GamePlayPanel extends MainPanel {
 
+    private GameController gameController;
     private JPanel cardPanel;
     private CardLayout cardLayout;
 
     public GamePlayPanel(Map<Color, Map<Role, Player>> playerSelectedTeams) {
         super();
+
+        gameController = new GameController();
+
+        gameController.addTeams(playerSelectedTeams);
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
         topFlowPanel.add(buttonReadRules);
@@ -45,7 +50,7 @@ public class GamePlayPanel extends MainPanel {
         gridBagConstraints.gridy = 0;
         centerGridBagPanel.add(redTeamGameLog, gridBagConstraints);
 
-        GameController gameController = new GameController();
+        //gameController = new GameController();
         Connection connection;
         try {
             connection = DbConfig.getConnection();
@@ -65,10 +70,10 @@ public class GamePlayPanel extends MainPanel {
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        Board spymasterBoard = new Board(cards, false);
+        Board spymasterBoard = new Board(cards, false,gameController);
         cardPanel.add(spymasterBoard, "SPYMASTER_BOARD");
 
-        Board operativeBoard = new Board(cards, true);
+        Board operativeBoard = new Board(cards, true,gameController);
         operativeBoard.setCardColor(CustomColor.CARD_NEUTRAL.getColor());
         cardPanel.add(operativeBoard, "OPERATIVE_BOARD");
 
@@ -105,14 +110,24 @@ public class GamePlayPanel extends MainPanel {
             textFieldNumOfWords.setEnabled(false);
             buttonEndGuess.setVisible(true);
             buttonGiveClue.setVisible(false);
+
+            gameController.currentClue = textFieldHint.getText();
+            gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText())+1;
+            gameController.changeTurn();
         });
 
         buttonEndGuess.addActionListener(e -> {
             cardLayout.show(cardPanel, "SPYMASTER_BOARD");
             textFieldHint.setEnabled(true);
             textFieldNumOfWords.setEnabled(true);
+            textFieldHint.setText("");
+            textFieldNumOfWords.setText("");
             buttonEndGuess.setVisible(false);
             buttonGiveClue.setVisible(true);
+
+            gameController.currentClue = textFieldHint.getText();
+            gameController.numOfGuesses = 0;
+            gameController.changeTurn();
         });
 
 

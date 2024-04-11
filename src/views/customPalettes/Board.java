@@ -1,6 +1,8 @@
 package views.customPalettes;
 
+import controllers.GameController;
 import models.Card;
+import models.Game;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -13,9 +15,10 @@ public class Board extends JPanel {
 
     private boolean isOperativeBoard;
 
+    public Board(List<Card> cards, Boolean isOperativeBoard, GameController gameController) {
 
-    public Board(List<Card> cards, Boolean isOperativeBoard) {
         this.isOperativeBoard = isOperativeBoard;
+
         setLayout(new GridBagLayout());
         setBackground(CustomColor.FRAME_RED.getColor());
 
@@ -35,7 +38,24 @@ public class Board extends JPanel {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent e) {
                         super.mouseClicked(e);
+                        System.out.println("Number of Guesses Left before change: " + gameController.getNumOfGuesses());
                         flippableCard.flip();
+                        gameController.flipCard(card);
+                        // Debugging statements
+                        System.out.println("Card Color: " + card.getColor());
+                        System.out.println("Team Color: " + gameController.getCurrentTeam().getColor());
+                        System.out.println("Number of Guesses Left after change: " + gameController.getNumOfGuesses());
+
+                        if(!(gameController.canContinueGuessing(card))){
+                            System.out.println("no guess available");
+
+                        }else{
+                            System.out.println("more guess available");
+                        }
+                        if(gameController.IsGameOver()){
+                            System.out.println("game over");
+                        }
+
                     }
                 });
             } else {
