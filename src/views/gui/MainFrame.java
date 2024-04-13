@@ -1,19 +1,19 @@
 package views.gui;
 
 import controllers.PlayerController;
-import controllers.UserController;
+import controllers.AccountController;
 import repositories.DbConfig;
 import repositories.PlayerRepository;
-import repositories.UserRepository;
+import repositories.AccountRepository;
 import repositories.mappers.PlayerMapper;
-import repositories.mappers.UserMapper;
+import repositories.mappers.AccountMapper;
 
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MainFrame extends JFrame {
-    private final UserController userController;
+    private final AccountController accountController;
     private final PlayerController playerController;
 
     private JPanel currentPanel;
@@ -38,11 +38,11 @@ public class MainFrame extends JFrame {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        UserMapper userMapper = new UserMapper();
+        AccountMapper accountMapper = new AccountMapper();
         PlayerMapper playerMapper = new PlayerMapper();
-        UserRepository userRepository = new UserRepository(connection, userMapper);
+        AccountRepository accountRepository = new AccountRepository(connection, accountMapper);
         PlayerRepository playerRepository = new PlayerRepository(connection, playerMapper);
-        userController = UserController.getInstance(userRepository);
+        accountController = AccountController.getInstance(accountRepository);
         playerController = PlayerController.getInstance();
         initializePanels();
         showLoginPanel();
@@ -52,8 +52,8 @@ public class MainFrame extends JFrame {
 
 
     private void initializePanels() {
-        loginPanel = new LoginPanel(userController);
-        signupPanel = new SignupPanel(userController);
+        loginPanel = new LoginPanel(accountController);
+        signupPanel = new SignupPanel(accountController);
         roomCreationPanel = new RoomCreationPanel(playerController);
         rulesPanel = new RulesPanel();
     }

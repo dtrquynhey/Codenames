@@ -1,15 +1,15 @@
 package models;
 
-public class User {
+public class Account {
 
     private String username;
     private String password;
 
 
-    public User() {
+    public Account() {
     }
 
-    public User(String username, String password) {
+    public Account(String username, String password) {
 
         this.username = username;
         this.password = password;

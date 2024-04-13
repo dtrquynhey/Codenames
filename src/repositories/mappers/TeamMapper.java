@@ -17,16 +17,16 @@ public class TeamMapper {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public Team mapFromResultSet(ResultSet resultSet) throws SQLException, JsonProcessingException {
-        String playersJson = resultSet.getString("players");
-        List<Player> listOfPlayers = mapPlayers(playersJson);
-        Color color = Color.valueOf(resultSet.getString("color"));
-        int score = resultSet.getInt("score");
-        int numOfGuess = resultSet.getInt("numOfGuess");
-        return new Team(listOfPlayers, color, score, numOfGuess);
-    }
+//    public Team mapFromResultSet(ResultSet resultSet) throws SQLException, JsonProcessingException {
+//        String playersJson = resultSet.getString("players");
+//        List<Player> listOfPlayers = mapPlayers(playersJson);
+//        Color color = Color.valueOf(resultSet.getString("color"));
+//        int score = resultSet.getInt("score");
+//        int numOfGuess = resultSet.getInt("numOfGuess");
+//        return new Team(listOfPlayers, color, score, numOfGuess);
+//    }
 
-    public void mapToPreparedStatement(Team team, PreparedStatement statement) throws SQLException, JsonProcessingException {
+    public void mapToPreparedStatement(Team team, PreparedStatement statement) throws SQLException {
         statement.setString(1, team.getSpymaster());
         statement.setString(2, team.getOperative());
         statement.setString(3, team.getColor().toString());

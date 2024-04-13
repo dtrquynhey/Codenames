@@ -1,6 +1,7 @@
 package views.gui;
 
-import controllers.UserController;
+import controllers.AccountController;
+import models.Account;
 import views.customPalettes.*;
 import views.customPalettes.Label;
 import views.customPalettes.enums.CustomColor;
@@ -10,7 +11,7 @@ import java.awt.*;
 
 public class SignupPanel extends MainPanel {
 
-    public SignupPanel(UserController userController) {
+    public SignupPanel(AccountController accountController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -52,17 +53,19 @@ public class SignupPanel extends MainPanel {
 
         bottomFlowPanel.add(logInPanel);
 
+
+
         buttonSignUp.addActionListener(e -> {
             String username = signupInfoPanel.getUsername();
             String password = signupInfoPanel.getPassword();
             String confirmPassword = signupInfoPanel.getConfirmPassword();
 
-            switch (userController.isValidSignupCredentials(username, password, confirmPassword)) {
+            switch (accountController.isValidSignupCredentials(username, password, confirmPassword)) {
                 case EMPTY_FIELDS -> signupInfoPanel.showError("All the fields are required.");
                 case PASSWORD_MISMATCH -> signupInfoPanel.showError("Passwords do not match.");
                 case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");
                 case SUCCESS -> {
-                    userController.signUserUp(username, password, confirmPassword);
+                    accountController.signPlayerUp(username, password);
                     signupInfoPanel.resetPanel();
                     new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success");
                 }

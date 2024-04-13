@@ -1,6 +1,6 @@
 package views.gui;
 
-import controllers.UserController;
+import controllers.AccountController;
 import views.customPalettes.*;
 import views.customPalettes.Label;
 import views.customPalettes.enums.CustomColor;
@@ -11,7 +11,7 @@ import java.awt.*;
 public class LoginPanel extends MainPanel {
 
 
-    public LoginPanel(UserController userController) {
+    public LoginPanel(AccountController accountController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -59,12 +59,14 @@ public class LoginPanel extends MainPanel {
         buttonLogIn.addActionListener(e -> {
             String username = loginInfoPanel.getUsername();
             String password = String.valueOf(loginInfoPanel.getPassword());
-            switch (userController.logUserIn(username, password)) {
+
+            switch (accountController.isValidLoginCredentials(username, password)) {
                 case EMPTY_FIELDS -> loginInfoPanel.showError("All the fields are required.");
                 case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
                 case SUCCESS -> {
+                    accountController.logPlayerIn(username);
                     loginInfoPanel.resetPanel();
-                    new MessageDialog(this, "Welcome to Codenames!", "Log In Success");
+                    new MessageDialog(this, "Hello " + username + "Welcome to Codenames!", "Log In Success");
                     MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
                     mainFrame.showRoomCreationPanel();
                 }
@@ -84,13 +86,4 @@ public class LoginPanel extends MainPanel {
 
         setVisible(true);
     }
-
-//    private void clearFields() {
-//        usernamePanel.setTextFieldUsername("");
-//        passwordPanel.setPassword("");
-//    }
-//    private void showError(IconLabelPanel labelError, String errorMessage) {
-//        labelError.setVisible(true);
-//        labelError.(errorMessage);
-//    }
 }
