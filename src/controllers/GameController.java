@@ -39,12 +39,7 @@ public class GameController implements IGameContract {
     public GameController(){
 
         flippedCards = new ArrayList<Card>();
-        Connection connection;
-        try {
-            connection = DbConfig.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Connection connection = DbConfig.getConnection();
 
         CardRepository cardRepository = new CardRepository(connection, new CardMapper());
         CardController cardController = CardController.getInstance(cardRepository);

@@ -21,16 +21,18 @@ public class AccountRepository {
     }
 
     // INSERT INTO accounts (SignUp)
-    public void insertAccount(Account account) throws SQLException {
+    public void insertAccount(Account account) {
         String insertQuery = "INSERT INTO accounts (username, password) VALUES (?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
             accountMapper.mapToPreparedStatement(account, statement);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     // SELECT * FROM accounts WHERE username = ?
-    public boolean findAccount(String username) throws SQLException {
+    public boolean findAccount(String username) {
         String query = "SELECT COUNT(*) FROM accounts WHERE username = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
@@ -40,12 +42,14 @@ public class AccountRepository {
                     return count > 0;
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return false;
     }
 
     // SELECT * FROM accounts WHERE username = ? AND password = ?
-    public boolean findAccount(String username, String password) throws SQLException {
+    public boolean findAccount(String username, String password) {
 
         // Connect to the database and look through the table for the user with the given username and password
         String query = "SELECT COUNT(*) FROM accounts WHERE username = ? AND password = ?";
@@ -58,6 +62,8 @@ public class AccountRepository {
                     return count > 0;
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return false;
     }

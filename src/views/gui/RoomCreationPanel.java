@@ -1,25 +1,17 @@
 package views.gui;
 
+import controllers.AccountController;
 import controllers.PlayerController;
-import controllers.TeamController;
-import models.Player;
-import repositories.DbConfig;
-import repositories.TeamRepository;
-import repositories.mappers.TeamMapper;
 import views.customPalettes.*;
+import views.customPalettes.Label;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 
-public class RoomCreationPanel extends MainPanel {
+public class RoomCreationPanel extends Panel {
 
-    private TeamSetupPanel teamSetupPanel;
-
-    public RoomCreationPanel(PlayerController playerController) {
+    public RoomCreationPanel(AccountController accountController, PlayerController playerController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -30,18 +22,50 @@ public class RoomCreationPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT.getColor());
+        ShadowLabel labelTitle = new ShadowLabel("CREATE ROOM", 35, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(labelTitle,gridBagConstraints);
 
 
-        PlayersNamePanel playersNamePanel = new PlayersNamePanel();
+        PlayersNamePanel playersNamePanel = new PlayersNamePanel(accountController.getAccounts().getFirst().getUsername());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         centerGridBagPanel.add(playersNamePanel, gridBagConstraints);
+
+        Label[] labelLogins = playersNamePanel.getLabelLogins();
+        for (int i = 0; i < labelLogins.length; i++) {
+
+            int currentI= i+1;
+            IconTextFieldPanel currentTextField = playersNamePanel.getPlayerTextFields()[i+1];
+            Label currentLoginLabel = labelLogins[i];
+
+            labelLogins[i].setClickable(true);
+            labelLogins[i].addActionListener(label -> {
+                if (currentLoginLabel.getText().equals("Log In")) {
+                    PopupFrame loginFrame = new PopupFrame();
+                    LoginPanel loginPanel = new LoginPanel(accountController);
+                    loginFrame.setContentPane(loginPanel);
+
+                    accountController.accountIndex = currentI;
+                    loginPanel.onLoginSuccess(() -> {
+                        loginFrame.dispose();
+                        currentTextField.setTextFieldUsername(String.valueOf(accountController.getAccounts().get(currentI).getUsername()));
+                        currentTextField.getTextField().setEnabled(false);
+                        currentLoginLabel.setText("Log Out");
+                    });
+                } else {
+                    accountController.removeAccount(playersNamePanel.getPlayerTextFields()[currentI].getTextFieldUsername());
+                    currentTextField.setTextFieldUsername("");
+                    currentTextField.getTextField().setEnabled(true);
+                    currentLoginLabel.setText("Log In");
+                }
+            });
+
+        }
+
 
         RoundedButton buttonCreateRoom = new RoundedButton("Create Room", 160, 42, CustomColor.PINK.getColor());
         gridBagConstraints.gridx = 0;
@@ -50,14 +74,23 @@ public class RoomCreationPanel extends MainPanel {
         centerGridBagPanel.add(buttonCreateRoom, gridBagConstraints);
 
         buttonCreateRoom.addActionListener(e -> {
+            playerController.addLoggedPlayer(accountController.getMainAccount());
+            for (int i = 0; i < 3; i++) {
+                for (int i1 = 1; i < accountController.getAccountsLength(); i1++) {
+
+                }
+            }
             String[] playerNicknames = playersNamePanel.getPlayerNicknames();
-            switch (playerController.isValidNicknames(playerNicknames)) {
-                case MISSING_NAMES -> playersNamePanel.showError("All player nicknames are required.");
-                case DUPLICATE_NAMES -> playersNamePanel.showError("Nicknames must be unique.");
+            switch (playerController.isValidPlayerNames(playerNicknames)) {
+                case MISSING_NAMES -> playersNamePanel.showError("All player names are required.");
+                case DUPLICATE_NAMES -> playersNamePanel.showError("Names must be unique.");
                 case SUCCESS -> {
-                    List<Player> playerList = playerController.createRoom(playerNicknames);
+                    playerController.createRoom(accountController.getAccounts());
                     new MessageDialog(this, "Room is created.", "Room Creation Success");
-                    showTeamSetupPanel(playerList);
+
+                    TeamSetupPanel teamSetupPanel = playerController.initializeTeamSetUpPanel();
+                    MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
+                    mainFrame.showPanel(teamSetupPanel);
                 }
             }
         });
@@ -68,24 +101,13 @@ public class RoomCreationPanel extends MainPanel {
         });
 
         buttonLogOut.addActionListener(e -> {
+            accountController.logOut();
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
-            mainFrame.showLoginPanel();
+            mainFrame.showMainPanel();
         });
 
     }
 
-    public void showTeamSetupPanel(List<Player> playerList) {
 
-        Connection connection;
-        try {
-            connection = DbConfig.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
-        TeamController teamController = TeamController.getInstance(teamRepository);
-        teamSetupPanel = new TeamSetupPanel(teamController, playerList);
-        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
-        mainFrame.showPanel(teamSetupPanel);
-    }
+
 }

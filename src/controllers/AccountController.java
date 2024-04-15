@@ -2,17 +2,53 @@ package controllers;
 
 import contracts.IAccountContract;
 import controllers.enums.AuthenticationResult;
+import controllers.enums.RoomCreationResult;
 import models.Account;
-import models.Player;
 import repositories.AccountRepository;
+import views.gui.RoomCreationPanel;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountController implements IAccountContract {
 
     private static AccountController instance;
     private final AccountRepository accountRepository;
-    private Player loggedInPlayers;
+    private Account mainAccount;
+    public int accountIndex;
+
+
+    private List<Account> accounts = new ArrayList<>();
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+    public int getAccountsLength() {
+        return accounts.toArray().length;
+    }
+    public Account getMainAccount() {
+        return mainAccount;
+    }
+
+
+    public RoomCreationResult addAccount(String username, String password) {
+        Account account = new Account(username, password);
+        for (Account a: accounts) {
+            if (a.getUsername().equals(account.getUsername())) {
+                return RoomCreationResult.DUPLICATE_NAMES;
+            }
+        }
+        accounts.add(accountIndex, account);
+        return RoomCreationResult.SUCCESS;
+    }
+
+    public void removeAccount(String username) {
+        Account account = new Account(username);
+        for (Account a: accounts) {
+            if (a.getUsername().equals(account.getUsername())) {
+                a.setUsername("");
+            }
+        }
+    }
 
     public AccountController(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -32,7 +68,7 @@ public class AccountController implements IAccountContract {
         if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
             return AuthenticationResult.EMPTY_FIELDS;
 
-        } else if (isUniqueUsername(username)) {
+        } else if (accountRepository.findAccount(username)) {
             return AuthenticationResult.EXISTING_USER;
 
         } else if (!password.equals(confirmedPassword)) {
@@ -42,14 +78,9 @@ public class AccountController implements IAccountContract {
     }
 
     @Override
-    public void signPlayerUp(String username, String password) {
-        try {
-            Account newAccount = new Account(username, password);
-            accountRepository.insertAccount(newAccount);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-            // TODO: catch SQLException
-        }
+    public void signUp(String username, String password) {
+        Account newAccount = new Account(username, password);
+        accountRepository.insertAccount(newAccount);
     }
 
 
@@ -58,29 +89,34 @@ public class AccountController implements IAccountContract {
         if (username.isEmpty() || password.isEmpty()){
             return AuthenticationResult.EMPTY_FIELDS;
         }
-        try {
-            if (!accountRepository.findAccount(username, password)) {
-                return AuthenticationResult.INVALID_CREDENTIALS;
-            }
-            else return AuthenticationResult.SUCCESS;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (!accountRepository.findAccount(username, password)) {
+            return AuthenticationResult.INVALID_CREDENTIALS;
         }
+        else return AuthenticationResult.SUCCESS;
+        }
+
+    @Override
+    public void logIn(String username) {
+        mainAccount = new Account(username);
     }
 
     @Override
-    public void logPlayerIn(String username) {
-        loggedInPlayers = new Player(username);
+    public void logOut() {
+        accounts = null;
     }
 
 
-    @Override
-    public boolean isUniqueUsername(String username) {
-        try {
-            return accountRepository.findAccount(username);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-            // TODO: catch SQLException
+//    public RoomCreationPanel initializeRoomCreationPanel() {
+//        return new RoomCreationPanel(getInstance(accountRepository));
+//    }
+
+    public void setFirstAccount(String username) {
+
+        if (accounts.isEmpty()) {
+            accounts.add(new Account(username));
+        } else {
+            accounts.getFirst().setUsername(username);
         }
     }
+
 }

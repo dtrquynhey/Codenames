@@ -1,5 +1,6 @@
 package views.gui;
 
+import controllers.PlayerController;
 import controllers.TeamController;
 import models.Player;
 import views.customPalettes.*;
@@ -9,11 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class TeamSetupPanel extends MainPanel {
+public class TeamSetupPanel extends Panel {
 
     private RolesChooserPanel rolesChooserPanel;
 
-    public TeamSetupPanel(TeamController teamController, List<Player> playerList) {
+    public TeamSetupPanel(TeamController teamController, PlayerController playerController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -24,7 +25,7 @@ public class TeamSetupPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        rolesChooserPanel = new RolesChooserPanel(playerList);
+        rolesChooserPanel = new RolesChooserPanel(playerController.getPlayerList());
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -46,7 +47,7 @@ public class TeamSetupPanel extends MainPanel {
             }
         });
         buttonRandomize.addActionListener(e->{
-            teamController.randomizeRolesAndTeams(playerList); // Randomize the roles
+            teamController.randomizeRolesAndTeams(playerController.getPlayerList()); // Randomize the roles
             rolesChooserPanel.updateRoleChoosers(teamController.getRandomizedPlayerSelectedTeams()); // Update the UI
 
         });

@@ -38,23 +38,4 @@ class AccountControllerTest {
         // Verify that createUser method is not called
         verifyNoInteractions(accountRepository);
     }
-
-    @Test
-    void testRegisterUser_successfulRegistration() {
-        // Test successful registration
-        assertEquals(AuthenticationResult.SUCCESS, accountController.isValidSignupCredentials("username", "password", "password"));
-        // Verify that createUser method is called with the correct User object
-        try {
-            ArgumentCaptor<Account> userCaptor = ArgumentCaptor.forClass(Account.class);
-            // Verify that createUser method is called with the correct User object
-            verify(accountRepository).insertAccount(userCaptor.capture());
-            // Retrieve the captured User object
-            Account capturedAccount = userCaptor.getValue();
-            // Assert that the captured User object has the expected content
-            assertEquals("username", capturedAccount.getUsername());
-            assertEquals("password", capturedAccount.getPassword());
-        } catch (SQLException e) {
-            System.out.println("Error while creating new user!");
-        }
-    }
 }

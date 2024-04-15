@@ -13,7 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-public class GamePlayPanel extends MainPanel {
+public class GamePlayPanel extends Panel {
 
     private GameController gameController;
     public GamePlayPanel(Map<Color, Map<Role, Player>> playerSelectedTeams) {

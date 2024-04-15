@@ -1,14 +1,14 @@
 package contracts;
 
 import controllers.enums.RoomCreationResult;
-import models.Player;
+import models.Account;
 
 import java.util.List;
 
 public interface IPlayerContract {
 
-    List<Player> createRoom(String[] uniqueNicknames);
+    void createRoom(List<Account> accounts);
 
-    RoomCreationResult isValidNicknames(String[] playerNicknames);
+    RoomCreationResult isValidPlayerNames(String[] playerNicknames);
 
 }

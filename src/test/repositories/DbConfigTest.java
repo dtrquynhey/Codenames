@@ -11,11 +11,7 @@ class DbConfigTest {
 
     @Test
     void testGetConnection() {
-        try {
-            Connection connection = DbConfig.getConnection();
-            assertNotNull(connection, "Connection should not be null");
-        } catch (SQLException e) {
-            fail("SQLException occurred: " + e.getMessage());
-        }
+        Connection connection = DbConfig.getConnection();
+        assertNotNull(connection, "Connection should not be null");
     }
 }
