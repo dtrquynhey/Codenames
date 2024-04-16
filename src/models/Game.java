@@ -1,24 +1,29 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
-import models.enums.Result;
+import models.enums.GameResult;
 
 
 public class Game {
     private String gameId;
-    private List<Card> listOfCards;
-    private List<Team> listOfTeams;
-    private Result result;
+    private List<Card> cards;
+
+
+    private List<Player> players;
+    private List<Team> teams;
+    private GameResult gameResult;
+    private Date date;
 
     public Game() {
+        this.date = new Date();
     }
 
-    public Game(String gameId, List<Card> listOfCards, List<Team> listOfTeams, Result result) {
+    public Game(String gameId, List<Card> cards, List<Team> teams) {
         this.gameId = gameId;
-        this.listOfCards = listOfCards;
-        this.listOfTeams = listOfTeams;
-        this.result = result;
+        this.cards = cards;
+        this.teams = teams;
     }
 
     public String getGameId() {
@@ -29,37 +34,44 @@ public class Game {
         this.gameId = gameId;
     }
 
-    public List<Card> getListOfCards() {
-        return listOfCards;
+    public List<Card> getCards() {
+        return cards;
     }
 
-    public void setListOfCards(List<Card> listOfCards) {
-        this.listOfCards = listOfCards;
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
-    public List<Team> getListOfTeams() {
-        return listOfTeams;
+    public List<Team> getTeams() {
+        return teams;
     }
 
-    public void setListOfTeams(List<Team> listOfTeams) {
-        this.listOfTeams = listOfTeams;
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
-    public Result getStatus() {
-        return result;
+    public GameResult getStatus() {
+        return gameResult;
     }
 
-    public void setStatus(Result result) {
-        this.result = result;
+    public void setStatus(GameResult gameResult) {
+        this.gameResult = gameResult;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
     @Override
     public String toString() {
         return "Game{" +
                 "gameId='" + gameId + '\'' +
-                ", listOfCards=" + listOfCards +
-                ", listOfTeams=" + listOfTeams +
-                ", status=" + result +
+                ", listOfCards=" + cards +
+                ", listOfTeams=" + teams +
+                ", status=" + gameResult +
                 '}';
     }
 }

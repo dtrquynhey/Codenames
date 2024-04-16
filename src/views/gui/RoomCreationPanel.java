@@ -1,45 +1,67 @@
 package views.gui;
 
+import controllers.AccountController;
+import controllers.GameController;
 import controllers.PlayerController;
-import controllers.TeamController;
-import models.Player;
-import repositories.DbConfig;
-import repositories.TeamRepository;
-import repositories.mappers.TeamMapper;
 import views.customPalettes.*;
+import views.customPalettes.Label;
+import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 
-public class RoomCreationPanel extends MainPanel {
+public class RoomCreationPanel extends Panel {
 
-    public RoomCreationPanel(PlayerController playerController) {
+    public RoomCreationPanel(GameController gameController, AccountController accountController, PlayerController playerController) {
         super();
-
-        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
-        topFlowPanel.add(buttonReadRules);
-
-        RoundedButton buttonLogOut = new RoundedButton("Log Out", 110, 42, CustomColor.RED.getColor());
-        topFlowPanel.add(buttonLogOut);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        ShadowLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT.getColor());
+        ShadowLabel labelTitle = new ShadowLabel("NEW GAME", 35, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(labelTitle,gridBagConstraints);
 
-
-        PlayersNamePanel playersNamePanel = new PlayersNamePanel();
+        PlayersNamePanel playersNamePanel = new PlayersNamePanel(accountController.getAccounts().getFirst().getUsername());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         centerGridBagPanel.add(playersNamePanel, gridBagConstraints);
+
+        Label[] labelLogins = playersNamePanel.getLabelLogins();
+        for (int i = 0; i < labelLogins.length; i++) {
+
+            int currentI= i+1;
+            IconTextFieldPanel currentTextField = playersNamePanel.getPlayerTextFields()[i+1];
+            Label currentLoginLabel = labelLogins[i];
+
+            labelLogins[i].setClickable(true);
+            labelLogins[i].addActionListener(label -> {
+
+                if (currentLoginLabel.getText().equals("Log In")) {
+                    PopupFrame loginFrame = new PopupFrame();
+                    LoginPanel loginPanel = new LoginPanel(accountController);
+                    loginFrame.setContentPane(loginPanel);
+
+                    accountController.accountIndex = currentI;
+                    loginPanel.onLoginSuccess(() -> {
+                        loginFrame.dispose();
+                        currentTextField.setTextFieldUsername(String.valueOf(accountController.getAccounts().get(currentI).getUsername()));
+                        currentTextField.getTextField().setEnabled(false);
+                        currentLoginLabel.setText("Log Out");
+                    });
+                } else {
+                    accountController.removeAccount(playersNamePanel.getPlayerTextFields()[currentI].getTextFieldUsername());
+                    currentTextField.setTextFieldUsername("");
+                    currentTextField.getTextField().setEnabled(true);
+                    currentLoginLabel.setText("Log In");
+                }
+            });
+        }
+
+        gameController.createNewGame();
 
         RoundedButton buttonCreateRoom = new RoundedButton("Create Room", 160, 42, CustomColor.PINK.getColor());
         gridBagConstraints.gridx = 0;
@@ -47,43 +69,33 @@ public class RoomCreationPanel extends MainPanel {
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
         centerGridBagPanel.add(buttonCreateRoom, gridBagConstraints);
 
+        RoundedButton buttonGoBack = new RoundedButton("Go Back", 150, 42, CustomColor.RED.getColor());
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+        centerGridBagPanel.add(buttonGoBack, gridBagConstraints);
+
+
         buttonCreateRoom.addActionListener(e -> {
             String[] playerNicknames = playersNamePanel.getPlayerNicknames();
-            switch (playerController.isValidNicknames(playerNicknames)) {
-                case MISSING_NAMES -> playersNamePanel.showError("All player nicknames are required.");
-                case DUPLICATE_NAMES -> playersNamePanel.showError("Nicknames must be unique.");
+            switch (playerController.isValidPlayerNames(playerNicknames)) {
+                case MISSING_NAMES -> playersNamePanel.showError("All player names are required.");
+                case DUPLICATE_NAMES -> playersNamePanel.showError("Names must be unique.");
                 case SUCCESS -> {
-                    List<Player> playerList = playerController.createRoom(playerNicknames);
+                    playerController.createPlayers(playerNicknames);
+                    gameController.assignPlayersToGame(playerController.getPlayers());
                     new MessageDialog(this, "Room is created.", "Room Creation Success");
-                    showTeamSetupPanel(playerList);
+
+                    TeamSelectionPanel teamSetupPanel = playerController.initializeTeamSetUpPanel(gameController);
+                    MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
+                    mainFrame.showPanel(teamSetupPanel);
                 }
             }
         });
 
-        buttonReadRules.addActionListener(e -> {
+        buttonGoBack.addActionListener(e -> {
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
-            mainFrame.showRulesPanel();
+            mainFrame.goBack();
         });
-
-        buttonLogOut.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
-            mainFrame.showLoginPanel();
-        });
-
-    }
-
-    public void showTeamSetupPanel(List<Player> playerList) {
-
-        Connection connection;
-        try {
-            connection = DbConfig.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
-        TeamController teamController = TeamController.getInstance(teamRepository);
-        TeamSetupPanel teamSetupPanel = new TeamSetupPanel(teamController, playerList);
-        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
-        mainFrame.showPanel(teamSetupPanel);
     }
 }

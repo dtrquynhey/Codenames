@@ -1,26 +1,23 @@
 package views.gui;
 
 import controllers.PlayerController;
-import controllers.UserController;
+import controllers.AccountController;
 import repositories.DbConfig;
-import repositories.UserRepository;
-import repositories.mappers.PlayerMapper;
-import repositories.mappers.UserMapper;
+import repositories.AccountRepository;
+import repositories.mappers.AccountMapper;
+import views.customPalettes.PopupFrame;
 
 import javax.swing.*;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class MainFrame extends JFrame {
-    private final UserController userController;
+    private final AccountController accountController;
     private final PlayerController playerController;
 
     private JPanel currentPanel;
     private JPanel previousPanel;
 
-    private LoginPanel loginPanel;
-    private SignupPanel signupPanel;
-    private RoomCreationPanel roomCreationPanel;
+    private MainPanel mainPanel;
     private RulesPanel rulesPanel;
 
     public MainFrame(){
@@ -31,27 +28,21 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        Connection connection;
-        try {
-            connection = DbConfig.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        UserMapper userMapper = new UserMapper();
-        UserRepository userRepository = new UserRepository(connection, userMapper);
-        userController = UserController.getInstance(userRepository);
+        Connection connection = DbConfig.getConnection();
+
+        AccountMapper accountMapper = new AccountMapper();
+        AccountRepository accountRepository = new AccountRepository(connection, accountMapper);
+        accountController = AccountController.getInstance(accountRepository);
         playerController = PlayerController.getInstance();
         initializePanels();
-        showLoginPanel();
+        setContentPane(mainPanel);
 
         setVisible(true);
     }
 
 
     private void initializePanels() {
-        loginPanel = new LoginPanel(userController);
-        signupPanel = new SignupPanel(userController);
-        roomCreationPanel = new RoomCreationPanel(playerController);
+        mainPanel = new MainPanel(accountController, playerController);
         rulesPanel = new RulesPanel();
     }
 
@@ -59,24 +50,35 @@ public class MainFrame extends JFrame {
         previousPanel = currentPanel; // Store the current panel as the previous panel
         currentPanel = panel; // Set the current panel to the new panel
         setContentPane(currentPanel);
+        setSize(1280, 800);
+        setLocationRelativeTo(null);
         revalidate();
         repaint();
     }
 
-    public void showLoginPanel() {
-        showPanel(loginPanel);
+    public void showPopupPanel(JPanel panel) {
+        previousPanel = currentPanel;
+        PopupFrame popupFrame = new PopupFrame();
+        popupFrame.setContentPane(panel);
+    }
+
+    public void showMainPanel() {
+        Connection connection = DbConfig.getConnection();
+        AccountMapper accountMapper = new AccountMapper();
+        AccountRepository accountRepository = new AccountRepository(connection, accountMapper);
+        mainPanel = new MainPanel(new AccountController(accountRepository), new PlayerController());
+        showPanel(mainPanel);
     }
 
     public void showSignupPanel() {
-        showPanel(signupPanel);
+        showPopupPanel(new SignupPanel(accountController));
     }
-
-    public void showRoomCreationPanel() {
-        showPanel(roomCreationPanel);
+    public void showLoginPanel() {
+        showPopupPanel(new LoginPanel(accountController));
     }
 
     public void showRulesPanel() {
-        showPanel(rulesPanel);
+        showPopupPanel(rulesPanel);
     }
 
 

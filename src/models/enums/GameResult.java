@@ -1,6 +1,6 @@
 package models.enums;
 
-public enum Result {
+public enum GameResult {
     DRAW,
     BLUE_WIN,
     RED_WIN

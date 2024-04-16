@@ -7,9 +7,7 @@ import models.Card;
 import models.Player;
 import models.enums.Color;
 import models.enums.Role;
-import repositories.CardRepository;
-import repositories.DbConfig;
-import repositories.mappers.CardMapper;
+import views.customPalettes.Panel;
 import views.customPalettes.TextField;
 import views.customPalettes.*;
 import views.customPalettes.enums.CustomColor;
@@ -21,12 +19,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class GamePlayPanel extends MainPanel {
+public class GamePlayPanel extends Panel {
 
     private GameController gameController;
     private JPanel cardPanel;
     private CardLayout cardLayout;
-
     public GamePlayPanel(Map<Color, Map<Role, Player>> playerSelectedTeams) {
         super();
 
@@ -50,30 +47,15 @@ public class GamePlayPanel extends MainPanel {
         gridBagConstraints.gridy = 0;
         centerGridBagPanel.add(redTeamGameLog, gridBagConstraints);
 
-        //gameController = new GameController();
-        Connection connection;
-        try {
-            connection = DbConfig.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-        CardRepository cardRepository = new CardRepository(connection, new CardMapper());
-        CardController cardController = CardController.getInstance(cardRepository);
-
-
-        List<String> randomWords = gameController.generateRandomWords();
-        List<Card> cards = cardController.generateCards(randomWords);
-
-
-        cardPanel = new JPanel();
-        cardLayout = new CardLayout();
+        JPanel cardPanel = new JPanel();
+        CardLayout cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        Board spymasterBoard = new Board(cards, false,gameController);
+        Board spymasterBoard = new Board(gameController.allCards, false,gameController);
         cardPanel.add(spymasterBoard, "SPYMASTER_BOARD");
 
-        Board operativeBoard = new Board(cards, true,gameController);
+        Board operativeBoard = new Board(gameController.allCards, true,gameController);
         operativeBoard.setCardColor(CustomColor.CARD_NEUTRAL.getColor());
         cardPanel.add(operativeBoard, "OPERATIVE_BOARD");
 
@@ -94,8 +76,8 @@ public class GamePlayPanel extends MainPanel {
         TextField textFieldHint = new TextField("Type your hint", new Dimension(300, 42));
         bottomFlowPanel.add(textFieldHint);
 
-        TextField textFieldNumOfGuess = new TextField("", new Dimension(60, 42));
-        bottomFlowPanel.add(textFieldNumOfGuess);
+        TextField textFieldNumOfWords = new TextField("", new Dimension(50, 42));
+        bottomFlowPanel.add(textFieldNumOfWords);
 
         RoundedButton buttonGiveClue = new RoundedButton("Give Clue", 130, 42, CustomColor.GREEN.getColor());
         bottomFlowPanel.add(buttonGiveClue);
@@ -111,6 +93,18 @@ public class GamePlayPanel extends MainPanel {
             buttonEndGuess.setVisible(true);
             buttonGiveClue.setVisible(false);
 
+            if (textFieldHint.getText().isEmpty()){
+                gameController.currentClue = "";
+            } else {
+                gameController.currentClue = textFieldHint.getText();
+            }
+
+            if (textFieldNumOfWords.getText().isEmpty()){
+                gameController.numOfGuesses = 1;
+            } else {
+                gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText()) + 1;
+
+            }
             gameController.currentClue = textFieldHint.getText();
             gameController.numOfGuesses = Integer.parseInt(textFieldNumOfGuess.getText())+1;
             gameController.changeTurn();

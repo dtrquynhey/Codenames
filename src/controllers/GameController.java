@@ -2,39 +2,63 @@ package controllers;
 
 import contracts.IGameContract;
 import models.Card;
+import models.Game;
 import models.Player;
 import models.Team;
 import models.enums.Color;
 import models.enums.Role;
+import repositories.CardRepository;
+import repositories.DbConfig;
 import repositories.TeamRepository;
+import repositories.mappers.CardMapper;
 
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 
 public class GameController implements IGameContract {
 
-    private static GameController _instance;
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    private Game game;
     private String currentPlayer;
     public String currentClue;
     public int numOfGuesses;
 
     private ArrayList<Card> flippedCards;
+    public ArrayList<Card> allCards;
     private Team currentTeam;
     private Team redTeam;
     private Team blueTeam;
-    public static GameController get_instance() {
-        return _instance;
-    }
 
     public GameController(){
+        flippedCards = new ArrayList<>();
+        Connection connection = DbConfig.getConnection();
 
-        flippedCards = new ArrayList<Card>();
-        //listOfTeams = new ArrayList<Team>();
-        //currentPlayer = listOfTeams.getFirst().getSpymaster();
+        CardRepository cardRepository = new CardRepository(connection, new CardMapper());
+        CardController cardController = CardController.getInstance(cardRepository);
+
+        java.util.List<String> randomWords = generateRandomWords();
+        allCards = (ArrayList<Card>) cardController.generateCards(randomWords);
+    }
+
+    public void createNewGame() {
+        this.game = new Game();
+    }
+
+    public void assignPlayersToGame(List<Player> players) {
+        this.game.setPlayers(players);
     }
 
     public void flipCard(Card card){
@@ -49,8 +73,11 @@ public class GameController implements IGameContract {
 
     public boolean canContinueGuessing(Card card){
         if (card.getColor() == Color.ASSASSIN) {
+            numOfGuesses = 0;
+
             return false;
         } else if (card.getColor() == Color.NEUTRAL) {
+            numOfGuesses = 0;
             return false;
         } else return card.getColor() == currentTeam.getColor() && numOfGuesses > 0 ;
     }
@@ -94,7 +121,7 @@ public class GameController implements IGameContract {
 
 
 
-    public void changeTurn(){
+    public void changeTurn() {
 
         System.out.println(redTeam);
         if (Objects.equals(currentPlayer, redTeam.getSpymaster())){
@@ -110,9 +137,6 @@ public class GameController implements IGameContract {
             currentPlayer = redTeam.getSpymaster();
             currentTeam = redTeam;
         }
-
-
-
         System.out.println(currentPlayer);
         System.out.println(currentTeam);
     }

@@ -2,8 +2,14 @@ package controllers;
 
 import contracts.IPlayerContract;
 import controllers.enums.RoomCreationResult;
+import models.Account;
 import models.Player;
+import repositories.DbConfig;
+import repositories.TeamRepository;
+import repositories.mappers.TeamMapper;
+import views.gui.TeamSelectionPanel;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,10 +18,18 @@ import java.util.Set;
 public class PlayerController implements IPlayerContract {
 
     private static PlayerController instance;
+    public int playerIndex;
+    private List<Player> players = new ArrayList<>();
 
     public PlayerController() {
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+    public void setPlayerList(List<Account> accounts, List<Player> guests) {
+
+    }
     public static PlayerController getInstance() {
 
         if (instance == null) {
@@ -25,28 +39,32 @@ public class PlayerController implements IPlayerContract {
     }
 
     @Override
-    public List<Player> createRoom(String[] uniqueNicknames) {
-
-        List<Player> playerList = new ArrayList<>();
-        for (String nickname : uniqueNicknames) {
-            Player player = new Player(nickname);
-            playerList.add(player);
+    public void createPlayers(String[] usernames) {
+        for (String u : usernames) {
+            this.players.add(new Player(u));
         }
-        return playerList;
     }
 
     @Override
-    public RoomCreationResult isValidNicknames(String[] playerNicknames) {
-        Set<String> uniqueNicknames = new HashSet<>();
-        for (String nickname : playerNicknames) {
-            if (nickname == null || nickname.trim().isEmpty()) {
+    public RoomCreationResult isValidPlayerNames(String[] playerNicknames) {
+        Set<String> uniqueNames = new HashSet<>();
+        for (String name : playerNicknames) {
+            if (name == null || name.trim().isEmpty()) {
                 return RoomCreationResult.MISSING_NAMES;
             }
-            if (uniqueNicknames.contains(nickname)) {
+            if (uniqueNames.contains(name)) {
                 return RoomCreationResult.DUPLICATE_NAMES;
             }
-            uniqueNicknames.add(nickname);
+            uniqueNames.add(name);
         }
         return RoomCreationResult.SUCCESS;
     }
+
+    public TeamSelectionPanel initializeTeamSetUpPanel(GameController gameController) {
+        Connection connection = DbConfig.getConnection();
+        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
+        TeamController teamController = TeamController.getInstance(teamRepository);
+        return new TeamSelectionPanel(gameController, teamController);
+    }
+
 }

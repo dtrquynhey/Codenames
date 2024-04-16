@@ -1,13 +1,11 @@
 package views.gui;
 
-import views.customPalettes.enums.CustomColor;
+import views.customPalettes.Panel;
 import views.customPalettes.Label;
-import views.customPalettes.RoundedButton;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class RulesPanel extends MainPanel {
+public class RulesPanel extends Panel {
 
     public RulesPanel() {
         super();
@@ -18,17 +16,6 @@ public class RulesPanel extends MainPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(lblComingSoon, gridBagConstraints);
-
-        RoundedButton buttonGoBack = new RoundedButton("Go Back", 115, 42, CustomColor.RED.getColor());
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(0, 0, 4, 0);
-        centerGridBagPanel.add(buttonGoBack, gridBagConstraints);
-
-        buttonGoBack.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RulesPanel.this);
-            mainFrame.goBack();
-        });
 
         this.setVisible(true);
 

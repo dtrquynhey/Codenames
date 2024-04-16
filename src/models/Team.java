@@ -10,7 +10,6 @@ public class Team {
     private Player operative;
     private Color color;
     private int score;
-    private int numOfGuess;
     private boolean isWinner;
 
     public Team() {
@@ -24,11 +23,10 @@ public class Team {
         this.isWinner = isWinner;
     }
 
-    public Team(List<Player> listOfPlayers, Color color, int score, int numOfGuess) {
+    public Team(List<Player> listOfPlayers, Color color, int score) {
         this.listOfPlayers = listOfPlayers;
         this.color = color;
         this.score = score;
-        this.numOfGuess = numOfGuess;
     }
 
     public int getTeamId() {
@@ -63,14 +61,6 @@ public class Team {
         this.score = score;
     }
 
-    public int getNumOfGuess() {
-        return numOfGuess;
-    }
-
-    public void setNumOfGuess(int numOfGuess) {
-        this.numOfGuess = numOfGuess;
-    }
-
     @Override
     public String toString() {
         return "Team{" +
@@ -79,7 +69,6 @@ public class Team {
                 ", Operative=" + operative.getNickname() +
                 ", color=" + color +
                 ", score=" + score +
-                ", numOfGuess=" + numOfGuess +
                 '}';
     }
 

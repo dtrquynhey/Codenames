@@ -1,19 +1,19 @@
 package views.gui;
 
+import controllers.GameController;
 import controllers.TeamController;
-import models.Player;
 import views.customPalettes.*;
+import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
-public class TeamSetupPanel extends MainPanel {
+public class TeamSelectionPanel extends Panel {
 
     private final RolesChooserPanel rolesChooserPanel;
 
-    public TeamSetupPanel(TeamController teamController, List<Player> playerList) {
+    public TeamSelectionPanel(GameController gameController, TeamController teamController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -24,7 +24,7 @@ public class TeamSetupPanel extends MainPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        rolesChooserPanel = new RolesChooserPanel(playerList);
+        rolesChooserPanel = new RolesChooserPanel(gameController.getGame().getPlayers());
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -45,8 +45,8 @@ public class TeamSetupPanel extends MainPanel {
                 showGamePlayPanel();
             }
         });
-        buttonRandomize.addActionListener(e-> {
-            teamController.randomizeRolesAndTeams(playerList); // Randomize the roles
+        buttonRandomize.addActionListener(e->{
+            teamController.randomizeRolesAndTeams(gameController.getGame().getPlayers()); // Randomize the roles
             rolesChooserPanel.updateRoleChoosers(teamController.getRandomizedPlayerSelectedTeams()); // Update the UI
 
         });
@@ -54,7 +54,7 @@ public class TeamSetupPanel extends MainPanel {
 
     private void showGamePlayPanel() {
         GamePlayPanel gamePlayPanel = new GamePlayPanel(rolesChooserPanel.getPlayerSelectedTeams());
-        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSelectionPanel.this);
         mainFrame.showPanel(gamePlayPanel);
     }
 

@@ -1,39 +1,39 @@
 package views.gui;
 
-import controllers.UserController;
+
+import controllers.AccountController;
 import views.customPalettes.*;
 import views.customPalettes.Label;
+import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginPanel extends MainPanel {
+public class LoginPanel extends Panel {
+    private Runnable onLoginSuccess;
 
+    public LoginPanel(AccountController accountController) {
 
-    public LoginPanel(UserController userController) {
         super();
-
-        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
-        topFlowPanel.add(buttonReadRules);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        JLabel labelTitle = new ShadowLabel("CODENAMES", 100, CustomColor.TEXT.getColor());
+        ShadowLabel labelLogin = new ShadowLabel("LOG IN", 35, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-        centerGridBagPanel.add(labelTitle,gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new Insets(15, 0, 15, 0);
+        centerGridBagPanel.add(labelLogin,gridBagConstraints);
 
         LoginInfoPanel loginInfoPanel = new LoginInfoPanel();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
         centerGridBagPanel.add(loginInfoPanel, gridBagConstraints);
 
         JButton buttonLogIn = new RoundedButton("Log In", 110, 42, CustomColor.GREEN.getColor());
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
         centerGridBagPanel.add(buttonLogIn, gridBagConstraints);
 
@@ -46,10 +46,11 @@ public class LoginPanel extends MainPanel {
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         signUpPanel.add(labelSignUp, gridBagConstraints);
 
-        RoundedButton buttonSignUp = new RoundedButton("Sign Up", 110, 42, CustomColor.ORANGE.getColor());
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+        Label buttonSignUp = new Label("Sign Up", Font.HANGING_BASELINE, 16, Color.WHITE);
+        buttonSignUp.setClickable(true);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new Insets(0, 10, 0, 0);
         signUpPanel.add(buttonSignUp, gridBagConstraints);
 
 
@@ -59,14 +60,20 @@ public class LoginPanel extends MainPanel {
         buttonLogIn.addActionListener(e -> {
             String username = loginInfoPanel.getUsername();
             String password = String.valueOf(loginInfoPanel.getPassword());
-            switch (userController.logUserIn(username, password)) {
+
+            switch (accountController.isValidLoginCredentials(username, password)) {
                 case EMPTY_FIELDS -> loginInfoPanel.showError("All the fields are required.");
                 case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
                 case SUCCESS -> {
                     loginInfoPanel.resetPanel();
-                    new MessageDialog(this, "Welcome to Codenames!", "Log In Success");
-                    MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
-                    mainFrame.showRoomCreationPanel();
+                    switch (accountController.addAccount(username)) {
+                        case DUPLICATE_NAMES -> new MessageDialog(this, "This account already logged in.", "Log In Failure");
+                        case SUCCESS -> {
+                            if (onLoginSuccess != null) {
+                                onLoginSuccess.run();
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -76,12 +83,11 @@ public class LoginPanel extends MainPanel {
             mainFrame.showSignupPanel();
         });
 
-        buttonReadRules.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
-            mainFrame.showRulesPanel();
-        });
-
-
         setVisible(true);
+    }
+
+    // Setter for the login success listener
+    public void onLoginSuccess(Runnable onLoginSuccess) {
+        this.onLoginSuccess = onLoginSuccess;
     }
 }

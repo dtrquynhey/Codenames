@@ -29,6 +29,10 @@ public class IconTextFieldPanel extends JPanel {
     }
 
 
+    public TextField getTextField() {
+        return textField;
+    }
+
     public String getTextFieldUsername() {
         return textField.getText();
     }
