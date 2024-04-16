@@ -76,8 +76,8 @@ public class GamePlayPanel extends Panel {
         TextField textFieldHint = new TextField("Type your hint", new Dimension(300, 42));
         bottomFlowPanel.add(textFieldHint);
 
-        TextField textFieldNumOfWords = new TextField("", new Dimension(50, 42));
-        bottomFlowPanel.add(textFieldNumOfWords);
+        TextField textFieldNumOfGuess = new TextField("", new Dimension(50, 42));
+        bottomFlowPanel.add(textFieldNumOfGuess);
 
         RoundedButton buttonGiveClue = new RoundedButton("Give Clue", 130, 42, CustomColor.GREEN.getColor());
         bottomFlowPanel.add(buttonGiveClue);
@@ -99,10 +99,10 @@ public class GamePlayPanel extends Panel {
                 gameController.currentClue = textFieldHint.getText();
             }
 
-            if (textFieldNumOfWords.getText().isEmpty()){
+            if (textFieldNumOfGuess.getText().isEmpty()){
                 gameController.numOfGuesses = 1;
             } else {
-                gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText()) + 1;
+                gameController.numOfGuesses = Integer.parseInt(textFieldNumOfGuess.getText()) + 1;
 
             }
             gameController.currentClue = textFieldHint.getText();
