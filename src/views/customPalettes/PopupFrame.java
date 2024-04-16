@@ -1,4 +1,6 @@
-package views.gui;
+package views.customPalettes;
+
+import views.gui.MainFrame;
 
 import javax.swing.*;
 

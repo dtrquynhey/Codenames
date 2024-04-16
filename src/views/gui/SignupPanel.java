@@ -2,7 +2,7 @@ package views.gui;
 
 import controllers.AccountController;
 import views.customPalettes.*;
-import views.customPalettes.Label;
+import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -51,7 +51,7 @@ public class SignupPanel extends Panel {
         String password = signupInfoPanel.getPassword();
         String confirmPassword = signupInfoPanel.getConfirmPassword();
 
-        switch (accountController.isValidSignupCredentials(username, password, confirmPassword)) {
+        switch (accountController.isValidSignUpCredentials(username, password, confirmPassword)) {
             case EMPTY_FIELDS -> signupInfoPanel.showError("All the fields are required.");
             case PASSWORD_MISMATCH -> signupInfoPanel.showError("Passwords do not match.");
             case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");

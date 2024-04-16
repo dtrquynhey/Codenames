@@ -18,10 +18,7 @@ public class RolesChooserPanel extends JPanel {
     private final OneRoleChooserPanel operativeRedRoleChooser;
     private final OneRoleChooserPanel operativeBlueRoleChooser;
 
-    private List<Player> playerList;
-
      public RolesChooserPanel(List<Player> playerList) {
-         this.playerList = playerList;
          setLayout(new BorderLayout());
          setBackground(new java.awt.Color(0, 0, 0, 0));
 

@@ -6,7 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Label extends JLabel {
-    private static final String FONT_FAMILY = "Bookman Old Style";
+    static final String FONT_FAMILY = "Bookman Old Style";
     private boolean clickable = false;
     private ClickListener clickListener;
 

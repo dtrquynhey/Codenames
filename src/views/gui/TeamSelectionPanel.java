@@ -1,20 +1,19 @@
 package views.gui;
 
-import controllers.PlayerController;
+import controllers.GameController;
 import controllers.TeamController;
-import models.Player;
 import views.customPalettes.*;
+import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
-public class TeamSetupPanel extends Panel {
+public class TeamSelectionPanel extends Panel {
 
-    private RolesChooserPanel rolesChooserPanel;
+    private final RolesChooserPanel rolesChooserPanel;
 
-    public TeamSetupPanel(TeamController teamController, PlayerController playerController) {
+    public TeamSelectionPanel(GameController gameController, TeamController teamController) {
         super();
 
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -25,7 +24,7 @@ public class TeamSetupPanel extends Panel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        rolesChooserPanel = new RolesChooserPanel(playerController.getPlayerList());
+        rolesChooserPanel = new RolesChooserPanel(gameController.getGame().getPlayers());
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -47,24 +46,15 @@ public class TeamSetupPanel extends Panel {
             }
         });
         buttonRandomize.addActionListener(e->{
-            teamController.randomizeRolesAndTeams(playerController.getPlayerList()); // Randomize the roles
+            teamController.randomizeRolesAndTeams(gameController.getGame().getPlayers()); // Randomize the roles
             rolesChooserPanel.updateRoleChoosers(teamController.getRandomizedPlayerSelectedTeams()); // Update the UI
 
         });
     }
 
     private void showGamePlayPanel() {
-
-//        Connection connection;
-//        try {
-//            connection = DbConfig.getConnection();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
-//        TeamController teamController = TeamController.getInstance(teamRepository);
         GamePlayPanel gamePlayPanel = new GamePlayPanel(rolesChooserPanel.getPlayerSelectedTeams());
-        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSelectionPanel.this);
         mainFrame.showPanel(gamePlayPanel);
     }
 

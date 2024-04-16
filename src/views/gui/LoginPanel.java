@@ -4,6 +4,7 @@ package views.gui;
 import controllers.AccountController;
 import views.customPalettes.*;
 import views.customPalettes.Label;
+import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -65,7 +66,7 @@ public class LoginPanel extends Panel {
                 case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
                 case SUCCESS -> {
                     loginInfoPanel.resetPanel();
-                    switch (accountController.addAccount(username, password)) {
+                    switch (accountController.addAccount(username)) {
                         case DUPLICATE_NAMES -> new MessageDialog(this, "This account already logged in.", "Log In Failure");
                         case SUCCESS -> {
                             if (onLoginSuccess != null) {

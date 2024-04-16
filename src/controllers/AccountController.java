@@ -30,8 +30,8 @@ public class AccountController implements IAccountContract {
     }
 
 
-    public RoomCreationResult addAccount(String username, String password) {
-        Account account = new Account(username, password);
+    public RoomCreationResult addAccount(String username) {
+        Account account = new Account(username);
         for (Account a: accounts) {
             if (a.getUsername().equals(account.getUsername())) {
                 return RoomCreationResult.DUPLICATE_NAMES;
@@ -63,7 +63,7 @@ public class AccountController implements IAccountContract {
     }
 
     @Override
-    public AuthenticationResult isValidSignupCredentials(String username, String password, String confirmedPassword) {
+    public AuthenticationResult isValidSignUpCredentials(String username, String password, String confirmedPassword) {
 
         if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
             return AuthenticationResult.EMPTY_FIELDS;

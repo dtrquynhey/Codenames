@@ -3,6 +3,7 @@ package views.gui;
 import controllers.AccountController;
 import controllers.PlayerController;
 import views.customPalettes.*;
+import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -26,12 +27,6 @@ public class MainPanel extends Panel {
 
         gridBagConstraints.gridwidth = 1;
 
-//        ShadowLabel labelLogin = new ShadowLabel("LOG IN", 35, CustomColor.TEXT.getColor());
-//        gridBagConstraints.gridx = 0;
-//        gridBagConstraints.gridy = 1;
-//        gridBagConstraints.insets = new Insets(15, 0, 15, 90);
-//        centerGridBagPanel.add(labelLogin, gridBagConstraints);
-
         LoginInfoPanel loginInfoPanel = new LoginInfoPanel();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -43,12 +38,6 @@ public class MainPanel extends Panel {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new Insets(15, 0, 0, 90);
         centerGridBagPanel.add(buttonLogIn, gridBagConstraints);
-
-//        ShadowLabel labelSignUp = new ShadowLabel("SIGN UP", 35, CustomColor.TEXT.getColor());
-//        gridBagConstraints.gridx = 2;
-//        gridBagConstraints.gridy = 1;
-//        gridBagConstraints.insets = new Insets(15, 90, 15, 0);
-//        centerGridBagPanel.add(labelSignUp,gridBagConstraints);
 
         SignupInfoPanel signupInfoPanel = new SignupInfoPanel();
         gridBagConstraints.gridx = 2;
@@ -74,11 +63,11 @@ public class MainPanel extends Panel {
                     accountController.logIn(username);
                     loginInfoPanel.resetPanel();
                     accountController.setFirstAccount(username);
-                    new MessageDialog(this, "Hello " + username + ", welcome to Codenames!", "Log In Success");
-                    //RoomCreationPanel roomCreationPanel = accountController.initializeRoomCreationPanel();
-                    RoomCreationPanel roomCreationPanel = new RoomCreationPanel(accountController, playerController);
+
+                    WelcomePanel welcomePanel = new WelcomePanel(accountController, playerController);
                     MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(MainPanel.this);
-                    mainFrame.showPanel(roomCreationPanel);
+                    mainFrame.showPanel(welcomePanel);
+
                 }
             }
         });
@@ -88,7 +77,7 @@ public class MainPanel extends Panel {
             String password = signupInfoPanel.getPassword();
             String confirmPassword = signupInfoPanel.getConfirmPassword();
 
-            switch (accountController.isValidSignupCredentials(username, password, confirmPassword)) {
+            switch (accountController.isValidSignUpCredentials(username, password, confirmPassword)) {
                 case EMPTY_FIELDS -> signupInfoPanel.showError("All the fields are required.");
                 case PASSWORD_MISMATCH -> signupInfoPanel.showError("Passwords do not match.");
                 case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");

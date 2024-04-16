@@ -5,6 +5,7 @@ import controllers.GameController;
 import models.Player;
 import models.enums.Color;
 import models.enums.Role;
+import views.customPalettes.Panel;
 import views.customPalettes.TextField;
 import views.customPalettes.*;
 import views.customPalettes.enums.CustomColor;
@@ -85,22 +86,18 @@ public class GamePlayPanel extends Panel {
             buttonEndGuess.setVisible(true);
             buttonGiveClue.setVisible(false);
 
-            if(textFieldHint.getText().isEmpty()){
+            if (textFieldHint.getText().isEmpty()){
                 gameController.currentClue = "";
-            }else{
+            } else {
                 gameController.currentClue = textFieldHint.getText();
-
             }
 
-            if(textFieldNumOfWords.getText().isEmpty()){
+            if (textFieldNumOfWords.getText().isEmpty()){
                 gameController.numOfGuesses = 1;
-            }else{
-                gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText())+1;
+            } else {
+                gameController.numOfGuesses = Integer.parseInt(textFieldNumOfWords.getText()) + 1;
 
             }
-
-
-
             gameController.changeTurn();
         });
 

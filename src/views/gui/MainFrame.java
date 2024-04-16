@@ -5,10 +5,10 @@ import controllers.AccountController;
 import repositories.DbConfig;
 import repositories.AccountRepository;
 import repositories.mappers.AccountMapper;
+import views.customPalettes.PopupFrame;
 
 import javax.swing.*;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class MainFrame extends JFrame {
     private final AccountController accountController;
@@ -63,7 +63,10 @@ public class MainFrame extends JFrame {
     }
 
     public void showMainPanel() {
-        mainPanel = new MainPanel(accountController, playerController);
+        Connection connection = DbConfig.getConnection();
+        AccountMapper accountMapper = new AccountMapper();
+        AccountRepository accountRepository = new AccountRepository(connection, accountMapper);
+        mainPanel = new MainPanel(new AccountController(accountRepository), new PlayerController());
         showPanel(mainPanel);
     }
 

@@ -1,4 +1,4 @@
-package views.gui;
+package views.customPalettes;
 
 import views.customPalettes.BottomFlowPanel;
 import views.customPalettes.CenterGridBagPanel;
@@ -23,5 +23,11 @@ public class Panel extends JPanel {
         add(topFlowPanel, BorderLayout.NORTH);
         add(centerGridBagPanel, BorderLayout.CENTER);
         add(bottomFlowPanel, BorderLayout.SOUTH);
+    }
+
+    public void setPanelsBackgroundColor(Color color) {
+        topFlowPanel.setBackground(color);
+        centerGridBagPanel.setBackground(color);
+        bottomFlowPanel.setBackground(color);
     }
 }

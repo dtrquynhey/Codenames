@@ -7,7 +7,7 @@ import models.Player;
 import repositories.DbConfig;
 import repositories.TeamRepository;
 import repositories.mappers.TeamMapper;
-import views.gui.TeamSetupPanel;
+import views.gui.TeamSelectionPanel;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class PlayerController implements IPlayerContract {
     public PlayerController() {
     }
 
-    public List<Player> getPlayerList() {
+    public List<Player> getPlayers() {
         return players;
     }
     public void setPlayerList(List<Account> accounts, List<Player> guests) {
@@ -38,19 +38,10 @@ public class PlayerController implements IPlayerContract {
         return instance;
     }
 
-    public void addGuestPlayer(String username) {
-        players.add(playerIndex, new Player(username));
-    }
-
-    public void addLoggedPlayer(Account account) {
-        players.add(playerIndex, new Player(account));
-    }
-
     @Override
-    public void createRoom(List<Account> accounts) {
-        List<Player> players = new ArrayList<>(4);
-        for (Account a : accounts) {
-            players.add(new Player(a));
+    public void createPlayers(String[] usernames) {
+        for (String u : usernames) {
+            this.players.add(new Player(u));
         }
     }
 
@@ -69,11 +60,11 @@ public class PlayerController implements IPlayerContract {
         return RoomCreationResult.SUCCESS;
     }
 
-    public TeamSetupPanel initializeTeamSetUpPanel() {
+    public TeamSelectionPanel initializeTeamSetUpPanel(GameController gameController) {
         Connection connection = DbConfig.getConnection();
         TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
         TeamController teamController = TeamController.getInstance(teamRepository);
-        return new TeamSetupPanel(teamController, getInstance());
+        return new TeamSelectionPanel(gameController, teamController);
     }
 
 }

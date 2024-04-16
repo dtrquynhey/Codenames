@@ -2,6 +2,7 @@ package controllers;
 
 import contracts.IGameContract;
 import models.Card;
+import models.Game;
 import models.Player;
 import models.Team;
 import models.enums.Color;
@@ -22,7 +23,15 @@ import java.util.*;
 
 public class GameController implements IGameContract {
 
-    private static GameController _instance;
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    private Game game;
     private String currentPlayer;
     public String currentClue;
     public int numOfGuesses;
@@ -32,23 +41,24 @@ public class GameController implements IGameContract {
     private Team currentTeam;
     private Team redTeam;
     private Team blueTeam;
-    public static GameController get_instance() {
-        return _instance;
-    }
 
     public GameController(){
-
-        flippedCards = new ArrayList<Card>();
+        flippedCards = new ArrayList<>();
         Connection connection = DbConfig.getConnection();
 
         CardRepository cardRepository = new CardRepository(connection, new CardMapper());
         CardController cardController = CardController.getInstance(cardRepository);
 
-
         java.util.List<String> randomWords = generateRandomWords();
         allCards = (ArrayList<Card>) cardController.generateCards(randomWords);
-        //listOfTeams = new ArrayList<Team>();
-        //currentPlayer = listOfTeams.getFirst().getSpymaster();
+    }
+
+    public void createNewGame() {
+        this.game = new Game();
+    }
+
+    public void assignPlayersToGame(List<Player> players) {
+        this.game.setPlayers(players);
     }
 
     public void flipCard(Card card){
@@ -111,7 +121,7 @@ public class GameController implements IGameContract {
 
 
 
-    public void changeTurn(){
+    public void changeTurn() {
 
         System.out.println(redTeam);
         if (Objects.equals(currentPlayer, redTeam.getSpymaster())){
@@ -127,9 +137,6 @@ public class GameController implements IGameContract {
             currentPlayer = redTeam.getSpymaster();
             currentTeam = redTeam;
         }
-
-
-
         System.out.println(currentPlayer);
         System.out.println(currentTeam);
     }
