@@ -67,18 +67,68 @@ public class TeamController implements ITeamContract {
     }
 
     @Override
+//    public void randomizeRolesAndTeams(List<Player> players) {
+//        Collections.shuffle(players);
+//        List<Role> roles = Arrays.asList(Role.SPYMASTER, Role.SPYMASTER, Role.OPERATIVE, Role.OPERATIVE);
+//        Collections.shuffle(roles);
+//        randomizedPlayerSelectedTeams = new HashMap<>();
+//
+//        randomizedPlayerSelectedTeams.put(Color.RED, new HashMap<>());
+//        randomizedPlayerSelectedTeams.put(Color.BLUE, new HashMap<>());
+//
+//        for (int i = 0; i < players.size(); i++) {
+//            Color teamColor = (i % 2 == 0) ? Color.RED : Color.BLUE;
+//            randomizedPlayerSelectedTeams.get(teamColor).put(roles.get(i), players.get(i));
+//        }
+//    }
     public void randomizeRolesAndTeams(List<Player> players) {
-        Collections.shuffle(players);
-        List<Role> roles = Arrays.asList(Role.SPYMASTER, Role.SPYMASTER, Role.OPERATIVE, Role.OPERATIVE);
-        Collections.shuffle(roles);
-        randomizedPlayerSelectedTeams = new HashMap<>();
+        if (players.size() < 4) {
+            throw new IllegalArgumentException("Not enough players for the roles defined");
+        }
 
+        Collections.shuffle(players);
+
+        randomizedPlayerSelectedTeams = new HashMap<>();
         randomizedPlayerSelectedTeams.put(Color.RED, new HashMap<>());
         randomizedPlayerSelectedTeams.put(Color.BLUE, new HashMap<>());
 
+        // Arrays to keep track of how many roles have been assigned to each team
+        int redSpymasters = 0, blueSpymasters = 0, redOperatives = 0, blueOperatives = 0;
+
         for (int i = 0; i < players.size(); i++) {
             Color teamColor = (i % 2 == 0) ? Color.RED : Color.BLUE;
-            randomizedPlayerSelectedTeams.get(teamColor).put(roles.get(i), players.get(i));
+            Role role;
+
+            // Determine role based on current counts
+            if (teamColor == Color.RED) {
+                if (redSpymasters < 1) {
+                    role = Role.SPYMASTER;
+                    redSpymasters++;
+                } else if (redOperatives < 1) {
+                    role = Role.OPERATIVE;
+                    redOperatives++;
+                } else {
+                    // If extra players, decide what to do or skip assigning roles
+                    continue;
+                }
+            } else {
+                if (blueSpymasters < 1) {
+                    role = Role.SPYMASTER;
+                    blueSpymasters++;
+                } else if (blueOperatives < 1) {
+                    role = Role.OPERATIVE;
+                    blueOperatives++;
+                } else {
+                    // If extra players, decide what to do or skip assigning roles
+                    continue;
+                }
+            }
+
+            // Assign player to the determined role and team
+            randomizedPlayerSelectedTeams.get(teamColor).put(role, players.get(i));
+
+            // Print the player, role, and team assignment
+            System.out.println("Player " + players.get(i).getNickname() + " (" + players.get(i).getNickname() + ") is assigned as " + role + " on " + teamColor + " team.");
         }
     }
 
