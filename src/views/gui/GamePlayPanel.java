@@ -3,6 +3,7 @@ package views.gui;
 
 import controllers.GameController;
 import models.enums.Color;
+import models.enums.GameResult;
 import views.customPalettes.Label;
 import views.customPalettes.Panel;
 import views.customPalettes.TextField;
@@ -125,18 +126,21 @@ public class GamePlayPanel extends Panel {
         });
 
         buttonEndGuess.addActionListener(e -> {
+            if (gameController.isAvailableGuess()) {
+                new MessageDialog(GamePlayPanel.this, "You still have " + gameController.getNumOfGuesses() + " left.", "Game Play", "OK");
 
-            showSpymasterBoard();
-            gameController.currentClue = textFieldClue.getText();
-            gameController.setNumOfGuesses(0);
-            labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
-
-            gameController.changeTurn();
-
-            if (gameController.getCurrentTeam().getColor() == Color.RED) {
-                setRedTeamBackground();
             } else {
-                setBlueTeamBackground();
+                showSpymasterBoard();
+                gameController.currentClue = textFieldClue.getText();
+                gameController.setNumOfGuesses(0);
+                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                gameController.changeTurn();
+
+                if (gameController.getCurrentTeam().getColor() == Color.RED) {
+                    setRedTeamBackground();
+                } else {
+                    setBlueTeamBackground();
+                }
             }
 
         });
@@ -153,8 +157,6 @@ public class GamePlayPanel extends Panel {
         for (int index = 0; index < operativeBoard.flippableCards.size(); index++) {
 
             int finalIndex = index;
-
-
             operativeBoard.flippableCards.get(index).addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -170,49 +172,62 @@ public class GamePlayPanel extends Panel {
                         spymasterBoard.flippableCards.get(finalIndex).flip();
 
                         switch (gameController.guessCard(gameController.allCards.get(finalIndex))) {
-                            case RIGHT_GUESS -> {
+                            case RIGHT_GUESSED -> {
                                 gameController.getCurrentTeam().increaseScore();
                                 gameController.decreaseNumOfGuess();
                                 redTeamGameLog.setScore(gameController.getRedTeam().getScore());
                                 blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
                                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
 
-                                switch (gameController.determineGameResult()) {
-                                    case RED_WIN -> gameController.declareWinner(gameController.getRedTeam());
-                                    case BLUE_WIN -> gameController.declareWinner(gameController.getBlueTeam());
-                                    case ON_GOING -> {
-                                        revalidate();
-                                        repaint();
-                                        return;
-                                    }
-                                }
                             }
-                            case NEUTRAL_OPPONENT_GUESS -> {
+                            case NEUTRAL_GUESSED -> {
                                 gameController.setNumOfGuesses(0);
                                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
-                                new MessageDialog(GamePlayPanel.this, "You guessed Neutral/Opponent card.", "Game Play", "OK");
+                                new MessageDialog(GamePlayPanel.this, "You guessed Neutral card. Your turn is ended.", "Game Play", "OK");
                                 revalidate();
                                 repaint();
                                 buttonEndGuess.doClick();
 
                             }
-                            case ASSASSIN_GUESS -> {
+                            case OPPONENT_GUESSED -> {
+                                gameController.getOtherTeam().increaseScore();
                                 gameController.setNumOfGuesses(0);
-                                new MessageDialog(GamePlayPanel.this, "Game Over!", "Game Play", "OK");
+                                redTeamGameLog.setScore(gameController.getRedTeam().getScore());
+                                blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
+                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                                new MessageDialog(GamePlayPanel.this, "You guessed Opponent card. Your turn is ended.", "Game Play", "OK");
+                                revalidate();
+                                repaint();
+                                buttonEndGuess.doClick();
+                            }
+                            case ASSASSIN_GUESSED -> {
+                                gameController.setNumOfGuesses(0);
+                                new MessageDialog(GamePlayPanel.this, "You guessed Assassin card. Game is over!", "Game Play", "OK");
                                 gameController.declareWinner(gameController.getCurrentTeam());
                                 revalidate();
                                 repaint();
                             }
                         }
+                        GameResult gameResult = gameController.determineGameResult();
+                        switch (gameResult) {
+                            case RED_WIN:
+                            case BLUE_WIN:
+                                if (gameResult == GameResult.RED_WIN) {
+                                    gameController.getRedTeam().setIsWinner(true);
+                                } else {
+                                    gameController.getBlueTeam().setIsWinner(true);
+                                }
 
-                        // Disable the flippable card
+                                break;
+                            case ON_GOING:
+                                revalidate();
+                                repaint();
+                                return;
+                        }
+
                         for (Component component : operativeBoard.flippableCards.get(finalIndex).getComponents()) {
                             component.setEnabled(false);
                         }
-////                    } else if (!gameController.isAvailableGuess()) {
-////                        new MessageDialog(GamePlayPanel.this, "No guess left!", "Game Play", "OK");
-//                    } else if (gameController.isGameOver()) {
-//                        new MessageDialog(GamePlayPanel.this, "Game Over", "Game Play", "OK");
                     }
                 }
             });
@@ -224,12 +239,16 @@ public class GamePlayPanel extends Panel {
         setPanelsBackgroundColor(CustomColor.FRAME_RED.getColor());
         spymasterBoard.setBackgroundColor(CustomColor.FRAME_RED.getColor());
         operativeBoard.setBackgroundColor(CustomColor.FRAME_RED.getColor());
+        textFieldClue.setBackground(CustomColor.CARD_RED.getColor().darker());
+        textFieldNumOfGuess.setBackground(CustomColor.CARD_RED.getColor().darker());
     }
 
     private void setBlueTeamBackground() {
         setPanelsBackgroundColor(CustomColor.FRAME_BLUE.getColor());
         spymasterBoard.setBackgroundColor(CustomColor.FRAME_BLUE.getColor());
         operativeBoard.setBackgroundColor(CustomColor.FRAME_BLUE.getColor());
+        textFieldClue.setBackground(CustomColor.CARD_BLUE.getColor().darker());
+        textFieldNumOfGuess.setBackground(CustomColor.CARD_BLUE.getColor().darker());
     }
 
     private void showOperativeBoard() {

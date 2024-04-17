@@ -19,63 +19,62 @@ public class RolesChooserPanel extends JPanel {
     private final OneRoleChooserPanel operativeBlueRoleChooser;
 
      public RolesChooserPanel(List<Player> players) {
-         setLayout(new BorderLayout());
          setBackground(new java.awt.Color(0, 0, 0, 0));
 
-         ContainerPanel containerPanel = new ContainerPanel(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(850, 515));
+         //ContainerPanel containerPanel = new ContainerPanel(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(850, 515));
 
-         add(containerPanel, BorderLayout.CENTER);
+         //add(containerPanel, BorderLayout.CENTER);
 
-         containerPanel.setLayout(new GridBagLayout());
+         setLayout(new GridBagLayout());
          GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
          Label labelRed = new Label(Color.RED.toString(), Font.BOLD, 32, CustomColor.TEXT.getColor());
          gridBagConstraints.gridx = 1;
          gridBagConstraints.gridy = 0;
          gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-         containerPanel.add(labelRed, gridBagConstraints);
+         add(labelRed, gridBagConstraints);
 
          Label labelBlue = new Label(Color.BLUE.toString(), Font.BOLD, 32, CustomColor.TEXT.getColor());
          gridBagConstraints.gridx = 2;
          gridBagConstraints.gridy = 0;
          gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-         containerPanel.add(labelBlue, gridBagConstraints);
+         add(labelBlue, gridBagConstraints);
 
          Label labelOperatives = new Label(Role.SPYMASTER.toString(), Font.BOLD, 32, CustomColor.TEXT.getColor());
          gridBagConstraints.gridx = 0;
          gridBagConstraints.gridy = 1;
          gridBagConstraints.insets = new Insets(0, 0, 0, 10);
-         containerPanel.add(labelOperatives, gridBagConstraints);
+         add(labelOperatives, gridBagConstraints);
 
          Label labelSpymasters = new Label(Role.OPERATIVE.toString(), Font.BOLD, 32, CustomColor.TEXT.getColor());
          gridBagConstraints.gridx = 0;
          gridBagConstraints.gridy = 2;
          gridBagConstraints.insets = new Insets(0, 0, 0, 10);
-         containerPanel.add(labelSpymasters, gridBagConstraints);
+         add(labelSpymasters, gridBagConstraints);
 
          spymasterRedRoleChooser = new OneRoleChooserPanel(players, players.getFirst().getNickname(), "src/assets/spymaster-red.png", CustomColor.RED_COMBOBOX.getColor());
          gridBagConstraints.gridx = 1;
          gridBagConstraints.gridy = 1;
          gridBagConstraints.insets = new Insets(0, 0, 10, 10);
-         containerPanel.add(spymasterRedRoleChooser, gridBagConstraints);
+         add(spymasterRedRoleChooser, gridBagConstraints);
 
          spymasterBlueRoleChooser = new OneRoleChooserPanel(players, players.get(1).getNickname(), "src/assets/spymaster-blue.png", CustomColor.BLUE_COMBOBOX.getColor());
          gridBagConstraints.gridx = 2;
          gridBagConstraints.gridy = 1;
          gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-         containerPanel.add(spymasterBlueRoleChooser, gridBagConstraints);
+         add(spymasterBlueRoleChooser, gridBagConstraints);
 
          operativeRedRoleChooser = new OneRoleChooserPanel(players, players.get(2).getNickname(), "src/assets/operative-red.png", CustomColor.RED_COMBOBOX.getColor());
          gridBagConstraints.gridx = 1;
          gridBagConstraints.gridy = 2;
          gridBagConstraints.insets = new Insets(0, 0, 0, 10);
-         containerPanel.add(operativeRedRoleChooser, gridBagConstraints);
+         add(operativeRedRoleChooser, gridBagConstraints);
 
          operativeBlueRoleChooser = new OneRoleChooserPanel(players, players.get(3).getNickname(), "src/assets/operative-blue.png", CustomColor.BLUE_COMBOBOX.getColor());
          gridBagConstraints.gridx = 2;
          gridBagConstraints.gridy = 2;
          gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-         containerPanel.add(operativeBlueRoleChooser, gridBagConstraints);
+         add(operativeBlueRoleChooser, gridBagConstraints);
      }
 
     public String[] getComboBoxSelectedPlayers() {

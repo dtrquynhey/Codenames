@@ -74,6 +74,9 @@ public class TextField extends JTextField {
         this.maxCharacters = maxCharacters;
         setDocument(new JTextFieldLimit(maxCharacters));
     }
+    public void setBackgroundColor(Color color) {
+        setBackground(color);
+    }
 
 }
 

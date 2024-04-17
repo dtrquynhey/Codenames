@@ -61,7 +61,7 @@ public class Team {
         return isWinner;
     }
 
-    public void setWinner(boolean winner) {
+    public void setIsWinner(boolean winner) {
         isWinner = winner;
     }
 

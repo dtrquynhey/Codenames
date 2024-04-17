@@ -1,7 +1,9 @@
 package controllers.enums;
 
 public enum GuessResult {
-    NEUTRAL_OPPONENT_GUESS,
-    ASSASSIN_GUESS,
-    RIGHT_GUESS
+
+    RIGHT_GUESSED,
+    OPPONENT_GUESSED,
+    NEUTRAL_GUESSED,
+    ASSASSIN_GUESSED,
 }

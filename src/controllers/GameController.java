@@ -67,16 +67,14 @@ public class GameController implements IGameContract {
     public GuessResult guessCard(Card card) {
         guessedCards.add(card);
         if (card.getColor() == Color.ASSASSIN) {
-            return GuessResult.ASSASSIN_GUESS;
-        } else if (card.getColor() == Color.NEUTRAL || card.getColor() != currentTeam.getColor()) {
-            return GuessResult.NEUTRAL_OPPONENT_GUESS;
+            return GuessResult.ASSASSIN_GUESSED;
+        } else if (card.getColor() == Color.NEUTRAL) {
+            return GuessResult.NEUTRAL_GUESSED;
+        } else if (card.getColor() != currentTeam.getColor()) {
+            return GuessResult.OPPONENT_GUESSED;
         } else {
-            return GuessResult.RIGHT_GUESS;
+            return GuessResult.RIGHT_GUESSED;
         }
-    }
-
-    public void declareWinner(Team winningTeam) {
-        System.out.println(winningTeam.getColor() + " team wins!");
     }
 
     public void declareLoser(Team losingTeam) {
@@ -84,41 +82,22 @@ public class GameController implements IGameContract {
     }
 
     public GameResult determineGameResult() {
-        if (getRedTeam().getScore() == 9) {
+        int redCardsCount = 0;
+        int blueCardsCount = 0;
+
+        for (Card card : guessedCards) {
+            if (card.getColor() == getRedTeam().getColor()) {
+                redCardsCount++;
+            } else if (card.getColor() == getBlueTeam().getColor()) {
+                blueCardsCount++;
+            }
+        }
+        if (redCardsCount == 9) {
             return GameResult.RED_WIN;
-        } else if (getBlueTeam().getScore() == 8) {
+        } else if (blueCardsCount == 8) {
             return GameResult.BLUE_WIN;
         }
         return GameResult.ON_GOING;
-    }
-    public boolean isGameOver() {
-        int redTeamCount = 0;
-        int blueTeamCount = 0;
-        for (Card card : guessedCards) {
-            if (card.getColor() == Color.ASSASSIN) {
-                Team losingTeam = currentTeam;
-                declareLoser(losingTeam);
-                return true;
-
-            } else if (card.getColor() == getRedTeam().getColor()) {
-                redTeamCount++;
-            } else if (card.getColor() == getBlueTeam().getColor()) {
-                blueTeamCount++;
-            }
-
-        }
-
-        if (redTeamCount == 9) {
-            declareWinner(getRedTeam());
-            return true;
-        }
-
-        if (blueTeamCount == 8) {
-            declareWinner(getBlueTeam());
-            return true;
-        }
-
-        return false;
     }
 
     public void changeTurn() {
@@ -172,6 +151,13 @@ public class GameController implements IGameContract {
         return currentTeam;
     }
 
+    public Team getOtherTeam() {
+        if (currentTeam.getColor() == Color.RED) {
+            return getBlueTeam();
+        } else {
+            return getRedTeam();
+        }
+    }
     public void setInitialTeam() {
         this.currentTeam = getRedTeam();
         this.currentPlayer = getRedTeam().getSpymaster();

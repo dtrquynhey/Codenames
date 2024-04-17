@@ -5,7 +5,7 @@ import java.awt.*;
 public enum CustomColor {
     TEXT(Color.decode("#EBBFBF")),
     FRAME(Color.decode("#8B5050")),
-    FRAME_RED(Color.decode("#713C3C")),
+    FRAME_RED(Color.decode("#B83636")),
     FRAME_BLUE(Color.decode("#1D4E84")),
     TEXT_BG(Color.decode("#9D6969")),
     CONTAINER_BROWN(Color.decode("#925353")),
@@ -16,7 +16,7 @@ public enum CustomColor {
     RED(Color.decode("#E25D5D")),
     LIGHT_YELLOW(Color.decode("#F2C18D")),
     YELLOW(Color.decode("#FDCB61")),
-    RED_COMBOBOX(Color.decode("#B54323")),
+    RED_COMBOBOX(Color.decode("#D66868")),
     BLUE_COMBOBOX(Color.decode("#79A4D3")),
     CARD_RED(Color.decode("#D66868")),
     CARD_BLUE(Color.decode("#79A4D3")),
