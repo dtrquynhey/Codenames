@@ -25,11 +25,11 @@ public class TeamController implements ITeamContract {
     public void setTeams(Map<Color, Map<Role, Player>> playerSelectedTeams) {
         Team redTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.SPYMASTER),
                 getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.OPERATIVE),
-                Color.RED, false);
+                Color.RED);
 
         Team blueTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
                 getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.OPERATIVE),
-                Color.BLUE, false);
+                Color.BLUE);
         this.teams = new ArrayList<>(2);
         teams.add(redTeam);
         teams.add(blueTeam);
@@ -126,9 +126,6 @@ public class TeamController implements ITeamContract {
 
             // Assign player to the determined role and team
             randomizedPlayerSelectedTeams.get(teamColor).put(role, players.get(i));
-
-            // Print the player, role, and team assignment
-            System.out.println("Player " + players.get(i).getNickname() + " (" + players.get(i).getNickname() + ") is assigned as " + role + " on " + teamColor + " team.");
         }
     }
 

@@ -1,10 +1,12 @@
 package controllers;
 
 import contracts.IGameContract;
+import controllers.enums.GuessResult;
 import models.Card;
 import models.Game;
 import models.Team;
 import models.enums.Color;
+import models.enums.GameResult;
 import repositories.CardRepository;
 import repositories.DbConfig;
 import repositories.mappers.CardMapper;
@@ -22,14 +24,14 @@ public class GameController implements IGameContract {
     private Game game;
     private String currentPlayer;
     public String currentClue;
-    public int numOfGuesses;
+    private int numOfGuesses;
 
-    public List<Card> flippedCards;
+    public List<Card> guessedCards;
     public List<Card> allCards;
     private Team currentTeam;
 
     public GameController() {
-        flippedCards = new ArrayList<>();
+        guessedCards = new ArrayList<>();
         Connection connection = DbConfig.getConnection();
 
         CardRepository cardRepository = new CardRepository(connection, new CardMapper());
@@ -50,46 +52,52 @@ public class GameController implements IGameContract {
     public Team getBlueTeam() {
         return getGame().getBlueTeam();
     }
+
+    public void setNumOfGuesses(int numOfGuesses) {
+        this.numOfGuesses = numOfGuesses;
+    }
     public void createGame() {
         this.game = new Game();
     }
 
-    public void flipCard(Card card){
-
-        flippedCards.add(card);
-        System.out.println(card.getWord());
-
-        numOfGuesses -= 1;
-
-        System.out.println(flippedCards);
-
+    public boolean isAvailableGuess() {
+        return numOfGuesses > 0;
     }
 
-    public boolean canContinueGuessing(Card card){
+    public GuessResult guessCard(Card card) {
+        guessedCards.add(card);
         if (card.getColor() == Color.ASSASSIN) {
-            numOfGuesses = 0;
-
-            return false;
-        } else if (card.getColor() == Color.NEUTRAL) {
-            numOfGuesses = 0;
-            return false;
-        } else return card.getColor() == currentTeam.getColor() && numOfGuesses > 0 ;
+            return GuessResult.ASSASSIN_GUESS;
+        } else if (card.getColor() == Color.NEUTRAL || card.getColor() != currentTeam.getColor()) {
+            return GuessResult.NEUTRAL_OPPONENT_GUESS;
+        } else {
+            return GuessResult.RIGHT_GUESS;
+        }
     }
 
-    public void declareWinner(Team winningTeam){
+    public void declareWinner(Team winningTeam) {
         System.out.println(winningTeam.getColor() + " team wins!");
     }
-    public void declareLoser(Team losingTeam){
+
+    public void declareLoser(Team losingTeam) {
         System.out.println(losingTeam.getColor() + " team loses!");
     }
 
-    public boolean isGameOver(){
+    public GameResult determineGameResult() {
+        if (getRedTeam().getScore() == 9) {
+            return GameResult.RED_WIN;
+        } else if (getBlueTeam().getScore() == 8) {
+            return GameResult.BLUE_WIN;
+        }
+        return GameResult.ON_GOING;
+    }
+    public boolean isGameOver() {
         int redTeamCount = 0;
         int blueTeamCount = 0;
-        for (Card card : flippedCards) {
+        for (Card card : guessedCards) {
             if (card.getColor() == Color.ASSASSIN) {
-               Team losingTeam = currentTeam;
-               declareLoser(losingTeam);
+                Team losingTeam = currentTeam;
+                declareLoser(losingTeam);
                 return true;
 
             } else if (card.getColor() == getRedTeam().getColor()) {
@@ -100,12 +108,12 @@ public class GameController implements IGameContract {
 
         }
 
-        if(redTeamCount == 9){
+        if (redTeamCount == 9) {
             declareWinner(getRedTeam());
             return true;
         }
 
-        if(blueTeamCount == 8){
+        if (blueTeamCount == 8) {
             declareWinner(getBlueTeam());
             return true;
         }
@@ -115,7 +123,7 @@ public class GameController implements IGameContract {
 
     public void changeTurn() {
 
-        if (currentPlayer.equals(getRedTeam().getSpymaster())){
+        if (currentPlayer.equals(getRedTeam().getSpymaster())) {
             currentPlayer = getRedTeam().getOperative();
         } else if (currentPlayer.equals(getRedTeam().getOperative())) {
             currentPlayer = getBlueTeam().getSpymaster();
@@ -128,8 +136,6 @@ public class GameController implements IGameContract {
             currentPlayer = getRedTeam().getSpymaster();
             currentTeam = getRedTeam();
         }
-        System.out.println(currentPlayer);
-        System.out.println(currentTeam);
     }
 
     @Override
@@ -169,5 +175,9 @@ public class GameController implements IGameContract {
     public void setInitialTeam() {
         this.currentTeam = getRedTeam();
         this.currentPlayer = getRedTeam().getSpymaster();
+    }
+
+    public void decreaseNumOfGuess() {
+        this.numOfGuesses--;
     }
 }

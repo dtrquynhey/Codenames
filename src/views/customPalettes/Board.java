@@ -7,81 +7,28 @@ import views.customPalettes.enums.CustomColor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Board extends JPanel {
 
-    private boolean isOperativeBoard;
+    public List<FlippableCard> flippableCards = new ArrayList<>();
+    public List<Card> cards;
 
-    public Board(List<Card> cards, Boolean isOperativeBoard, GameController gameController) {
-
-        this.isOperativeBoard = isOperativeBoard;
+    public Board(List<Card> cards) {
+        this.cards = cards;
 
         setLayout(new GridBagLayout());
-        setBackground(CustomColor.FRAME_RED.getColor());
-
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         for (int index = 0; index < cards.size(); index++) {
             Card card = cards.get(index);
             FlippableCard flippableCard = new FlippableCard(getCardColor(card.getColor()), card.getWord(), getImagePathForCard(card, index));
+            flippableCards.add(flippableCard);
             gridBagConstraints.gridx = index % 5;
             gridBagConstraints.gridy = index / 5;
             add(flippableCard, gridBagConstraints);
-
-
-            if (isOperativeBoard) {
-                // Add mouse listener to flip the card only for the operative board
-                flippableCard.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(java.awt.event.MouseEvent e) {
-                        super.mouseClicked(e);
-                        if (card.getIsRevealed() ){
-                            return;
-                        }
-
-                        if (gameController.numOfGuesses == 0){
-                            new MessageDialog(Board.this, "No more guess", "Error");
-                            return;
-                        }
-
-                        card.setIsRevealed(true);
-                        System.out.println("Number of Guesses Left before change: " + gameController.getNumOfGuesses());
-                        flippableCard.flip();
-                        gameController.flipCard(card);
-                        // Debugging statements
-                        System.out.println("Card Color: " + card.getColor());
-                        System.out.println("Team Color: " + gameController.getCurrentTeam().getColor());
-                        System.out.println("Number of Guesses Left after change: " + gameController.getNumOfGuesses());
-
-                        if (!(gameController.canContinueGuessing(card))){
-                            System.out.println("No guess available");
-
-                        } else {
-                            System.out.println("More guess available");
-                        }
-                        if (gameController.isGameOver()){
-                            System.out.println("Game Over");
-                        }
-                        //flippableCard.setEnabled(false);
-
-                        for(Component component : flippableCard.getComponents()) {
-                            component.setEnabled(false);
-                        }
-                    }
-                });
-            } else {
-                // Add mouse listener to select the card only for the spymaster board
-                flippableCard.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(java.awt.event.MouseEvent e) {
-                        super.mouseClicked(e);
-                        flippableCard.setSelected(!flippableCard.isSelected());
-                    }
-                });
-
-            }
         }
     }
 
@@ -111,6 +58,11 @@ public class Board extends JPanel {
                 ((FlippableCard) component).setBackgroundColor(color);
             }
         }
+    }
+
+
+    public void setBackgroundColor(Color color) {
+        setBackground(color);
     }
 
 }

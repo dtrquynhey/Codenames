@@ -1,9 +1,9 @@
 package views.gui;
 
 
-import controllers.AccountController;
 import controllers.GameController;
-import models.Card;
+import models.enums.Color;
+import views.customPalettes.Label;
 import views.customPalettes.Panel;
 import views.customPalettes.TextField;
 import views.customPalettes.*;
@@ -11,15 +11,27 @@ import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GamePlayPanel extends Panel {
 
-    private GameController gameController;
+    private final GameController gameController;
     private JPanel cardPanel;
     private CardLayout cardLayout;
+    public Board spymasterBoard;
+    public Board operativeBoard;
+    RedTeamGameLog redTeamGameLog;
+    BlueTeamGameLog blueTeamGameLog;
+    TextField textFieldClue;
+    TextField textFieldNumOfGuess;
+    Label labelRemainingGuess;
+    RoundedButton buttonGiveClue;
+    RoundedButton buttonEndGuess;
+
     public GamePlayPanel(GameController gameController) {
         super();
-
+        this.gameController = gameController;
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.YELLOW.getColor().darker());
         topFlowPanel.add(buttonReadRules);
 
@@ -31,90 +43,102 @@ public class GamePlayPanel extends Panel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        RedTeamGameLog redTeamGameLog = new RedTeamGameLog(gameController);
+        redTeamGameLog = new RedTeamGameLog(gameController);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         centerGridBagPanel.add(redTeamGameLog, gridBagConstraints);
 
 
-        JPanel cardPanel = new JPanel();
-        CardLayout cardLayout = new CardLayout();
+        cardPanel = new JPanel();
+        cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        Board spymasterBoard = new Board(gameController.allCards, false,gameController);
+        spymasterBoard = new Board(gameController.allCards);
         cardPanel.add(spymasterBoard, "SPYMASTER_BOARD");
-
-        Board operativeBoard = new Board(gameController.allCards, true,gameController);
+        operativeBoard = new Board(gameController.allCards);
         operativeBoard.setCardColor(CustomColor.CARD_NEUTRAL.getColor());
         cardPanel.add(operativeBoard, "OPERATIVE_BOARD");
 
         cardLayout.show(cardPanel, "SPYMASTER_BOARD");
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new Insets(0, 25, 0, 25);
+        gridBagConstraints.insets = new Insets(0, 10, 0, 10);
         centerGridBagPanel.add(cardPanel, gridBagConstraints);
 
 
-        BlueTeamGameLog blueTeamGameLog = new BlueTeamGameLog(gameController);
+        blueTeamGameLog = new BlueTeamGameLog(gameController);
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         centerGridBagPanel.add(blueTeamGameLog, gridBagConstraints);
 
+        Label label2 = new Label("Remaining guess(es): ", Font.BOLD, 16, CustomColor.TEXT.getColor());
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        centerGridBagPanel.add(label2, gridBagConstraints);
 
-        TextField textFieldHint = new TextField("Type your hint", new Dimension(300, 42));
-        bottomFlowPanel.add(textFieldHint);
+        labelRemainingGuess = new Label("", Font.BOLD, 18, CustomColor.TEXT.getColor());
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        centerGridBagPanel.add(labelRemainingGuess, gridBagConstraints);
 
-        TextField textFieldNumOfGuess = new TextField("", new Dimension(60, 42));
+
+        textFieldClue = new TextField("Type your clue", new Dimension(300, 42));
+        bottomFlowPanel.add(textFieldClue);
+
+        textFieldNumOfGuess = new TextField("", new Dimension(60, 42));
+        textFieldNumOfGuess.setMaxCharacters(1);
         bottomFlowPanel.add(textFieldNumOfGuess);
 
-        RoundedButton buttonGiveClue = new RoundedButton("Give Clue", 130, 42, CustomColor.GREEN.getColor());
+        buttonGiveClue = new RoundedButton("Give Clue", 130, 42, CustomColor.GREEN.getColor());
         bottomFlowPanel.add(buttonGiveClue);
 
-        RoundedButton buttonEndGuess = new RoundedButton("End Guess", 140, 42, CustomColor.YELLOW.getColor());
+        buttonEndGuess = new RoundedButton("End Guess", 140, 42, CustomColor.YELLOW.getColor());
         bottomFlowPanel.add(buttonEndGuess);
         buttonEndGuess.setVisible(false);
 
+        setRedTeamBackground();
+
         buttonGiveClue.addActionListener(e -> {
-            cardLayout.show(cardPanel, "OPERATIVE_BOARD");
-            textFieldHint.setEnabled(false);
-            textFieldNumOfGuess.setEnabled(false);
-            buttonEndGuess.setVisible(true);
-            buttonGiveClue.setVisible(false);
 
-            if (textFieldHint.getText().isEmpty()){
-                gameController.currentClue = "";
+            if (textFieldClue.getText().isEmpty()) {
+                new MessageDialog(this, "Please enter clue.", "Game Play Error", "OK");
+            } else if (textFieldNumOfGuess.getText().isEmpty()) {
+                new MessageDialog(this, "Please enter number of word.", "Game Play Error", "OK");
+            } else if (!Character.isDigit(textFieldNumOfGuess.getText().codePointAt(0))) {
+                new MessageDialog(this, "Number of word field must be a digit.", "Game Play Error", "OK");
             } else {
-                gameController.currentClue = textFieldHint.getText();
+                showOperativeBoard();
+
+                gameController.currentClue = textFieldClue.getText().trim();
+                gameController.setNumOfGuesses(Integer.parseInt(textFieldNumOfGuess.getText().trim()) + 1);
+                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                gameController.changeTurn();
+
+                handleCardsClick();
             }
-
-            if (textFieldNumOfGuess.getText().isEmpty()){
-                gameController.numOfGuesses = 1;
-            } else {
-                gameController.numOfGuesses = Integer.parseInt(textFieldNumOfGuess.getText()) + 1;
-
-            }
-            gameController.currentClue = textFieldHint.getText();
-            gameController.numOfGuesses = Integer.parseInt(textFieldNumOfGuess.getText()) + 1;
-            gameController.changeTurn();
-
         });
 
         buttonEndGuess.addActionListener(e -> {
-            cardLayout.show(cardPanel, "SPYMASTER_BOARD");
-            textFieldHint.setEnabled(true);
-            textFieldNumOfGuess.setEnabled(true);
-            textFieldHint.setText("");
-            textFieldNumOfGuess.setText("");
-            buttonEndGuess.setVisible(false);
-            buttonGiveClue.setVisible(true);
 
-            gameController.currentClue = textFieldHint.getText();
-            gameController.numOfGuesses = 0;
+            showSpymasterBoard();
+            gameController.currentClue = textFieldClue.getText();
+            gameController.setNumOfGuesses(0);
+            labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+
             gameController.changeTurn();
-            for (Card c : gameController.flippedCards) {
 
+            if (gameController.getCurrentTeam().getColor() == Color.RED) {
+                setRedTeamBackground();
+            } else {
+                setBlueTeamBackground();
             }
+
         });
 
 
@@ -123,5 +147,108 @@ public class GamePlayPanel extends Panel {
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(GamePlayPanel.this);
             mainFrame.showMainPanel();
         });
+    }
+
+    private void handleCardsClick() {
+        for (int index = 0; index < operativeBoard.flippableCards.size(); index++) {
+
+            int finalIndex = index;
+
+
+            operativeBoard.flippableCards.get(index).addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    if (gameController.allCards.get(finalIndex).getIsRevealed()) {
+                        return;
+                    }
+                    if (gameController.isAvailableGuess()) {
+
+                        gameController.allCards.get(finalIndex).setIsRevealed(true);
+
+                        operativeBoard.flippableCards.get(finalIndex).flip();
+                        spymasterBoard.flippableCards.get(finalIndex).flip();
+
+                        switch (gameController.guessCard(gameController.allCards.get(finalIndex))) {
+                            case RIGHT_GUESS -> {
+                                gameController.getCurrentTeam().increaseScore();
+                                gameController.decreaseNumOfGuess();
+                                redTeamGameLog.setScore(gameController.getRedTeam().getScore());
+                                blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
+                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+
+                                switch (gameController.determineGameResult()) {
+                                    case RED_WIN -> gameController.declareWinner(gameController.getRedTeam());
+                                    case BLUE_WIN -> gameController.declareWinner(gameController.getBlueTeam());
+                                    case ON_GOING -> {
+                                        revalidate();
+                                        repaint();
+                                        return;
+                                    }
+                                }
+                            }
+                            case NEUTRAL_OPPONENT_GUESS -> {
+                                gameController.setNumOfGuesses(0);
+                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                                new MessageDialog(GamePlayPanel.this, "You guessed Neutral/Opponent card.", "Game Play", "OK");
+                                revalidate();
+                                repaint();
+                                buttonEndGuess.doClick();
+
+                            }
+                            case ASSASSIN_GUESS -> {
+                                gameController.setNumOfGuesses(0);
+                                new MessageDialog(GamePlayPanel.this, "Game Over!", "Game Play", "OK");
+                                gameController.declareWinner(gameController.getCurrentTeam());
+                                revalidate();
+                                repaint();
+                            }
+                        }
+
+                        // Disable the flippable card
+                        for (Component component : operativeBoard.flippableCards.get(finalIndex).getComponents()) {
+                            component.setEnabled(false);
+                        }
+////                    } else if (!gameController.isAvailableGuess()) {
+////                        new MessageDialog(GamePlayPanel.this, "No guess left!", "Game Play", "OK");
+//                    } else if (gameController.isGameOver()) {
+//                        new MessageDialog(GamePlayPanel.this, "Game Over", "Game Play", "OK");
+                    }
+                }
+            });
+        }
+    }
+
+
+    private void setRedTeamBackground() {
+        setPanelsBackgroundColor(CustomColor.FRAME_RED.getColor());
+        spymasterBoard.setBackgroundColor(CustomColor.FRAME_RED.getColor());
+        operativeBoard.setBackgroundColor(CustomColor.FRAME_RED.getColor());
+    }
+
+    private void setBlueTeamBackground() {
+        setPanelsBackgroundColor(CustomColor.FRAME_BLUE.getColor());
+        spymasterBoard.setBackgroundColor(CustomColor.FRAME_BLUE.getColor());
+        operativeBoard.setBackgroundColor(CustomColor.FRAME_BLUE.getColor());
+    }
+
+    private void showOperativeBoard() {
+        cardLayout.show(cardPanel, "OPERATIVE_BOARD");
+        textFieldClue.setEnabled(false);
+        textFieldNumOfGuess.setEnabled(false);
+        labelRemainingGuess.setVisible(true);
+        buttonEndGuess.setVisible(true);
+        buttonGiveClue.setVisible(false);
+    }
+
+    private void showSpymasterBoard() {
+        cardLayout.show(cardPanel, "SPYMASTER_BOARD");
+        textFieldClue.setEnabled(true);
+        textFieldNumOfGuess.setEnabled(true);
+        textFieldClue.setText("");
+        textFieldNumOfGuess.setText("");
+        labelRemainingGuess.setVisible(false);
+        buttonEndGuess.setVisible(false);
+        buttonGiveClue.setVisible(true);
     }
 }

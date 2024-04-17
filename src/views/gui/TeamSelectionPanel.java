@@ -39,12 +39,11 @@ public class TeamSelectionPanel extends Panel {
 
         buttonStartGame.addActionListener(e -> {
             if (!teamController.isValidRoom(rolesChooserPanel.getComboBoxSelectedPlayers())) {
-                new MessageDialog(this, "Each player can only play one role.", "Team Setup Error");
+                new MessageDialog(this, "Each player can only play one role.", "Team Setup Error", "Try Again");
             } else {
                 teamController.setTeams(rolesChooserPanel.getPlayerSelectedTeamsMap());
                 gameController.getGame().setTeams(teamController.getTeams());
                 gameController.setInitialTeam();
-                new MessageDialog(this, "All teams are set.", "Team Setup Success");
                 showGamePlayPanel();
             }
         });

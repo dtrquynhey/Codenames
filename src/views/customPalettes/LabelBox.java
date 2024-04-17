@@ -14,7 +14,7 @@ public class LabelBox extends JLabel {
         super(text);
         this.bgColor = bgColor;
 
-        setFont(new Font(FONT_FAMILY, Font.BOLD, 15));
+        setFont(new Font(FONT_FAMILY, Font.BOLD, 17));
         setPreferredSize(dimension);
         setForeground(fgColor);
         setBackground(bgColor);

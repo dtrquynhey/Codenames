@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MessageDialog extends JDialog {
-    public MessageDialog(Component parentComponent, String message, String title) {
+    public MessageDialog(Component parentComponent, String message, String title, String button) {
         super((Frame) SwingUtilities.getWindowAncestor(parentComponent), title, true);
         getContentPane().setBackground(CustomColor.FRAME.getColor());
 
@@ -21,7 +21,7 @@ public class MessageDialog extends JDialog {
         gridBagConstraints.insets = new Insets(30, 30, 0, 30);
         panel.add(messageLabel, gridBagConstraints);
 
-        RoundedButton buttonOk = new RoundedButton("OK", 90, 42, CustomColor.RED.getColor());
+        RoundedButton buttonOk = new RoundedButton(button, 90, 42, CustomColor.RED.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(10, 30, 30, 30);

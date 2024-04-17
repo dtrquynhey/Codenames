@@ -67,7 +67,7 @@ public class LoginPanel extends Panel {
                 case SUCCESS -> {
                     loginInfoPanel.resetPanel();
                     switch (accountController.addAccount(username)) {
-                        case DUPLICATE_NAMES -> new MessageDialog(this, "This account already logged in.", "Log In Failure");
+                        case DUPLICATE_NAMES -> new MessageDialog(this, "This account already logged in.", "Log In Failure", "Try Again");
                         case SUCCESS -> {
                             if (onLoginSuccess != null) {
                                 onLoginSuccess.run();

@@ -64,4 +64,8 @@ public class RoundedButton extends JButton {
         g2.dispose();
     }
 
+    @Override
+    public void setPreferredSize(Dimension preferredSize) {
+        super.setPreferredSize(preferredSize);
+    }
 }

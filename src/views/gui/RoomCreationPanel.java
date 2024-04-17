@@ -84,7 +84,6 @@ public class RoomCreationPanel extends Panel {
                 case SUCCESS -> {
                     playerController.setPlayers(playerNicknames);
                     gameController.getGame().setPlayers(playerController.getPlayers());
-                    new MessageDialog(this, "Room is created.", "Room Creation Success");
 
                     TeamSelectionPanel teamSetupPanel = playerController.initializeTeamSetUpPanel(gameController);
                     MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);

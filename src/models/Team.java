@@ -5,22 +5,16 @@ import java.util.List;
 
 public class Team {
     private int teamId;
-    private List<Player> listOfPlayers;
     private Player spymaster;
     private Player operative;
     private Color color;
     private int score;
     private boolean isWinner;
 
-    public Team() {
-    }
-
-
-    public Team(Player spymaster, Player operative, Color color, boolean isWinner) {
+    public Team(Player spymaster, Player operative, Color color) {
         this.spymaster = spymaster;
         this.operative = operative;
         this.color = color;
-        this.isWinner = isWinner;
     }
 
     public int getTeamId() {
@@ -29,14 +23,6 @@ public class Team {
 
     public void setTeamId(int teamId) {
         this.teamId = teamId;
-    }
-
-    public List<Player> getListOfPlayers() {
-        return listOfPlayers;
-    }
-
-    public void setListOfPlayers(List<Player> listOfPlayers) {
-        this.listOfPlayers = listOfPlayers;
     }
 
     public Color getColor() {
@@ -51,19 +37,8 @@ public class Team {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    @Override
-    public String toString() {
-        return "Team{" +
-                "teamId='" + teamId + '\'' +
-                ", Spymaster=" + spymaster.getNickname() +
-                ", Operative=" + operative.getNickname() +
-                ", color=" + color +
-                ", score=" + score +
-                '}';
+    public void increaseScore() {
+        this.score++;
     }
 
     public String getSpymaster() {
@@ -88,5 +63,17 @@ public class Team {
 
     public void setWinner(boolean winner) {
         isWinner = winner;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamId='" + teamId + '\'' +
+                ", Spymaster=" + spymaster.getNickname() +
+                ", Operative=" + operative.getNickname() +
+                ", color=" + color +
+                ", score=" + score +
+                '}';
     }
 }

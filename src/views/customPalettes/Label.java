@@ -10,6 +10,17 @@ public class Label extends JLabel {
     private boolean clickable = false;
     private ClickListener clickListener;
 
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    private String text;
     public Label(String text, int fontStyle, int fontSize, Color foreGroundColor) {
         super(text);
         setFont(new Font(FONT_FAMILY, fontStyle, fontSize));
@@ -57,4 +68,6 @@ public class Label extends JLabel {
     public interface ClickListener {
         void onClick(Label label);
     }
+
+
 }

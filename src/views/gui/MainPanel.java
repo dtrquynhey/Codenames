@@ -84,7 +84,7 @@ public class MainPanel extends Panel {
                 case SUCCESS -> {
                     accountController.signUp(username, password);
                     signupInfoPanel.resetPanel();
-                    new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success");
+                    new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success", "OK");
                 }
             }
         });

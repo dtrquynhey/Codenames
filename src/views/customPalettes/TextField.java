@@ -3,12 +3,17 @@ package views.customPalettes;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class TextField extends JTextField {
     private final Color shadowColor = new Color(0, 0, 0, 50); // Semi-transparent black color for shadow
     private String placeholder;
+    private int maxCharacters;
+
 
     public TextField(String placeholder, Dimension dimension) {
         super();
@@ -60,10 +65,33 @@ public class TextField extends JTextField {
         g2d.dispose();
     }
 
-
-
     @Override
     public Color getCaretColor() {
         return Color.WHITE;
+    }
+
+    public void setMaxCharacters(int maxCharacters) {
+        this.maxCharacters = maxCharacters;
+        setDocument(new JTextFieldLimit(maxCharacters));
+    }
+
+}
+
+class JTextFieldLimit extends PlainDocument {
+    private int limit;
+
+    JTextFieldLimit(int limit) {
+        super();
+        this.limit = limit;
+    }
+
+    @Override
+    public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+        if (str == null)
+            return;
+
+        if ((getLength() + str.length()) <= limit) {
+            super.insertString(offset, str, attr);
+        }
     }
 }
