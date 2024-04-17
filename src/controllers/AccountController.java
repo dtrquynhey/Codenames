@@ -22,9 +22,6 @@ public class AccountController implements IAccountContract {
     public List<Account> getAccounts() {
         return accounts;
     }
-    public int getAccountsLength() {
-        return accounts.toArray().length;
-    }
     public Account getMainAccount() {
         return mainAccount;
     }
@@ -100,7 +97,6 @@ public class AccountController implements IAccountContract {
         mainAccount = new Account(username);
     }
 
-    @Override
     public void logOut() {
         accounts = null;
     }

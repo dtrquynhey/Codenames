@@ -15,6 +15,25 @@ public class TeamController implements ITeamContract {
 
     private static TeamController instance;
     private final TeamRepository teamRepository;
+
+
+    private List<Team> teams;
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Map<Color, Map<Role, Player>> playerSelectedTeams) {
+        Team redTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.SPYMASTER),
+                getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.OPERATIVE),
+                Color.RED, false);
+
+        Team blueTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
+                getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.OPERATIVE),
+                Color.BLUE, false);
+        this.teams = new ArrayList<>(2);
+        teams.add(redTeam);
+        teams.add(blueTeam);
+    }
     private Map<Color, Map<Role, Player>> randomizedPlayerSelectedTeams;
 
 
@@ -30,18 +49,11 @@ public class TeamController implements ITeamContract {
         return instance;
     }
 
-    @Override
-    public void setupTeams(Map<Color, Map<Role, Player>> playerSelectedTeams) {
-        Team redTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.SPYMASTER),
-                getPlayerByColorRole(playerSelectedTeams, Color.RED, Role.OPERATIVE),
-                Color.RED, false);
-
-        Team blueTeam = new Team(getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.SPYMASTER),
-                getPlayerByColorRole(playerSelectedTeams, Color.BLUE, Role.OPERATIVE),
-                Color.BLUE, false);
+    public void createTeams() {
         try {
-            teamRepository.createTeam(redTeam);
-            teamRepository.createTeam(blueTeam);
+            for (Team team: this.teams) {
+                teamRepository.insertTeam(team);
+            }
         } catch (SQLException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }

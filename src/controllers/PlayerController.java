@@ -18,18 +18,12 @@ import java.util.Set;
 public class PlayerController implements IPlayerContract {
 
     private static PlayerController instance;
-    public int playerIndex;
     private List<Player> players = new ArrayList<>();
 
     public PlayerController() {
     }
 
-    public List<Player> getPlayers() {
-        return players;
-    }
-    public void setPlayerList(List<Account> accounts, List<Player> guests) {
 
-    }
     public static PlayerController getInstance() {
 
         if (instance == null) {
@@ -38,8 +32,12 @@ public class PlayerController implements IPlayerContract {
         return instance;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     @Override
-    public void createPlayers(String[] usernames) {
+    public void setPlayers(String[] usernames) {
         for (String u : usernames) {
             this.players.add(new Player(u));
         }

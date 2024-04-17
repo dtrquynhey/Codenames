@@ -1,20 +1,17 @@
 package views.customPalettes;
 
-import models.Player;
-import views.customPalettes.enums.CustomColor;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class OneGameLog extends JPanel {
 
-    public OneGameLog(Player player, String role, Color bgColor, Color containerColor) {
+    public OneGameLog(String player, String role, Color bgColor) {
         setLayout(new GridBagLayout());
         setBackground(new Color(0, 0, 0, 0));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        LabelBox playerNicknameLabel = new LabelBox(player.getNickname(), bgColor, Color.WHITE, new Dimension(100, 30));
+        LabelBox playerNicknameLabel = new LabelBox(player, bgColor, Color.WHITE, new Dimension(100, 30));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -25,17 +22,6 @@ public class OneGameLog extends JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(-6, 0, 0, 0);
         add(roleLabel, gridBagConstraints);
-
-//        ContainerPanel containerPanel = new ContainerPanel(containerColor, new Dimension(208, 235));
-//        gridBagConstraints.gridx = 0;
-//        gridBagConstraints.gridy = 2;
-//        gridBagConstraints.insets = new Insets(-6, 0, 0, 0);
-//        add(containerPanel, gridBagConstraints);
-//
-//        containerPanel.setLayout(new BorderLayout());
-//
-//        Label gameLog = new Label("hello", Font.PLAIN, 13, CustomColor.TEXT.getColor());
-//        containerPanel.add(gameLog, BorderLayout.WEST);
     }
 
 

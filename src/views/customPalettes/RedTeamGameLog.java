@@ -1,5 +1,7 @@
 package views.customPalettes;
 
+import controllers.GameController;
+import controllers.TeamController;
 import models.Player;
 import models.enums.Role;
 import views.customPalettes.enums.CustomColor;
@@ -10,19 +12,19 @@ import java.util.Map;
 
 public class RedTeamGameLog extends JPanel {
 
-    public RedTeamGameLog(Map<Role, Player> redTeam) {
+    public RedTeamGameLog(GameController gameController) {
         setLayout(new GridBagLayout());
         setBackground(new Color(0, 0, 0, 0));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        OneGameLog spymasterRedGameLog = new OneGameLog(redTeam.get(Role.SPYMASTER), Role.SPYMASTER.toString(), CustomColor.RED_COMBOBOX.getColor(), Color.decode("#823E36"));
+        OneGameLog spymasterRedGameLog = new OneGameLog(gameController.getGame().getTeams().getFirst().getSpymaster(), Role.SPYMASTER.toString(), CustomColor.RED_COMBOBOX.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         add(spymasterRedGameLog, gridBagConstraints);
 
-        OneGameLog operativeRedGameLog = new OneGameLog(redTeam.get(Role.OPERATIVE), Role.OPERATIVE.toString(), CustomColor.RED_COMBOBOX.getColor(), Color.decode("#823E36"));
+        OneGameLog operativeRedGameLog = new OneGameLog(gameController.getGame().getTeams().getFirst().getOperative(), Role.OPERATIVE.toString(), CustomColor.RED_COMBOBOX.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(2, 0, 0, 0);
@@ -33,9 +35,5 @@ public class RedTeamGameLog extends JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
         add(redScore, gridBagConstraints);
-    }
-
-    public void setBackgroundColor(Color color) {
-        setBackground(color);
     }
 }

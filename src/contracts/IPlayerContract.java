@@ -4,7 +4,7 @@ import controllers.enums.RoomCreationResult;
 
 public interface IPlayerContract {
 
-    void createPlayers(String[] players);
+    void setPlayers(String[] players);
 
     RoomCreationResult isValidPlayerNames(String[] playerNicknames);
 

@@ -18,7 +18,7 @@ public class RolesChooserPanel extends JPanel {
     private final OneRoleChooserPanel operativeRedRoleChooser;
     private final OneRoleChooserPanel operativeBlueRoleChooser;
 
-     public RolesChooserPanel(List<Player> playerList) {
+     public RolesChooserPanel(List<Player> players) {
          setLayout(new BorderLayout());
          setBackground(new java.awt.Color(0, 0, 0, 0));
 
@@ -53,25 +53,25 @@ public class RolesChooserPanel extends JPanel {
          gridBagConstraints.insets = new Insets(0, 0, 0, 10);
          containerPanel.add(labelSpymasters, gridBagConstraints);
 
-         spymasterRedRoleChooser = new OneRoleChooserPanel(playerList, playerList.getFirst().getNickname(), "src/assets/spymaster-red.png", CustomColor.RED_COMBOBOX.getColor());
+         spymasterRedRoleChooser = new OneRoleChooserPanel(players, players.getFirst().getNickname(), "src/assets/spymaster-red.png", CustomColor.RED_COMBOBOX.getColor());
          gridBagConstraints.gridx = 1;
          gridBagConstraints.gridy = 1;
          gridBagConstraints.insets = new Insets(0, 0, 10, 10);
          containerPanel.add(spymasterRedRoleChooser, gridBagConstraints);
 
-         spymasterBlueRoleChooser = new OneRoleChooserPanel(playerList, playerList.get(1).getNickname(), "src/assets/spymaster-blue.png", CustomColor.BLUE_COMBOBOX.getColor());
+         spymasterBlueRoleChooser = new OneRoleChooserPanel(players, players.get(1).getNickname(), "src/assets/spymaster-blue.png", CustomColor.BLUE_COMBOBOX.getColor());
          gridBagConstraints.gridx = 2;
          gridBagConstraints.gridy = 1;
          gridBagConstraints.insets = new Insets(0, 0, 10, 0);
          containerPanel.add(spymasterBlueRoleChooser, gridBagConstraints);
 
-         operativeRedRoleChooser = new OneRoleChooserPanel(playerList, playerList.get(2).getNickname(), "src/assets/operative-red.png", CustomColor.RED_COMBOBOX.getColor());
+         operativeRedRoleChooser = new OneRoleChooserPanel(players, players.get(2).getNickname(), "src/assets/operative-red.png", CustomColor.RED_COMBOBOX.getColor());
          gridBagConstraints.gridx = 1;
          gridBagConstraints.gridy = 2;
          gridBagConstraints.insets = new Insets(0, 0, 0, 10);
          containerPanel.add(operativeRedRoleChooser, gridBagConstraints);
 
-         operativeBlueRoleChooser = new OneRoleChooserPanel(playerList, playerList.get(3).getNickname(), "src/assets/operative-blue.png", CustomColor.BLUE_COMBOBOX.getColor());
+         operativeBlueRoleChooser = new OneRoleChooserPanel(players, players.get(3).getNickname(), "src/assets/operative-blue.png", CustomColor.BLUE_COMBOBOX.getColor());
          gridBagConstraints.gridx = 2;
          gridBagConstraints.gridy = 2;
          gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -88,7 +88,7 @@ public class RolesChooserPanel extends JPanel {
     }
 
 
-    public Map<Color, Map<Role, Player>> getPlayerSelectedTeams() {
+    public Map<Color, Map<Role, Player>> getPlayerSelectedTeamsMap() {
         Map<Color, Map<Role, Player>> playerSelectedTeams = new HashMap<>();
 
         playerSelectedTeams.put(Color.RED, getPlayerSelectedRoles(spymasterRedRoleChooser.getSelectedPlayer(), operativeRedRoleChooser.getSelectedPlayer()));

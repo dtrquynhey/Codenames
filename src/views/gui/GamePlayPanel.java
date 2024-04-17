@@ -1,12 +1,9 @@
 package views.gui;
 
 
-import controllers.CardController;
+import controllers.AccountController;
 import controllers.GameController;
 import models.Card;
-import models.Player;
-import models.enums.Color;
-import models.enums.Role;
 import views.customPalettes.Panel;
 import views.customPalettes.TextField;
 import views.customPalettes.*;
@@ -14,24 +11,16 @@ import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 public class GamePlayPanel extends Panel {
 
     private GameController gameController;
     private JPanel cardPanel;
     private CardLayout cardLayout;
-    public GamePlayPanel(Map<Color, Map<Role, Player>> playerSelectedTeams) {
+    public GamePlayPanel(GameController gameController) {
         super();
 
-        gameController = new GameController();
-
-        gameController.addTeams(playerSelectedTeams);
-
-        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
+        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.YELLOW.getColor().darker());
         topFlowPanel.add(buttonReadRules);
 
         RoundedButton buttonExitGame = new RoundedButton("Exit Game", 140, 42, CustomColor.GREY.getColor());
@@ -42,7 +31,7 @@ public class GamePlayPanel extends Panel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        RedTeamGameLog redTeamGameLog = new RedTeamGameLog(playerSelectedTeams.get(Color.RED));
+        RedTeamGameLog redTeamGameLog = new RedTeamGameLog(gameController);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         centerGridBagPanel.add(redTeamGameLog, gridBagConstraints);
@@ -66,7 +55,7 @@ public class GamePlayPanel extends Panel {
         centerGridBagPanel.add(cardPanel, gridBagConstraints);
 
 
-        BlueTeamGameLog blueTeamGameLog = new BlueTeamGameLog(playerSelectedTeams.get(Color.BLUE));
+        BlueTeamGameLog blueTeamGameLog = new BlueTeamGameLog(gameController);
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
@@ -76,7 +65,7 @@ public class GamePlayPanel extends Panel {
         TextField textFieldHint = new TextField("Type your hint", new Dimension(300, 42));
         bottomFlowPanel.add(textFieldHint);
 
-        TextField textFieldNumOfGuess = new TextField("", new Dimension(50, 42));
+        TextField textFieldNumOfGuess = new TextField("", new Dimension(60, 42));
         bottomFlowPanel.add(textFieldNumOfGuess);
 
         RoundedButton buttonGiveClue = new RoundedButton("Give Clue", 130, 42, CustomColor.GREEN.getColor());
@@ -106,8 +95,9 @@ public class GamePlayPanel extends Panel {
 
             }
             gameController.currentClue = textFieldHint.getText();
-            gameController.numOfGuesses = Integer.parseInt(textFieldNumOfGuess.getText())+1;
+            gameController.numOfGuesses = Integer.parseInt(textFieldNumOfGuess.getText()) + 1;
             gameController.changeTurn();
+
         });
 
         buttonEndGuess.addActionListener(e -> {
@@ -122,9 +112,16 @@ public class GamePlayPanel extends Panel {
             gameController.currentClue = textFieldHint.getText();
             gameController.numOfGuesses = 0;
             gameController.changeTurn();
+            for (Card c : gameController.flippedCards) {
+
+            }
         });
 
 
+        buttonLogOut.addActionListener(e -> {
 
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(GamePlayPanel.this);
+            mainFrame.showMainPanel();
+        });
     }
 }

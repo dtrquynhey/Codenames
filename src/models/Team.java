@@ -23,12 +23,6 @@ public class Team {
         this.isWinner = isWinner;
     }
 
-    public Team(List<Player> listOfPlayers, Color color, int score) {
-        this.listOfPlayers = listOfPlayers;
-        this.color = color;
-        this.score = score;
-    }
-
     public int getTeamId() {
         return teamId;
     }

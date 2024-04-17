@@ -61,7 +61,6 @@ public class RoomCreationPanel extends Panel {
             });
         }
 
-        gameController.createNewGame();
 
         RoundedButton buttonCreateRoom = new RoundedButton("Create Room", 160, 42, CustomColor.PINK.getColor());
         gridBagConstraints.gridx = 0;
@@ -75,6 +74,7 @@ public class RoomCreationPanel extends Panel {
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         centerGridBagPanel.add(buttonGoBack, gridBagConstraints);
 
+        gameController.createGame();
 
         buttonCreateRoom.addActionListener(e -> {
             String[] playerNicknames = playersNamePanel.getPlayerNicknames();
@@ -82,8 +82,8 @@ public class RoomCreationPanel extends Panel {
                 case MISSING_NAMES -> playersNamePanel.showError("All player names are required.");
                 case DUPLICATE_NAMES -> playersNamePanel.showError("Names must be unique.");
                 case SUCCESS -> {
-                    playerController.createPlayers(playerNicknames);
-                    gameController.assignPlayersToGame(playerController.getPlayers());
+                    playerController.setPlayers(playerNicknames);
+                    gameController.getGame().setPlayers(playerController.getPlayers());
                     new MessageDialog(this, "Room is created.", "Room Creation Success");
 
                     TeamSelectionPanel teamSetupPanel = playerController.initializeTeamSetUpPanel(gameController);

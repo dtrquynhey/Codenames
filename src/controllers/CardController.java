@@ -30,7 +30,6 @@ public class CardController implements ICardContract {
         List<Card> cards = new ArrayList<>();
         List<Color> colorPalette = new ArrayList<>();
 
-        // Populate the color palette with the colors required for the game
         for (int i = 0; i < 9; i++) {
             colorPalette.add(Color.RED);
         }
@@ -42,28 +41,21 @@ public class CardController implements ICardContract {
         }
         colorPalette.add(Color.ASSASSIN);
 
-        // Shuffle the color palette
         Collections.shuffle(colorPalette);
 
-        // Assign colors to the cards
         for (String word : randomWords) {
-            // Pop the first color from the shuffled color palette
-            Color color = colorPalette.remove(0);
+            Color color = colorPalette.removeFirst();
 
-            // Create the card with the assigned color
             Card card = new Card(word, color, false);
 
-            // Handle exceptions if necessary
-            try {
-                cardRepository.createCard(new Card(word));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+//            try {
+//                cardRepository.createCard(new Card(word));
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
 
-            // Add the card to the list of cards
             cards.add(card);
         }
-
         return cards;
     }
 

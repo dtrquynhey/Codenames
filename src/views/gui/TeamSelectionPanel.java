@@ -12,10 +12,11 @@ import java.awt.*;
 public class TeamSelectionPanel extends Panel {
 
     private final RolesChooserPanel rolesChooserPanel;
+    private GameController gameController;
 
     public TeamSelectionPanel(GameController gameController, TeamController teamController) {
         super();
-
+        this.gameController = gameController;
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
         topFlowPanel.add(buttonReadRules);
 
@@ -40,20 +41,21 @@ public class TeamSelectionPanel extends Panel {
             if (!teamController.isValidRoom(rolesChooserPanel.getComboBoxSelectedPlayers())) {
                 new MessageDialog(this, "Each player can only play one role.", "Team Setup Error");
             } else {
-                teamController.setupTeams(rolesChooserPanel.getPlayerSelectedTeams());
+                teamController.setTeams(rolesChooserPanel.getPlayerSelectedTeamsMap());
+                gameController.getGame().setTeams(teamController.getTeams());
+                gameController.setInitialTeam();
                 new MessageDialog(this, "All teams are set.", "Team Setup Success");
                 showGamePlayPanel();
             }
         });
-        buttonRandomize.addActionListener(e->{
+        buttonRandomize.addActionListener(e -> {
             teamController.randomizeRolesAndTeams(gameController.getGame().getPlayers()); // Randomize the roles
             rolesChooserPanel.updateRoleChoosers(teamController.getRandomizedPlayerSelectedTeams()); // Update the UI
-
         });
     }
 
     private void showGamePlayPanel() {
-        GamePlayPanel gamePlayPanel = new GamePlayPanel(rolesChooserPanel.getPlayerSelectedTeams());
+        GamePlayPanel gamePlayPanel = new GamePlayPanel(this.gameController);
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSelectionPanel.this);
         mainFrame.showPanel(gamePlayPanel);
     }

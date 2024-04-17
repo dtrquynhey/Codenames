@@ -9,10 +9,10 @@ import models.enums.GameResult;
 public class Game {
     private String gameId;
     private List<Card> cards;
-
-
     private List<Player> players;
     private List<Team> teams;
+    private Team redTeam;
+    private Team blueTeam;
     private GameResult gameResult;
     private Date date;
 
@@ -48,6 +48,8 @@ public class Game {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+        this.redTeam = teams.getFirst();
+        this.blueTeam = teams.get(1);
     }
 
     public GameResult getStatus() {
@@ -74,4 +76,14 @@ public class Game {
                 ", status=" + gameResult +
                 '}';
     }
+
+    public Team getRedTeam() {
+        return redTeam;
+    }
+
+
+    public Team getBlueTeam() {
+        return blueTeam;
+    }
+
 }

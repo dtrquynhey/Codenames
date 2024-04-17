@@ -2,7 +2,6 @@ package views.customPalettes;
 
 import controllers.GameController;
 import models.Card;
-import models.Game;
 import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
@@ -57,14 +56,13 @@ public class Board extends JPanel {
                         System.out.println("Number of Guesses Left after change: " + gameController.getNumOfGuesses());
 
                         if (!(gameController.canContinueGuessing(card))){
-                            System.out.println("no guess available");
-                            // TODO: changeTurn()
+                            System.out.println("No guess available");
 
                         } else {
-                            System.out.println("more guess available");
+                            System.out.println("More guess available");
                         }
-                        if (gameController.IsGameOver()){
-                            System.out.println("game over");
+                        if (gameController.isGameOver()){
+                            System.out.println("Game Over");
                         }
                         //flippableCard.setEnabled(false);
 
@@ -82,6 +80,7 @@ public class Board extends JPanel {
                         flippableCard.setSelected(!flippableCard.isSelected());
                     }
                 });
+
             }
         }
     }
