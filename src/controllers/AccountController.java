@@ -14,6 +14,11 @@ public class AccountController implements IAccountContract {
 
     private static AccountController instance;
     private final AccountRepository accountRepository;
+
+    public void setMainAccount(Account mainAccount) {
+        this.mainAccount = mainAccount;
+    }
+
     private Account mainAccount;
     public int accountIndex;
 
@@ -97,11 +102,12 @@ public class AccountController implements IAccountContract {
 
     @Override
     public void logIn(String username) {
-        mainAccount = new Account(username);
+        Account account = new Account(username);
+        setMainAccount(account);
     }
 
     public void logOut() {
-        accounts = null;
+        setMainAccount(null);
     }
 
 

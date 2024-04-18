@@ -78,14 +78,14 @@ public class RoomCreationPanel extends Panel {
 
         buttonCreateRoom.addActionListener(e -> {
             String[] playerNicknames = playersNamePanel.getPlayerNicknames();
-            switch (playerController.isValidPlayerNames(playerNicknames)) {
+            switch (playerController.isValidNicknames(playerNicknames)) {
                 case MISSING_NAMES -> playersNamePanel.showError("All player names are required.");
                 case DUPLICATE_NAMES -> playersNamePanel.showError("Names must be unique.");
                 case SUCCESS -> {
                     playerController.setPlayers(playerNicknames);
                     gameController.getGame().setPlayers(playerController.getPlayers());
 
-                    TeamSelectionPanel teamSetupPanel = playerController.initializeTeamSetUpPanel(gameController);
+                    TeamSetupPanel teamSetupPanel = playerController.initializeTeamSetUpPanel(gameController);
                     MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
                     mainFrame.showPanel(teamSetupPanel);
                 }

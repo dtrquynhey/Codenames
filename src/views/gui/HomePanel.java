@@ -11,9 +11,9 @@ import views.customPalettes.enums.CustomColor;
 import javax.swing.*;
 import java.awt.*;
 
-public class WelcomePanel extends Panel {
+public class HomePanel extends Panel {
 
-    public WelcomePanel(AccountController accountController, PlayerController playerController) {
+    public HomePanel(AccountController accountController, PlayerController playerController) {
         super();
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -56,30 +56,30 @@ public class WelcomePanel extends Panel {
 
         buttonNewGame.addActionListener(e -> {
             RoomCreationPanel roomCreationPanel = new RoomCreationPanel(new GameController(), accountController, playerController);
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showPanel(roomCreationPanel);
         });
 
         buttonViewHistory.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showPanel(new GameHistoryPanel(accountController));
         });
 
         buttonReadRules.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showRulesPanel();
         });
 
         buttonLogOut.addActionListener(e -> {
             accountController.logOut();
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showMainPanel();
         });
 
         buttonDeleteAccount.addActionListener(e -> {
-            accountController.deleteAccount(accountController.getMainAccount().getUsername());
             accountController.logOut();
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            accountController.deleteAccount(accountController.getMainAccount().getUsername());
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showMainPanel();
         });
     }

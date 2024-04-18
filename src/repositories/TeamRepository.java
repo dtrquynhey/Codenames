@@ -18,11 +18,13 @@ public class TeamRepository {
         this.teamMapper = teamMapper;
     }
 
-    public void insertTeam(Team team) throws SQLException, JsonProcessingException {
+    public void insertTeam(Team team) {
         String insertQuery = "INSERT INTO teams (spymaster, operative, color, isWinner) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
             teamMapper.mapToPreparedStatement(team, statement);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -2,12 +2,11 @@ package controllers;
 
 import contracts.IPlayerContract;
 import controllers.enums.RoomCreationResult;
-import models.Account;
 import models.Player;
 import repositories.DbConfig;
 import repositories.TeamRepository;
 import repositories.mappers.TeamMapper;
-import views.gui.TeamSelectionPanel;
+import views.gui.TeamSetupPanel;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -44,9 +43,9 @@ public class PlayerController implements IPlayerContract {
     }
 
     @Override
-    public RoomCreationResult isValidPlayerNames(String[] playerNicknames) {
+    public RoomCreationResult isValidNicknames(String[] nicknames) {
         Set<String> uniqueNames = new HashSet<>();
-        for (String name : playerNicknames) {
+        for (String name : nicknames) {
             if (name == null || name.trim().isEmpty()) {
                 return RoomCreationResult.MISSING_NAMES;
             }
@@ -58,11 +57,11 @@ public class PlayerController implements IPlayerContract {
         return RoomCreationResult.SUCCESS;
     }
 
-    public TeamSelectionPanel initializeTeamSetUpPanel(GameController gameController) {
+    public TeamSetupPanel initializeTeamSetUpPanel(GameController gameController) {
         Connection connection = DbConfig.getConnection();
         TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
         TeamController teamController = TeamController.getInstance(teamRepository);
-        return new TeamSelectionPanel(gameController, teamController);
+        return new TeamSetupPanel(gameController, teamController);
     }
 
 }

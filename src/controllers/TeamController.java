@@ -18,6 +18,7 @@ public class TeamController implements ITeamContract {
 
 
     private List<Team> teams;
+
     public List<Team> getTeams() {
         return teams;
     }
@@ -33,7 +34,10 @@ public class TeamController implements ITeamContract {
         this.teams = new ArrayList<>(2);
         teams.add(redTeam);
         teams.add(blueTeam);
+        teamRepository.insertTeam(redTeam);
+        teamRepository.insertTeam(blueTeam);
     }
+
     private Map<Color, Map<Role, Player>> randomizedPlayerSelectedTeams;
 
 
@@ -47,16 +51,6 @@ public class TeamController implements ITeamContract {
             instance = new TeamController(teamRepository);
         }
         return instance;
-    }
-
-    public void createTeams() {
-        try {
-            for (Team team: this.teams) {
-                teamRepository.insertTeam(team);
-            }
-        } catch (SQLException | JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
@@ -132,7 +126,6 @@ public class TeamController implements ITeamContract {
     public Map<Color, Map<Role, Player>> getRandomizedPlayerSelectedTeams() {
         return randomizedPlayerSelectedTeams;
     }
-
 
 
     // Function to get all players by team color

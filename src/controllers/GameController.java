@@ -23,7 +23,7 @@ public class GameController implements IGameContract {
 
     private Game game;
     private String currentPlayer;
-    public String currentClue;
+    private String currentClue;
     private int numOfGuesses;
 
     public List<Card> guessedCards;
@@ -77,9 +77,6 @@ public class GameController implements IGameContract {
         }
     }
 
-    public void declareLoser(Team losingTeam) {
-        System.out.println(losingTeam.getColor() + " team loses!");
-    }
 
     public GameResult determineGameResult() {
         int redCardsCount = 0;
@@ -151,13 +148,22 @@ public class GameController implements IGameContract {
         return currentTeam;
     }
 
-    public Team getOtherTeam() {
+    public Team getOpponentTeam() {
         if (currentTeam.getColor() == Color.RED) {
             return getBlueTeam();
         } else {
             return getRedTeam();
         }
     }
+
+    public void increaseCurrentTeamScore() {
+        currentTeam.increaseScore();
+    }
+    public void increaseOpponentScore() {
+        getOpponentTeam().increaseScore();
+    }
+
+
     public void setInitialTeam() {
         this.currentTeam = getRedTeam();
         this.currentPlayer = getRedTeam().getSpymaster();
@@ -165,5 +171,13 @@ public class GameController implements IGameContract {
 
     public void decreaseNumOfGuess() {
         this.numOfGuesses--;
+    }
+
+    public String getCurrentClue() {
+        return currentClue;
+    }
+
+    public void setCurrentClue(String currentClue) {
+        this.currentClue = currentClue;
     }
 }

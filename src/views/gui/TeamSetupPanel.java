@@ -9,12 +9,12 @@ import views.customPalettes.enums.CustomColor;
 import javax.swing.*;
 import java.awt.*;
 
-public class TeamSelectionPanel extends Panel {
+public class TeamSetupPanel extends Panel {
 
     private final RolesChooserPanel rolesChooserPanel;
     private GameController gameController;
 
-    public TeamSelectionPanel(GameController gameController, TeamController teamController) {
+    public TeamSetupPanel(GameController gameController, TeamController teamController) {
         super();
         this.gameController = gameController;
         RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
@@ -55,7 +55,7 @@ public class TeamSelectionPanel extends Panel {
 
     private void showGamePlayPanel() {
         GamePlayPanel gamePlayPanel = new GamePlayPanel(this.gameController);
-        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSelectionPanel.this);
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
         mainFrame.showPanel(gamePlayPanel);
     }
 

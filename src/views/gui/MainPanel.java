@@ -64,9 +64,9 @@ public class MainPanel extends Panel {
                     loginInfoPanel.resetPanel();
                     accountController.setFirstAccount(username);
 
-                    WelcomePanel welcomePanel = new WelcomePanel(accountController, playerController);
+                    HomePanel homePanel = new HomePanel(accountController, playerController);
                     MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(MainPanel.this);
-                    mainFrame.showPanel(welcomePanel);
+                    mainFrame.showPanel(homePanel);
 
                 }
             }

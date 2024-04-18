@@ -113,7 +113,7 @@ public class GamePlayPanel extends Panel {
             } else {
                 showOperativeBoard();
 
-                gameController.currentClue = textFieldClue.getText().trim();
+                gameController.setCurrentClue(textFieldClue.getText().trim());
                 gameController.setNumOfGuesses(Integer.parseInt(textFieldNumOfGuess.getText().trim()) + 1);
                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
                 gameController.changeTurn();
@@ -128,7 +128,7 @@ public class GamePlayPanel extends Panel {
 
             } else {
                 showSpymasterBoard();
-                gameController.currentClue = textFieldClue.getText();
+                gameController.setCurrentClue(textFieldClue.getText());
                 gameController.setNumOfGuesses(0);
                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
                 gameController.changeTurn();
@@ -163,19 +163,22 @@ public class GamePlayPanel extends Panel {
 
                         operativeBoard.flippableCards.get(finalIndex).flip();
                         spymasterBoard.flippableCards.get(finalIndex).flip();
+                        operativeBoard.flippableCards.get(finalIndex).setEnabled(false);
+                        spymasterBoard.flippableCards.get(finalIndex).setEnabled(false);
 
                         switch (gameController.guessCard(gameController.allCards.get(finalIndex))) {
                             case RIGHT_GUESSED -> {
-                                gameController.getCurrentTeam().increaseScore();
                                 gameController.decreaseNumOfGuess();
-                                redTeamGameLog.setScore(gameController.getRedTeam().getScore());
-                                blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
                                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
 
+                                gameController.increaseCurrentTeamScore();
+                                redTeamGameLog.setScore(gameController.getRedTeam().getScore());
+                                blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
                             }
                             case NEUTRAL_GUESSED -> {
                                 gameController.setNumOfGuesses(0);
                                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+
                                 new MessageDialog(GamePlayPanel.this, "You guessed Neutral card. Your turn is ended.", "Game Play", "OK");
                                 revalidate();
                                 repaint();
@@ -183,14 +186,17 @@ public class GamePlayPanel extends Panel {
 
                             }
                             case OPPONENT_GUESSED -> {
-                                gameController.getOtherTeam().increaseScore();
                                 gameController.setNumOfGuesses(0);
+                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+
+                                gameController.increaseOpponentScore();
                                 redTeamGameLog.setScore(gameController.getRedTeam().getScore());
                                 blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
-                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+
                                 new MessageDialog(GamePlayPanel.this, "You guessed Opponent card. Your turn is ended.", "Game Play", "OK");
                                 revalidate();
                                 repaint();
+
                                 buttonEndGuess.doClick();
                             }
                             case ASSASSIN_GUESSED -> {
@@ -200,6 +206,7 @@ public class GamePlayPanel extends Panel {
                                 repaint();
                             }
                         }
+
                         GameResult gameResult = gameController.determineGameResult();
                         switch (gameResult) {
                             case RED_WIN:
@@ -216,9 +223,9 @@ public class GamePlayPanel extends Panel {
                                 return;
                         }
 
-                        for (Component component : operativeBoard.flippableCards.get(finalIndex).getComponents()) {
-                            component.setEnabled(false);
-                        }
+//                        for (Component component : operativeBoard.flippableCards.get(finalIndex).getComponents()) {
+//                            component.setEnabled(false);
+//                        }
                     }
                 }
             });
