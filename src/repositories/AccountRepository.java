@@ -30,7 +30,16 @@ public class AccountRepository {
             throw new RuntimeException(e);
         }
     }
-
+    // DELETE FROM accounts WHERE username = ?
+    public void deleteAccount(String username) {
+        String deleteQuery = "DELETE FROM accounts WHERE username = ?";
+        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+            statement.setString(1, username);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     // SELECT * FROM accounts WHERE username = ?
     public boolean findAccount(String username) {
         String query = "SELECT COUNT(*) FROM accounts WHERE username = ?";

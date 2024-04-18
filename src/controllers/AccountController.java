@@ -80,6 +80,9 @@ public class AccountController implements IAccountContract {
         accountRepository.insertAccount(newAccount);
     }
 
+    public void deleteAccount(String username) {
+        accountRepository.deleteAccount(username);
+    }
 
     @Override
     public AuthenticationResult isValidLoginCredentials(String username, String password) {
@@ -105,6 +108,7 @@ public class AccountController implements IAccountContract {
 //    public RoomCreationPanel initializeRoomCreationPanel() {
 //        return new RoomCreationPanel(getInstance(accountRepository));
 //    }
+
 
     public void setFirstAccount(String username) {
 

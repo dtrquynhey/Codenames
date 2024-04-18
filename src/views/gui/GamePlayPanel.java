@@ -39,9 +39,6 @@ public class GamePlayPanel extends Panel {
         RoundedButton buttonExitGame = new RoundedButton("Exit Game", 140, 42, CustomColor.GREY.getColor());
         topFlowPanel.add(buttonExitGame);
 
-        RoundedButton buttonLogOut = new RoundedButton("Log Out", 110, 42, CustomColor.RED.getColor());
-        topFlowPanel.add(buttonLogOut);
-
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         redTeamGameLog = new RedTeamGameLog(gameController);
@@ -145,11 +142,7 @@ public class GamePlayPanel extends Panel {
 
         });
 
-
-        buttonLogOut.addActionListener(e -> {
-
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(GamePlayPanel.this);
-            mainFrame.showMainPanel();
+        buttonExitGame.addActionListener(e -> {
         });
     }
 
@@ -203,7 +196,6 @@ public class GamePlayPanel extends Panel {
                             case ASSASSIN_GUESSED -> {
                                 gameController.setNumOfGuesses(0);
                                 new MessageDialog(GamePlayPanel.this, "You guessed Assassin card. Game is over!", "Game Play", "OK");
-                                gameController.declareWinner(gameController.getCurrentTeam());
                                 revalidate();
                                 repaint();
                             }
@@ -218,7 +210,6 @@ public class GamePlayPanel extends Panel {
                                     gameController.getBlueTeam().setIsWinner(true);
                                 }
 
-                                break;
                             case ON_GOING:
                                 revalidate();
                                 repaint();

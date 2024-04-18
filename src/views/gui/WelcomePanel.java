@@ -24,7 +24,7 @@ public class WelcomePanel extends Panel {
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(labelTitle,gridBagConstraints);
 
-        RoundedButton buttonNewGame = new RoundedButton("New Game", 160, 42, CustomColor.PINK.getColor());
+        RoundedButton buttonNewGame = new RoundedButton("New Game", 160, 42, CustomColor.GREEN.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(15, 0, 0, 0);
@@ -48,6 +48,12 @@ public class WelcomePanel extends Panel {
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         centerGridBagPanel.add(buttonLogOut, gridBagConstraints);
 
+        RoundedButton buttonDeleteAccount = new RoundedButton("Delete Account", 180, 42, CustomColor.PINK.getColor());
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+        centerGridBagPanel.add(buttonDeleteAccount, gridBagConstraints);
+
         buttonNewGame.addActionListener(e -> {
             RoomCreationPanel roomCreationPanel = new RoomCreationPanel(new GameController(), accountController, playerController);
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
@@ -65,6 +71,13 @@ public class WelcomePanel extends Panel {
         });
 
         buttonLogOut.addActionListener(e -> {
+            accountController.logOut();
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
+            mainFrame.showMainPanel();
+        });
+
+        buttonDeleteAccount.addActionListener(e -> {
+            accountController.deleteAccount(accountController.getMainAccount().getUsername());
             accountController.logOut();
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(WelcomePanel.this);
             mainFrame.showMainPanel();
