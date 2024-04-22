@@ -1,7 +1,6 @@
 package repositories;
 
 import models.Account;
-import repositories.mappers.AccountMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,18 +12,17 @@ import java.sql.SQLException;
 public class AccountRepository {
 
     private final Connection connection;
-    private final AccountMapper accountMapper;
 
-    public AccountRepository(Connection connection, AccountMapper accountMapper) {
-        this.connection = connection;
-        this.accountMapper = accountMapper;
+    public AccountRepository() {
+        this.connection = DbConfig.getConnection();
     }
 
     // INSERT INTO accounts (SignUp)
     public void insertAccount(Account account) {
         String insertQuery = "INSERT INTO accounts (username, password) VALUES (?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
-            accountMapper.mapToPreparedStatement(account, statement);
+            statement.setString(1, account.getUsername());
+            statement.setString(2, account.getPassword());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

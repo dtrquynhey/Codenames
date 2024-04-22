@@ -1,6 +1,7 @@
 package views.gui;
 
 
+import controllers.AccountController;
 import controllers.GameController;
 import models.enums.Color;
 import models.enums.GameResult;
@@ -18,8 +19,8 @@ import java.awt.event.MouseEvent;
 public class GamePlayPanel extends Panel {
 
     private final GameController gameController;
-    private JPanel cardPanel;
-    private CardLayout cardLayout;
+    private final JPanel cardPanel;
+    private final CardLayout cardLayout;
     public Board spymasterBoard;
     public Board operativeBoard;
     RedTeamGameLog redTeamGameLog;
@@ -33,8 +34,13 @@ public class GamePlayPanel extends Panel {
     public GamePlayPanel(GameController gameController) {
         super();
         this.gameController = gameController;
-        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.YELLOW.getColor().darker());
-        topFlowPanel.add(buttonReadRules);
+
+
+        Label loggedAccountLabel = new Label("Logged in as: " + AccountController.getInstance().getAccount(), Font.BOLD, 16, CustomColor.TEXT.getColor());
+        topFlowPanel.add(loggedAccountLabel);
+
+//        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.YELLOW.getColor().darker());
+//        topFlowPanel.add(buttonReadRules);
 
         RoundedButton buttonExitGame = new RoundedButton("Exit Game", 140, 42, CustomColor.GREY.getColor());
         topFlowPanel.add(buttonExitGame);
@@ -111,42 +117,41 @@ public class GamePlayPanel extends Panel {
             } else if (!Character.isDigit(textFieldNumOfGuess.getText().codePointAt(0))) {
                 new MessageDialog(this, "Number of word field must be a digit.", "Game Play Error", "OK");
             } else {
-                showOperativeBoard();
-
-                gameController.setCurrentClue(textFieldClue.getText().trim());
                 gameController.setNumOfGuesses(Integer.parseInt(textFieldNumOfGuess.getText().trim()) + 1);
                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
                 gameController.changeTurn();
 
-                handleCardsClick();
+                showOperativeBoard();
+                cardClickedHandler();
             }
         });
 
         buttonEndGuess.addActionListener(e -> {
-            if (gameController.isAvailableGuess()) {
-                new MessageDialog(GamePlayPanel.this, "You still have " + gameController.getNumOfGuesses() + " left.", "Game Play", "OK");
+            gameController.setNumOfGuesses(0);
+            labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+            gameController.changeTurn();
 
+            if (gameController.getCurrentTeam().getColor() == Color.RED) {
+                setRedTeamBackground();
             } else {
-                showSpymasterBoard();
-                gameController.setCurrentClue(textFieldClue.getText());
-                gameController.setNumOfGuesses(0);
-                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
-                gameController.changeTurn();
-
-                if (gameController.getCurrentTeam().getColor() == Color.RED) {
-                    setRedTeamBackground();
-                } else {
-                    setBlueTeamBackground();
-                }
+                setBlueTeamBackground();
             }
+            showSpymasterBoard();
+
 
         });
 
-        buttonExitGame.addActionListener(e -> {
-        });
+        buttonExitGame.addActionListener(e -> buttonExitGameClickedHandler());
     }
 
-    private void handleCardsClick() {
+    private void buttonExitGameClickedHandler() {
+        gameController.getGame().setGameResult(GameResult.INCOMPLETE);
+        HomePanel homePanel = new HomePanel(AccountController.getInstance());
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(GamePlayPanel.this);
+        mainFrame.showPanel(homePanel);
+    }
+
+    private void cardClickedHandler() {
         for (int index = 0; index < operativeBoard.flippableCards.size(); index++) {
 
             int finalIndex = index;
@@ -180,8 +185,7 @@ public class GamePlayPanel extends Panel {
                                 labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
 
                                 new MessageDialog(GamePlayPanel.this, "You guessed Neutral card. Your turn is ended.", "Game Play", "OK");
-                                revalidate();
-                                repaint();
+
                                 buttonEndGuess.doClick();
 
                             }
@@ -194,16 +198,12 @@ public class GamePlayPanel extends Panel {
                                 blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
 
                                 new MessageDialog(GamePlayPanel.this, "You guessed Opponent card. Your turn is ended.", "Game Play", "OK");
-                                revalidate();
-                                repaint();
-
                                 buttonEndGuess.doClick();
                             }
                             case ASSASSIN_GUESSED -> {
                                 gameController.setNumOfGuesses(0);
+                                gameController.getOpponentTeam().setIsWinner(true);
                                 new MessageDialog(GamePlayPanel.this, "You guessed Assassin card. Game is over!", "Game Play", "OK");
-                                revalidate();
-                                repaint();
                             }
                         }
 
@@ -211,21 +211,25 @@ public class GamePlayPanel extends Panel {
                         switch (gameResult) {
                             case RED_WIN:
                             case BLUE_WIN:
+                                String message;
                                 if (gameResult == GameResult.RED_WIN) {
                                     gameController.getRedTeam().setIsWinner(true);
+                                    gameController.getGame().setGameResult(GameResult.RED_WIN);
+                                    message = "RED TEAM WINS!";
                                 } else {
                                     gameController.getBlueTeam().setIsWinner(true);
+                                    gameController.getGame().setGameResult(GameResult.BLUE_WIN);
+                                    message = "BLUE TEAM WINS!";
                                 }
-
+                                new MessageDialog(GamePlayPanel.this, message, "Game Play", "Go Home");
+                                HomePanel homePanel = new HomePanel(AccountController.getInstance());
+                                MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(GamePlayPanel.this);
+                                mainFrame.showPanel(homePanel);
+                                gameController.saveGame();
                             case ON_GOING:
                                 revalidate();
                                 repaint();
-                                return;
                         }
-
-//                        for (Component component : operativeBoard.flippableCards.get(finalIndex).getComponents()) {
-//                            component.setEnabled(false);
-//                        }
                     }
                 }
             });

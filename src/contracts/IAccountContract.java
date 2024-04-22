@@ -4,9 +4,9 @@ import controllers.enums.AuthenticationResult;
 
 public interface IAccountContract {
     AuthenticationResult isValidSignUpCredentials(String username, String password, String confirmPassword);
-    void signUp(String username, String password);
+    AuthenticationResult signUp(String username, String password);
 
     AuthenticationResult isValidLoginCredentials(String username, String password);
-    void logIn(String username);
+    AuthenticationResult logIn(String username);
     void logOut();
 }

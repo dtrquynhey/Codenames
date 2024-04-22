@@ -3,12 +3,8 @@ package controllers;
 import contracts.IPlayerContract;
 import controllers.enums.RoomCreationResult;
 import models.Player;
-import repositories.DbConfig;
-import repositories.TeamRepository;
-import repositories.mappers.TeamMapper;
 import views.gui.TeamSetupPanel;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,28 +36,6 @@ public class PlayerController implements IPlayerContract {
         for (String u : usernames) {
             this.players.add(new Player(u));
         }
-    }
-
-    @Override
-    public RoomCreationResult isValidNicknames(String[] nicknames) {
-        Set<String> uniqueNames = new HashSet<>();
-        for (String name : nicknames) {
-            if (name == null || name.trim().isEmpty()) {
-                return RoomCreationResult.MISSING_NAMES;
-            }
-            if (uniqueNames.contains(name)) {
-                return RoomCreationResult.DUPLICATE_NAMES;
-            }
-            uniqueNames.add(name);
-        }
-        return RoomCreationResult.SUCCESS;
-    }
-
-    public TeamSetupPanel initializeTeamSetUpPanel(GameController gameController) {
-        Connection connection = DbConfig.getConnection();
-        TeamRepository teamRepository = new TeamRepository(connection, new TeamMapper());
-        TeamController teamController = TeamController.getInstance(teamRepository);
-        return new TeamSetupPanel(gameController, teamController);
     }
 
 }

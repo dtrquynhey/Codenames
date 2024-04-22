@@ -3,6 +3,7 @@ package views.gui;
 import controllers.AccountController;
 import controllers.GameController;
 import controllers.PlayerController;
+import repositories.GameRepository;
 import views.customPalettes.Panel;
 import views.customPalettes.RoundedButton;
 import views.customPalettes.ShadowLabel;
@@ -13,12 +14,12 @@ import java.awt.*;
 
 public class HomePanel extends Panel {
 
-    public HomePanel(AccountController accountController, PlayerController playerController) {
+    public HomePanel(AccountController accountController) {
         super();
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        ShadowLabel labelTitle = new ShadowLabel("Welcome to Codenames, " + accountController.getMainAccount().getUsername() + "!", 35, CustomColor.TEXT.getColor());
+        ShadowLabel labelTitle = new ShadowLabel("Welcome to Codenames, " + accountController.getAccount().getUsername() + "!", 35, CustomColor.TEXT.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
@@ -36,11 +37,11 @@ public class HomePanel extends Panel {
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         centerGridBagPanel.add(buttonViewHistory, gridBagConstraints);
 
-        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 160, 42, CustomColor.YELLOW.getColor().darker());
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
-        centerGridBagPanel.add(buttonReadRules, gridBagConstraints);
+//        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 160, 42, CustomColor.YELLOW.getColor().darker());
+//        gridBagConstraints.gridx = 0;
+//        gridBagConstraints.gridy = 3;
+//        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+//        centerGridBagPanel.add(buttonReadRules, gridBagConstraints);
 
         RoundedButton buttonLogOut = new RoundedButton("Log Out", 160, 42, CustomColor.RED.getColor());
         gridBagConstraints.gridx = 0;
@@ -55,7 +56,10 @@ public class HomePanel extends Panel {
         centerGridBagPanel.add(buttonDeleteAccount, gridBagConstraints);
 
         buttonNewGame.addActionListener(e -> {
-            RoomCreationPanel roomCreationPanel = new RoomCreationPanel(new GameController(), accountController, playerController);
+            GameController gameController = new GameController();
+            gameController.setGame();
+
+            RoomCreationPanel roomCreationPanel = new RoomCreationPanel(gameController, accountController);
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showPanel(roomCreationPanel);
         });
@@ -65,10 +69,10 @@ public class HomePanel extends Panel {
             mainFrame.showPanel(new GameHistoryPanel(accountController));
         });
 
-        buttonReadRules.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
-            mainFrame.showRulesPanel();
-        });
+//        buttonReadRules.addActionListener(e -> {
+//            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
+//            mainFrame.showRulesPanel();
+//        });
 
         buttonLogOut.addActionListener(e -> {
             accountController.logOut();
@@ -77,8 +81,8 @@ public class HomePanel extends Panel {
         });
 
         buttonDeleteAccount.addActionListener(e -> {
+            accountController.deleteAccount(accountController.getAccount().getUsername());
             accountController.logOut();
-            accountController.deleteAccount(accountController.getMainAccount().getUsername());
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showMainPanel();
         });

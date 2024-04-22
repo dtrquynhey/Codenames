@@ -11,8 +11,4 @@ public class TopFlowPanel extends JPanel {
         setBackground(CustomColor.FRAME.getColor());
         setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 15));
     }
-
-    public void setBackgroundColor(Color color) {
-        setBackground(color);
-    }
 }

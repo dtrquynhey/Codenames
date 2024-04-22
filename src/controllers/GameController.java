@@ -7,38 +7,42 @@ import models.Game;
 import models.Team;
 import models.enums.Color;
 import models.enums.GameResult;
-import repositories.CardRepository;
-import repositories.DbConfig;
-import repositories.mappers.CardMapper;
-
+import repositories.GameRepository;
+import repositories.HistoryRepository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class GameController implements IGameContract {
 
+
+    private static GameController instance;
     private Game game;
     private String currentPlayer;
-    private String currentClue;
     private int numOfGuesses;
 
     public List<Card> guessedCards;
     public List<Card> allCards;
     private Team currentTeam;
+    private final GameRepository gameRepository = new GameRepository();
 
     public GameController() {
         guessedCards = new ArrayList<>();
-        Connection connection = DbConfig.getConnection();
-
-        CardRepository cardRepository = new CardRepository(connection, new CardMapper());
-        CardController cardController = CardController.getInstance(cardRepository);
-
+        CardController cardController = CardController.getInstance();
         List<String> randomWords = generateRandomWords();
         allCards = cardController.generateCards(randomWords);
+    }
+    public static GameController getInstance() {
+
+        if (instance == null) {
+            instance = new GameController();
+        }
+        return instance;
     }
 
     public Game getGame() {
@@ -56,7 +60,7 @@ public class GameController implements IGameContract {
     public void setNumOfGuesses(int numOfGuesses) {
         this.numOfGuesses = numOfGuesses;
     }
-    public void createGame() {
+    public void setGame() {
         this.game = new Game();
     }
 
@@ -79,9 +83,9 @@ public class GameController implements IGameContract {
 
 
     public GameResult determineGameResult() {
+
         int redCardsCount = 0;
         int blueCardsCount = 0;
-
         for (Card card : guessedCards) {
             if (card.getColor() == getRedTeam().getColor()) {
                 redCardsCount++;
@@ -89,10 +93,19 @@ public class GameController implements IGameContract {
                 blueCardsCount++;
             }
         }
+
         if (redCardsCount == 9) {
             return GameResult.RED_WIN;
         } else if (blueCardsCount == 8) {
             return GameResult.BLUE_WIN;
+        }
+
+        if (getOpponentTeam().isWinner()) {
+            if (currentTeam.getColor() == Color.RED) {
+                return GameResult.BLUE_WIN;
+            } else {
+                return GameResult.RED_WIN;
+            }
         }
         return GameResult.ON_GOING;
     }
@@ -112,32 +125,6 @@ public class GameController implements IGameContract {
             currentPlayer = getRedTeam().getSpymaster();
             currentTeam = getRedTeam();
         }
-    }
-
-    @Override
-    public List<String> generateRandomWords() {
-        List<String> randomWords = new ArrayList<>();
-        List<String> wordList = loadWords("src/words.txt");
-
-        Random rand = new Random();
-        for (int i = 0; i < 25; i++) {
-            int index = rand.nextInt(wordList.size());
-            randomWords.add(wordList.get(index));
-        }
-        return randomWords;
-    }
-
-    public static List<String> loadWords(String filename) {
-        List<String> wordList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                wordList.add(line.trim());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return wordList;
     }
 
     public int getNumOfGuesses() {
@@ -173,11 +160,35 @@ public class GameController implements IGameContract {
         this.numOfGuesses--;
     }
 
-    public String getCurrentClue() {
-        return currentClue;
+    public void saveGame() {
+        int savedGameId = new GameRepository().insertGame(this.game);
+        String account = AccountController.getInstance().getAccount().toString();
+        new HistoryRepository().insertHistory(account, savedGameId);
     }
 
-    public void setCurrentClue(String currentClue) {
-        this.currentClue = currentClue;
+    @Override
+    public List<String> generateRandomWords() {
+        List<String> randomWords = new ArrayList<>();
+        List<String> wordList = loadWords("src/words.txt");
+
+        Random rand = new Random();
+        for (int i = 0; i < 25; i++) {
+            int index = rand.nextInt(wordList.size());
+            randomWords.add(wordList.get(index));
+        }
+        return randomWords;
+    }
+
+    public static List<String> loadWords(String filename) {
+        List<String> wordList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                wordList.add(line.trim());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return wordList;
     }
 }

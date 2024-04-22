@@ -14,7 +14,6 @@ import java.util.*;
 public class TeamController implements ITeamContract {
 
     private static TeamController instance;
-    private final TeamRepository teamRepository;
 
 
     private List<Team> teams;
@@ -34,21 +33,18 @@ public class TeamController implements ITeamContract {
         this.teams = new ArrayList<>(2);
         teams.add(redTeam);
         teams.add(blueTeam);
-        teamRepository.insertTeam(redTeam);
-        teamRepository.insertTeam(blueTeam);
     }
 
     private Map<Color, Map<Role, Player>> randomizedPlayerSelectedTeams;
 
 
-    public TeamController(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
+    public TeamController() {
     }
 
-    public static TeamController getInstance(TeamRepository teamRepository) {
+    public static TeamController getInstance() {
 
         if (instance == null) {
-            instance = new TeamController(teamRepository);
+            instance = new TeamController();
         }
         return instance;
     }
@@ -60,21 +56,6 @@ public class TeamController implements ITeamContract {
         return uniqueRoles.size() == players.length;
     }
 
-    @Override
-//    public void randomizeRolesAndTeams(List<Player> players) {
-//        Collections.shuffle(players);
-//        List<Role> roles = Arrays.asList(Role.SPYMASTER, Role.SPYMASTER, Role.OPERATIVE, Role.OPERATIVE);
-//        Collections.shuffle(roles);
-//        randomizedPlayerSelectedTeams = new HashMap<>();
-//
-//        randomizedPlayerSelectedTeams.put(Color.RED, new HashMap<>());
-//        randomizedPlayerSelectedTeams.put(Color.BLUE, new HashMap<>());
-//
-//        for (int i = 0; i < players.size(); i++) {
-//            Color teamColor = (i % 2 == 0) ? Color.RED : Color.BLUE;
-//            randomizedPlayerSelectedTeams.get(teamColor).put(roles.get(i), players.get(i));
-//        }
-//    }
     public void randomizeRolesAndTeams(List<Player> players) {
         if (players.size() < 4) {
             throw new IllegalArgumentException("Not enough players for the roles defined");

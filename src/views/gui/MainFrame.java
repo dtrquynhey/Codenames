@@ -4,7 +4,6 @@ import controllers.PlayerController;
 import controllers.AccountController;
 import repositories.DbConfig;
 import repositories.AccountRepository;
-import repositories.mappers.AccountMapper;
 import views.customPalettes.PopupFrame;
 
 import javax.swing.*;
@@ -28,11 +27,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        Connection connection = DbConfig.getConnection();
-
-        AccountMapper accountMapper = new AccountMapper();
-        AccountRepository accountRepository = new AccountRepository(connection, accountMapper);
-        accountController = AccountController.getInstance(accountRepository);
+        accountController = AccountController.getInstance();
         playerController = PlayerController.getInstance();
         initializePanels();
         setContentPane(mainPanel);
@@ -42,7 +37,7 @@ public class MainFrame extends JFrame {
 
 
     private void initializePanels() {
-        mainPanel = new MainPanel(accountController, playerController);
+        mainPanel = new MainPanel(accountController);
         rulesPanel = new RulesPanel();
     }
 
@@ -63,10 +58,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showMainPanel() {
-        Connection connection = DbConfig.getConnection();
-        AccountMapper accountMapper = new AccountMapper();
-        AccountRepository accountRepository = new AccountRepository(connection, accountMapper);
-        mainPanel = new MainPanel(new AccountController(accountRepository), new PlayerController());
+        mainPanel = new MainPanel(new AccountController());
         showPanel(mainPanel);
     }
 

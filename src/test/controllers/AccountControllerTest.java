@@ -16,7 +16,7 @@ class AccountControllerTest {
     @BeforeEach
     void setUp() {
         accountRepository = mock(AccountRepository.class);
-        accountController = new AccountController(accountRepository);
+        accountController = new AccountController();
     }
 
     @Test

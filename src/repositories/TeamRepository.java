@@ -1,28 +1,32 @@
 package repositories;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import models.Team;
-import repositories.mappers.TeamMapper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class TeamRepository {
 
     private final Connection connection;
-    private final TeamMapper teamMapper;
 
-    public TeamRepository(Connection connection, TeamMapper teamMapper) {
-        this.connection = connection;
-        this.teamMapper = teamMapper;
+    public TeamRepository() {
+        this.connection = DbConfig.getConnection();
     }
 
-    public void insertTeam(Team team) {
+    public int insertTeamAndGetId(Team team) {
         String insertQuery = "INSERT INTO teams (spymaster, operative, color, isWinner) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(insertQuery)) {
-            teamMapper.mapToPreparedStatement(team, statement);
+        try (PreparedStatement statement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, team.getSpymaster());
+            statement.setString(2, team.getOperative());
+            statement.setString(3, team.getColor().toString());
+            statement.setBoolean(4, team.isWinner());
             statement.executeUpdate();
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    throw new SQLException("Failed to retrieve auto-generated teamId.");
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

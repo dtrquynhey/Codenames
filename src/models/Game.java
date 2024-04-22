@@ -1,7 +1,10 @@
 package models;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import models.enums.GameResult;
 
@@ -14,25 +17,17 @@ public class Game {
     private Team redTeam;
     private Team blueTeam;
     private GameResult gameResult;
-    private Date date;
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    private LocalDate date;
 
     public Game() {
-        this.date = new Date();
+        this.date = LocalDate.now();
     }
 
-    public Game(String gameId, List<Card> cards, List<Team> teams) {
-        this.gameId = gameId;
-        this.cards = cards;
-        this.teams = teams;
-    }
-
-    public String getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
-    }
 
     public List<Card> getCards() {
         return cards;
@@ -52,11 +47,11 @@ public class Game {
         this.blueTeam = teams.get(1);
     }
 
-    public GameResult getStatus() {
+    public GameResult getGameResult() {
         return gameResult;
     }
 
-    public void setStatus(GameResult gameResult) {
+    public void setGameResult(GameResult gameResult) {
         this.gameResult = gameResult;
     }
 
@@ -64,8 +59,11 @@ public class Game {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setPlayers(String[] players) {
+        this.players = new ArrayList<>();
+        for (String p : players) {
+            this.players.add(new Player(p));
+        }
     }
     @Override
     public String toString() {

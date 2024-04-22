@@ -2,6 +2,7 @@ package views.gui;
 
 
 import controllers.AccountController;
+import controllers.enums.AuthenticationResult;
 import views.customPalettes.*;
 import views.customPalettes.Label;
 import views.customPalettes.Panel;
@@ -86,6 +87,12 @@ public class LoginPanel extends Panel {
         setVisible(true);
     }
 
+    private AuthenticationResult isValidLoginCredentials(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()){
+            return AuthenticationResult.EMPTY_FIELDS;
+        }
+        else return AuthenticationResult.SUCCESS;
+    }
     // Setter for the login success listener
     public void onLoginSuccess(Runnable onLoginSuccess) {
         this.onLoginSuccess = onLoginSuccess;

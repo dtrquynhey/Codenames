@@ -13,7 +13,7 @@ public class OneGameLog extends JPanel {
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-        LabelBox roleLabel = new LabelBox(role, bgColor, Color.BLACK, new Dimension(135, 40));
+        LabelBox roleLabel = new LabelBox(role, bgColor, Color.WHITE, new Dimension(135, 40));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);

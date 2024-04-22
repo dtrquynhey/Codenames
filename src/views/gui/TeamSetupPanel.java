@@ -1,8 +1,10 @@
 package views.gui;
 
+import controllers.AccountController;
 import controllers.GameController;
 import controllers.TeamController;
 import views.customPalettes.*;
+import views.customPalettes.Label;
 import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
 
@@ -12,16 +14,20 @@ import java.awt.*;
 public class TeamSetupPanel extends Panel {
 
     private final RolesChooserPanel rolesChooserPanel;
-    private GameController gameController;
+    private final GameController gameController;
 
     public TeamSetupPanel(GameController gameController, TeamController teamController) {
         super();
         this.gameController = gameController;
-        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
-        topFlowPanel.add(buttonReadRules);
+        AccountController accountController = AccountController.getInstance();
+        Label loggedAccountLabel = new Label("Logged in as: " + accountController.getAccount(), Font.BOLD, 16, CustomColor.TEXT.getColor());
+        topFlowPanel.add(loggedAccountLabel);
 
-        RoundedButton buttonLogOut = new RoundedButton("Log Out", 110, 42, CustomColor.RED.getColor());
-        topFlowPanel.add(buttonLogOut);
+//        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.YELLOW.getColor().darker());
+//        topFlowPanel.add(buttonReadRules);
+
+        RoundedButton buttonExitGame = new RoundedButton("Exit Game", 140, 42, CustomColor.GREY.getColor());
+        topFlowPanel.add(buttonExitGame);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -51,6 +57,11 @@ public class TeamSetupPanel extends Panel {
             teamController.randomizeRolesAndTeams(gameController.getGame().getPlayers()); // Randomize the roles
             rolesChooserPanel.updateRoleChoosers(teamController.getRandomizedPlayerSelectedTeams()); // Update the UI
         });
+        buttonExitGame.addActionListener(e -> {
+            HomePanel homePanel = new HomePanel(AccountController.getInstance());
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
+            mainFrame.showPanel(homePanel);
+        });
     }
 
     private void showGamePlayPanel() {
@@ -58,6 +69,4 @@ public class TeamSetupPanel extends Panel {
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
         mainFrame.showPanel(gamePlayPanel);
     }
-
-
 }

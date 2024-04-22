@@ -1,9 +1,5 @@
 package views.customPalettes;
 
-import views.customPalettes.BottomFlowPanel;
-import views.customPalettes.CenterGridBagPanel;
-import views.customPalettes.TopFlowPanel;
-
 import javax.swing.*;
 import java.awt.*;
 

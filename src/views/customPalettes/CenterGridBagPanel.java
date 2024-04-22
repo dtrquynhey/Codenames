@@ -11,8 +11,4 @@ public class CenterGridBagPanel extends JPanel {
         setBackground(CustomColor.FRAME.getColor());
         setLayout(new GridBagLayout());
     }
-
-    public void setBackgroundColor(Color color) {
-        setBackground(color);
-    }
 }

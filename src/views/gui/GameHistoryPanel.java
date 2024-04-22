@@ -1,6 +1,8 @@
 package views.gui;
 
 import controllers.AccountController;
+import repositories.GameRepository;
+import repositories.HistoryRepository;
 import views.customPalettes.*;
 import views.customPalettes.Label;
 import views.customPalettes.Panel;
@@ -9,6 +11,7 @@ import views.customPalettes.enums.CustomColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class GameHistoryPanel extends Panel {
 
@@ -23,39 +26,31 @@ public class GameHistoryPanel extends Panel {
         gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         centerGridBagPanel.add(labelTitle,gridBagConstraints);
 
-        Label lblUsername = new Label("Username: " + accountController.getMainAccount().getUsername(), Font.PLAIN, 16 , Color.WHITE );
+        Label lblUsername = new Label("Username: " + accountController.getAccount().getUsername(), Font.PLAIN, 16 , Color.WHITE );
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0, 0, 15, 0);
         centerGridBagPanel.add(lblUsername, gridBagConstraints);
 
-        Object[][] rowData = {
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" },
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" },
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" },
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" },
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" },
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" },
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" },
-                { "Kundan Kumar Jha", "4031", "CSE", "WIN" },
-                { "Anand Jha", "6014", "IT", "LOSE" }
-        };
-        Object[] columnNames = { "Date", "Role", "Team", "Status" };
+        Object[] columnNames = { "Date", "Play as", "Result" };
+        Object[][] rowData = new HistoryRepository().getHistory(accountController.getAccount().toString());
 
-        // Initializing the JTable
-        Table table = new Table(rowData, columnNames);
-        JScrollPane sp = new ScrollPane(table);
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-        centerGridBagPanel.add(sp, gridBagConstraints);
+        if (rowData.length == 0) {
+            Label labelHistory = new Label("No History", Font.BOLD, 25, Color.WHITE);
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 3;
+            gridBagConstraints.insets = new Insets(0, 0, 10, 0);
+            centerGridBagPanel.add(labelHistory, gridBagConstraints);
+        } else {
+
+            // Initializing the JTable
+            Table table = new Table(rowData, columnNames);
+            JScrollPane sp = new ScrollPane(table);
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 3;
+            gridBagConstraints.insets = new Insets(0, 0, 10, 0);
+            centerGridBagPanel.add(sp, gridBagConstraints);
+        }
 
         RoundedButton buttonGoBack = new RoundedButton("Go Back", 150, 42, CustomColor.RED.getColor());
         gridBagConstraints.gridx = 0;

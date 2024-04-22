@@ -13,22 +13,18 @@ import java.util.List;
 public class AccountController implements IAccountContract {
 
     private static AccountController instance;
-    private final AccountRepository accountRepository;
+    private final AccountRepository accountRepository = new AccountRepository();
 
-    public void setMainAccount(Account mainAccount) {
-        this.mainAccount = mainAccount;
-    }
-
-    private Account mainAccount;
+    private Account account;
     public int accountIndex;
 
 
-    private List<Account> accounts = new ArrayList<>();
+    private final List<Account> accounts = new ArrayList<>();
     public List<Account> getAccounts() {
         return accounts;
     }
-    public Account getMainAccount() {
-        return mainAccount;
+    public Account getAccount() {
+        return account;
     }
 
 
@@ -52,14 +48,13 @@ public class AccountController implements IAccountContract {
         }
     }
 
-    public AccountController(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public AccountController() {
     }
 
-    public static AccountController getInstance(AccountRepository accountRepository) {
+    public static AccountController getInstance() {
 
         if (instance == null) {
-            instance = new AccountController(accountRepository);
+            instance = new AccountController();
         }
         return instance;
     }
@@ -80,9 +75,13 @@ public class AccountController implements IAccountContract {
     }
 
     @Override
-    public void signUp(String username, String password) {
+    public AuthenticationResult signUp(String username, String password) {
+        if (accountRepository.findAccount(username)) {
+            return AuthenticationResult.EXISTING_USER;
+        }
         Account newAccount = new Account(username, password);
         accountRepository.insertAccount(newAccount);
+        return AuthenticationResult.SUCCESS;
     }
 
     public void deleteAccount(String username) {
@@ -101,13 +100,17 @@ public class AccountController implements IAccountContract {
         }
 
     @Override
-    public void logIn(String username) {
-        Account account = new Account(username);
-        setMainAccount(account);
+    public AuthenticationResult logIn(String username) {
+        if (accountRepository.findAccount(username)) {
+            account = new Account(username);
+            return AuthenticationResult.SUCCESS;
+        } else {
+           return AuthenticationResult.INVALID_CREDENTIALS;
+        }
     }
 
     public void logOut() {
-        setMainAccount(null);
+        account = null;
     }
 
 

@@ -6,6 +6,5 @@ public interface IPlayerContract {
 
     void setPlayers(String[] players);
 
-    RoomCreationResult isValidNicknames(String[] playerNicknames);
 
 }

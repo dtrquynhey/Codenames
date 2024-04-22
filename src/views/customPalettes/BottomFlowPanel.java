@@ -11,8 +11,4 @@ public class BottomFlowPanel extends JPanel {
         setBackground(CustomColor.FRAME.getColor());
         setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
     }
-
-    public void setBackgroundColor(Color color) {
-        setBackground(color);
-    }
 }
