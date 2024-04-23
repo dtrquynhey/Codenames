@@ -57,8 +57,8 @@ public class SignupPanel extends Panel {
             case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");
             case SUCCESS -> {
                 accountController.signUp(username, password);
-                signupInfoPanel.resetPanel();
                 new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success", "OK");
+                signupInfoPanel.resetPanel();
                 PopupFrame mainFrame = (PopupFrame) SwingUtilities.getWindowAncestor(SignupPanel.this);
                 mainFrame.dispose();
             }

@@ -2,7 +2,6 @@ package views.gui;
 
 import controllers.AccountController;
 import controllers.GameController;
-import controllers.PlayerController;
 import controllers.TeamController;
 import controllers.enums.RoomCreationResult;
 import views.customPalettes.*;
@@ -89,12 +88,18 @@ public class RoomCreationPanel extends Panel {
                         currentTextField.setTextFieldUsername(String.valueOf(accountController.getAccounts().get(currentI).getUsername()));
                         currentTextField.getTextField().setEnabled(false);
                         currentLoginLabel.setText("Log Out");
+
+                        revalidate();
+                        repaint();
                     });
                 } else {
                     accountController.removeAccount(playersNamePanel.getPlayerTextFields()[currentI].getTextFieldUsername());
                     currentTextField.setTextFieldUsername("");
                     currentTextField.getTextField().setEnabled(true);
                     currentLoginLabel.setText("Log In");
+
+                    revalidate();
+                    repaint();
                 }
             });
         }
@@ -107,7 +112,7 @@ public class RoomCreationPanel extends Panel {
             case DUPLICATE_NAMES -> playersNamePanel.showError("Names must be unique.");
             case SUCCESS -> {
                 gameController.getGame().setPlayers(playerNicknames);
-                TeamSetupPanel teamSetupPanel = new TeamSetupPanel(gameController, new TeamController());
+                TeamSetupPanel teamSetupPanel = new TeamSetupPanel(accountController, gameController, new TeamController());
                 MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(RoomCreationPanel.this);
                 mainFrame.showPanel(teamSetupPanel);
             }

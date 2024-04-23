@@ -15,16 +15,14 @@ public class TeamSetupPanel extends Panel {
 
     private final RolesChooserPanel rolesChooserPanel;
     private final GameController gameController;
+    private final AccountController accountController;
 
-    public TeamSetupPanel(GameController gameController, TeamController teamController) {
+    public TeamSetupPanel(AccountController accountController, GameController gameController, TeamController teamController) {
         super();
         this.gameController = gameController;
-        AccountController accountController = AccountController.getInstance();
+        this.accountController = accountController;
         Label loggedAccountLabel = new Label("Logged in as: " + accountController.getAccount(), Font.BOLD, 16, CustomColor.TEXT.getColor());
         topFlowPanel.add(loggedAccountLabel);
-
-//        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.YELLOW.getColor().darker());
-//        topFlowPanel.add(buttonReadRules);
 
         RoundedButton buttonExitGame = new RoundedButton("Exit Game", 140, 42, CustomColor.GREY.getColor());
         topFlowPanel.add(buttonExitGame);
@@ -56,16 +54,18 @@ public class TeamSetupPanel extends Panel {
         buttonRandomize.addActionListener(e -> {
             teamController.randomizeRolesAndTeams(gameController.getGame().getPlayers()); // Randomize the roles
             rolesChooserPanel.updateRoleChoosers(teamController.getRandomizedPlayerSelectedTeams()); // Update the UI
+            revalidate();
+            repaint();
         });
         buttonExitGame.addActionListener(e -> {
-            HomePanel homePanel = new HomePanel(AccountController.getInstance());
+            HomePanel homePanel = new HomePanel(accountController);
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
             mainFrame.showPanel(homePanel);
         });
     }
 
     private void showGamePlayPanel() {
-        GamePlayPanel gamePlayPanel = new GamePlayPanel(this.gameController);
+        GamePlayPanel gamePlayPanel = new GamePlayPanel(this.accountController, this.gameController);
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(TeamSetupPanel.this);
         mainFrame.showPanel(gamePlayPanel);
     }

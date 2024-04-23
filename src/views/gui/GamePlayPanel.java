@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 public class GamePlayPanel extends Panel {
 
     private final GameController gameController;
+    private final AccountController accountController;
     private final JPanel cardPanel;
     private final CardLayout cardLayout;
     public Board spymasterBoard;
@@ -31,16 +32,14 @@ public class GamePlayPanel extends Panel {
     RoundedButton buttonGiveClue;
     RoundedButton buttonEndGuess;
 
-    public GamePlayPanel(GameController gameController) {
+    public GamePlayPanel(AccountController accountController, GameController gameController) {
         super();
         this.gameController = gameController;
+        this.accountController = accountController;
 
 
-        Label loggedAccountLabel = new Label("Logged in as: " + AccountController.getInstance().getAccount(), Font.BOLD, 16, CustomColor.TEXT.getColor());
+        Label loggedAccountLabel = new Label("Logged in as: " + accountController.getAccount(), Font.BOLD, 16, CustomColor.TEXT.getColor());
         topFlowPanel.add(loggedAccountLabel);
-
-//        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.YELLOW.getColor().darker());
-//        topFlowPanel.add(buttonReadRules);
 
         RoundedButton buttonExitGame = new RoundedButton("Exit Game", 140, 42, CustomColor.GREY.getColor());
         topFlowPanel.add(buttonExitGame);
@@ -146,7 +145,7 @@ public class GamePlayPanel extends Panel {
 
     private void buttonExitGameClickedHandler() {
         gameController.getGame().setGameResult(GameResult.INCOMPLETE);
-        HomePanel homePanel = new HomePanel(AccountController.getInstance());
+        HomePanel homePanel = new HomePanel(accountController);
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(GamePlayPanel.this);
         mainFrame.showPanel(homePanel);
     }
@@ -170,6 +169,8 @@ public class GamePlayPanel extends Panel {
                         spymasterBoard.flippableCards.get(finalIndex).flip();
                         operativeBoard.flippableCards.get(finalIndex).setEnabled(false);
                         spymasterBoard.flippableCards.get(finalIndex).setEnabled(false);
+                        revalidate();
+                        repaint();
 
                         switch (gameController.guessCard(gameController.allCards.get(finalIndex))) {
                             case RIGHT_GUESSED -> {
@@ -222,10 +223,12 @@ public class GamePlayPanel extends Panel {
                                     message = "BLUE TEAM WINS!";
                                 }
                                 new MessageDialog(GamePlayPanel.this, message, "Game Play", "Go Home");
-                                HomePanel homePanel = new HomePanel(AccountController.getInstance());
+
+                                gameController.saveGame(accountController.getAccount().toString());
+
+                                HomePanel homePanel = new HomePanel(accountController);
                                 MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(GamePlayPanel.this);
                                 mainFrame.showPanel(homePanel);
-                                gameController.saveGame();
                             case ON_GOING:
                                 revalidate();
                                 repaint();

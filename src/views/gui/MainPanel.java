@@ -1,9 +1,7 @@
 package views.gui;
 
 import controllers.AccountController;
-import controllers.PlayerController;
 import controllers.enums.AuthenticationResult;
-import models.Account;
 import views.customPalettes.*;
 import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
@@ -16,12 +14,10 @@ public class MainPanel extends Panel {
     private LoginInfoPanel loginInfoPanel;
     private SignupInfoPanel signupInfoPanel;
     private AccountController accountController;
+
     public MainPanel(AccountController accountController) {
         super();
         this.accountController = accountController;
-
-//        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 140, 42, CustomColor.GREY.getColor());
-//        topFlowPanel.add(buttonReadRules);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -62,16 +58,14 @@ public class MainPanel extends Panel {
 
         buttonSignUp.addActionListener(e -> buttonSignUpClicked());
 
-//        buttonReadRules.addActionListener(e -> {
-//            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(MainPanel.this);
-//            mainFrame.showRulesPanel();
-//        });
-
         setVisible(true);
     }
 
-    private boolean isValidLogIn(String username, String password) {
-        return !username.isEmpty() && !password.isEmpty();
+    private AuthenticationResult isValidLogIn(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()) {
+            return AuthenticationResult.EMPTY_FIELDS;
+        }
+        return AuthenticationResult.VALID;
     }
 
     private AuthenticationResult isValidSignUp(String username, String password, String confirmedPassword) {
@@ -80,7 +74,7 @@ public class MainPanel extends Panel {
         } else if (!password.equals(confirmedPassword)) {
             return AuthenticationResult.PASSWORD_MISMATCH;
         }
-        return AuthenticationResult.SUCCESS;
+        return AuthenticationResult.VALID;
     }
 
     private void buttonSignUpClicked() {
@@ -91,36 +85,39 @@ public class MainPanel extends Panel {
         switch (isValidSignUp(username, password, confirmPassword)) {
             case EMPTY_FIELDS -> signupInfoPanel.showError("All the fields are required.");
             case PASSWORD_MISMATCH -> signupInfoPanel.showError("Passwords do not match.");
-            case SUCCESS -> {
+            case VALID -> {
                 switch (accountController.signUp(username, password)) {
+                    case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");
                     case SUCCESS -> {
                         signupInfoPanel.resetPanel();
                         new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success", "OK");
                     }
-                    case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");
                 }
-
             }
         }
+        revalidate();
+        repaint();
     }
 
     private void buttonLogInClicked() {
         String username = loginInfoPanel.getUsername();
         String password = loginInfoPanel.getPassword();
 
-        if (isValidLogIn(username, password)) {
-            switch (accountController.logIn(username)) {
-                case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
-                case SUCCESS -> {
-                    loginInfoPanel.resetPanel();
-                    accountController.setFirstAccount(username);
-                    HomePanel homePanel = new HomePanel(accountController);
-                    MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(MainPanel.this);
-                    mainFrame.showPanel(homePanel);
+        switch (isValidLogIn(username, password)) {
+
+            case EMPTY_FIELDS -> loginInfoPanel.showError("All the fields are required.");
+            case VALID -> {
+                switch (accountController.logIn(username, password)) {
+                    case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
+                    case SUCCESS -> {
+                        loginInfoPanel.resetPanel();
+                        accountController.setFirstAccount(username);
+                        HomePanel homePanel = new HomePanel(accountController);
+                        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(MainPanel.this);
+                        mainFrame.showPanel(homePanel);
+                    }
                 }
             }
-        } else {
-            loginInfoPanel.showError("All the fields are required.");
         }
     }
 }

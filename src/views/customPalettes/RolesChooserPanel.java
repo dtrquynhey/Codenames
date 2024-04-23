@@ -19,11 +19,7 @@ public class RolesChooserPanel extends JPanel {
     private final OneRoleChooserPanel operativeBlueRoleChooser;
 
      public RolesChooserPanel(List<Player> players) {
-         setBackground(new java.awt.Color(0, 0, 0, 0));
-
-         //ContainerPanel containerPanel = new ContainerPanel(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(850, 515));
-
-         //add(containerPanel, BorderLayout.CENTER);
+         setBackground(CustomColor.FRAME.getColor());
 
          setLayout(new GridBagLayout());
          GridBagConstraints gridBagConstraints = new GridBagConstraints();

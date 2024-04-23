@@ -13,15 +13,12 @@ import repositories.HistoryRepository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class GameController implements IGameContract {
 
-
-    private static GameController instance;
+    private AccountController accountController;
     private Game game;
     private String currentPlayer;
     private int numOfGuesses;
@@ -29,20 +26,12 @@ public class GameController implements IGameContract {
     public List<Card> guessedCards;
     public List<Card> allCards;
     private Team currentTeam;
-    private final GameRepository gameRepository = new GameRepository();
 
     public GameController() {
         guessedCards = new ArrayList<>();
         CardController cardController = CardController.getInstance();
         List<String> randomWords = generateRandomWords();
         allCards = cardController.generateCards(randomWords);
-    }
-    public static GameController getInstance() {
-
-        if (instance == null) {
-            instance = new GameController();
-        }
-        return instance;
     }
 
     public Game getGame() {
@@ -150,7 +139,6 @@ public class GameController implements IGameContract {
         getOpponentTeam().increaseScore();
     }
 
-
     public void setInitialTeam() {
         this.currentTeam = getRedTeam();
         this.currentPlayer = getRedTeam().getSpymaster();
@@ -160,23 +148,23 @@ public class GameController implements IGameContract {
         this.numOfGuesses--;
     }
 
-    public void saveGame() {
+    public void saveGame(String account) {
         int savedGameId = new GameRepository().insertGame(this.game);
-        String account = AccountController.getInstance().getAccount().toString();
+        //String account = AccountController.getInstance().getAccount().toString();
         new HistoryRepository().insertHistory(account, savedGameId);
     }
 
     @Override
     public List<String> generateRandomWords() {
-        List<String> randomWords = new ArrayList<>();
+        Set<String> randomWords = new HashSet<>();
         List<String> wordList = loadWords("src/words.txt");
 
         Random rand = new Random();
-        for (int i = 0; i < 25; i++) {
+        while (randomWords.size() < 25) {
             int index = rand.nextInt(wordList.size());
             randomWords.add(wordList.get(index));
         }
-        return randomWords;
+        return new ArrayList<>(randomWords);
     }
 
     public static List<String> loadWords(String filename) {

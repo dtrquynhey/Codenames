@@ -28,10 +28,10 @@ public class MessageDialog extends JDialog {
         gridBagConstraints.insets = new Insets(30, 30, 0, 30);
         panel.add(messageLabel, gridBagConstraints);
 
-        RoundedButton buttonOk = new RoundedButton(button1Text, 100, 42, CustomColor.GREEN.getColor());
+        RoundedButton buttonOk = new RoundedButton(button1Text, 142, 42, CustomColor.GREEN.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(10, 30, 10, 30); // Changed insets to make space between buttons
+        gridBagConstraints.insets = new Insets(10, 30, 10, 30);
         panel.add(buttonOk, gridBagConstraints);
 
         buttonOk.addActionListener(e -> {

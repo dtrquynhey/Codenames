@@ -7,6 +7,6 @@ public interface IAccountContract {
     AuthenticationResult signUp(String username, String password);
 
     AuthenticationResult isValidLoginCredentials(String username, String password);
-    AuthenticationResult logIn(String username);
+    AuthenticationResult logIn(String username, String password);
     void logOut();
 }

@@ -2,8 +2,6 @@ package views.gui;
 
 import controllers.AccountController;
 import controllers.GameController;
-import controllers.PlayerController;
-import repositories.GameRepository;
 import views.customPalettes.Panel;
 import views.customPalettes.RoundedButton;
 import views.customPalettes.ShadowLabel;
@@ -37,12 +35,6 @@ public class HomePanel extends Panel {
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         centerGridBagPanel.add(buttonViewHistory, gridBagConstraints);
 
-//        RoundedButton buttonReadRules = new RoundedButton("Read Rules", 160, 42, CustomColor.YELLOW.getColor().darker());
-//        gridBagConstraints.gridx = 0;
-//        gridBagConstraints.gridy = 3;
-//        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
-//        centerGridBagPanel.add(buttonReadRules, gridBagConstraints);
-
         RoundedButton buttonLogOut = new RoundedButton("Log Out", 160, 42, CustomColor.RED.getColor());
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -68,11 +60,6 @@ public class HomePanel extends Panel {
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showPanel(new GameHistoryPanel(accountController));
         });
-
-//        buttonReadRules.addActionListener(e -> {
-//            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
-//            mainFrame.showRulesPanel();
-//        });
 
         buttonLogOut.addActionListener(e -> {
             accountController.logOut();

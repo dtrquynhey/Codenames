@@ -1,20 +1,14 @@
 package controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import contracts.ITeamContract;
 import models.Player;
 import models.Team;
 import models.enums.Color;
 import models.enums.Role;
-import repositories.TeamRepository;
 
-import java.sql.SQLException;
 import java.util.*;
 
 public class TeamController implements ITeamContract {
-
-    private static TeamController instance;
-
 
     private List<Team> teams;
 
@@ -39,14 +33,6 @@ public class TeamController implements ITeamContract {
 
 
     public TeamController() {
-    }
-
-    public static TeamController getInstance() {
-
-        if (instance == null) {
-            instance = new TeamController();
-        }
-        return instance;
     }
 
     @Override

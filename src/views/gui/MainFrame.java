@@ -1,23 +1,16 @@
 package views.gui;
 
-import controllers.PlayerController;
 import controllers.AccountController;
-import repositories.DbConfig;
-import repositories.AccountRepository;
 import views.customPalettes.PopupFrame;
 
 import javax.swing.*;
-import java.sql.Connection;
 
 public class MainFrame extends JFrame {
-    private final AccountController accountController;
-    private final PlayerController playerController;
 
     private JPanel currentPanel;
     private JPanel previousPanel;
 
     private MainPanel mainPanel;
-    private RulesPanel rulesPanel;
 
     public MainFrame(){
         super("Codenames Desktop Game");
@@ -26,9 +19,6 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-
-        accountController = AccountController.getInstance();
-        playerController = PlayerController.getInstance();
         initializePanels();
         setContentPane(mainPanel);
 
@@ -37,13 +27,12 @@ public class MainFrame extends JFrame {
 
 
     private void initializePanels() {
-        mainPanel = new MainPanel(accountController);
-        rulesPanel = new RulesPanel();
+        mainPanel = new MainPanel(new AccountController());
     }
 
     public void showPanel(JPanel panel) {
-        previousPanel = currentPanel; // Store the current panel as the previous panel
-        currentPanel = panel; // Set the current panel to the new panel
+        previousPanel = currentPanel;
+        currentPanel = panel;
         setContentPane(currentPanel);
         setSize(1280, 800);
         setLocationRelativeTo(null);
@@ -58,21 +47,13 @@ public class MainFrame extends JFrame {
     }
 
     public void showMainPanel() {
-        mainPanel = new MainPanel(new AccountController());
+        mainPanel = new MainPanel(AccountController.getInstance());
         showPanel(mainPanel);
     }
 
     public void showSignupPanel() {
-        showPopupPanel(new SignupPanel(accountController));
+        showPopupPanel(new SignupPanel(AccountController.getInstance()));
     }
-    public void showLoginPanel() {
-        showPopupPanel(new LoginPanel(accountController));
-    }
-
-    public void showRulesPanel() {
-        showPopupPanel(rulesPanel);
-    }
-
 
 
     public void goBack() {

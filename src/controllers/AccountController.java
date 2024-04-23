@@ -17,14 +17,14 @@ public class AccountController implements IAccountContract {
 
     private Account account;
     public int accountIndex;
+    public Account getAccount() {
+        return account;
+    }
 
 
     private final List<Account> accounts = new ArrayList<>();
     public List<Account> getAccounts() {
         return accounts;
-    }
-    public Account getAccount() {
-        return account;
     }
 
 
@@ -48,6 +48,14 @@ public class AccountController implements IAccountContract {
         }
     }
 
+    public void setFirstAccount(String username) {
+
+        if (accounts.isEmpty()) {
+            accounts.add(new Account(username));
+        } else {
+            accounts.getFirst().setUsername(username);
+        }
+    }
     public AccountController() {
     }
 
@@ -100,8 +108,8 @@ public class AccountController implements IAccountContract {
         }
 
     @Override
-    public AuthenticationResult logIn(String username) {
-        if (accountRepository.findAccount(username)) {
+    public AuthenticationResult logIn(String username, String password) {
+        if (accountRepository.findAccount(username, password)) {
             account = new Account(username);
             return AuthenticationResult.SUCCESS;
         } else {
@@ -114,18 +122,5 @@ public class AccountController implements IAccountContract {
     }
 
 
-//    public RoomCreationPanel initializeRoomCreationPanel() {
-//        return new RoomCreationPanel(getInstance(accountRepository));
-//    }
-
-
-    public void setFirstAccount(String username) {
-
-        if (accounts.isEmpty()) {
-            accounts.add(new Account(username));
-        } else {
-            accounts.getFirst().setUsername(username);
-        }
-    }
 
 }

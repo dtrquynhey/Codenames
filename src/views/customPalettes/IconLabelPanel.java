@@ -1,7 +1,5 @@
 package views.customPalettes;
 
-import views.customPalettes.enums.CustomColor;
-
 import javax.swing.*;
 import java.awt.*;
 
