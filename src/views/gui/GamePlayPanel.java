@@ -116,8 +116,8 @@ public class GamePlayPanel extends Panel {
             } else if (!Character.isDigit(textFieldNumOfGuess.getText().codePointAt(0))) {
                 new MessageDialog(this, "Number of word field must be a digit.", "Game Play Error", "OK");
             } else {
-                gameController.setNumOfGuesses(Integer.parseInt(textFieldNumOfGuess.getText().trim()) + 1);
-                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                gameController.setNumOfGuess(Integer.parseInt(textFieldNumOfGuess.getText().trim()) + 1);
+                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuess()));
                 gameController.changeTurn();
 
                 showOperativeBoard();
@@ -126,8 +126,8 @@ public class GamePlayPanel extends Panel {
         });
 
         buttonEndGuess.addActionListener(e -> {
-            gameController.setNumOfGuesses(0);
-            labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+            gameController.setNumOfGuess(0);
+            labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuess()));
             gameController.changeTurn();
 
             if (gameController.getCurrentTeam().getColor() == Color.RED) {
@@ -175,15 +175,15 @@ public class GamePlayPanel extends Panel {
                         switch (gameController.guessCard(gameController.allCards.get(finalIndex))) {
                             case RIGHT_GUESSED -> {
                                 gameController.decreaseNumOfGuess();
-                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuess()));
 
                                 gameController.increaseCurrentTeamScore();
                                 redTeamGameLog.setScore(gameController.getRedTeam().getScore());
                                 blueTeamGameLog.setScore(gameController.getBlueTeam().getScore());
                             }
                             case NEUTRAL_GUESSED -> {
-                                gameController.setNumOfGuesses(0);
-                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                                gameController.setNumOfGuess(0);
+                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuess()));
 
                                 new MessageDialog(GamePlayPanel.this, "You guessed Neutral card. Your turn is ended.", "Game Play", "OK");
 
@@ -191,8 +191,8 @@ public class GamePlayPanel extends Panel {
 
                             }
                             case OPPONENT_GUESSED -> {
-                                gameController.setNumOfGuesses(0);
-                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuesses()));
+                                gameController.setNumOfGuess(0);
+                                labelRemainingGuess.setText(String.valueOf(gameController.getNumOfGuess()));
 
                                 gameController.increaseOpponentScore();
                                 redTeamGameLog.setScore(gameController.getRedTeam().getScore());
@@ -202,8 +202,8 @@ public class GamePlayPanel extends Panel {
                                 buttonEndGuess.doClick();
                             }
                             case ASSASSIN_GUESSED -> {
-                                gameController.setNumOfGuesses(0);
-                                gameController.getOpponentTeam().setIsWinner(true);
+                                gameController.setNumOfGuess(0);
+                                gameController.getOpponentTeam().setWinner(true);
                                 new MessageDialog(GamePlayPanel.this, "You guessed Assassin card. Game is over!", "Game Play", "OK");
                             }
                         }
@@ -214,11 +214,11 @@ public class GamePlayPanel extends Panel {
                             case BLUE_WIN:
                                 String message;
                                 if (gameResult == GameResult.RED_WIN) {
-                                    gameController.getRedTeam().setIsWinner(true);
+                                    gameController.getRedTeam().setWinner(true);
                                     gameController.getGame().setGameResult(GameResult.RED_WIN);
                                     message = "RED TEAM WINS!";
                                 } else {
-                                    gameController.getBlueTeam().setIsWinner(true);
+                                    gameController.getBlueTeam().setWinner(true);
                                     gameController.getGame().setGameResult(GameResult.BLUE_WIN);
                                     message = "BLUE TEAM WINS!";
                                 }

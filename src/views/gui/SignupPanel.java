@@ -1,6 +1,7 @@
 package views.gui;
 
 import controllers.AccountController;
+import controllers.enums.AuthenticationResult;
 import views.customPalettes.*;
 import views.customPalettes.Panel;
 import views.customPalettes.enums.CustomColor;
@@ -39,11 +40,19 @@ public class SignupPanel extends Panel {
         centerGridBagPanel.add(buttonSignUp, gridBagConstraints);
 
 
-        buttonSignUp.addActionListener(e -> {
-            buttonSignUpClicked();
-        });
+        buttonSignUp.addActionListener(e -> buttonSignUpClicked());
 
         setVisible(true);
+    }
+
+
+    private AuthenticationResult isValidSignUp(String username, String password, String confirmedPassword) {
+        if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
+            return AuthenticationResult.EMPTY_FIELDS;
+        } else if (!password.equals(confirmedPassword)) {
+            return AuthenticationResult.PASSWORD_MISMATCH;
+        }
+        return AuthenticationResult.VALID;
     }
 
     private void buttonSignUpClicked() {
@@ -51,17 +60,20 @@ public class SignupPanel extends Panel {
         String password = signupInfoPanel.getPassword();
         String confirmPassword = signupInfoPanel.getConfirmPassword();
 
-        switch (accountController.isValidSignUpCredentials(username, password, confirmPassword)) {
+        switch (isValidSignUp(username, password, confirmPassword)) {
             case EMPTY_FIELDS -> signupInfoPanel.showError("All the fields are required.");
             case PASSWORD_MISMATCH -> signupInfoPanel.showError("Passwords do not match.");
-            case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");
-            case SUCCESS -> {
-                accountController.signUp(username, password);
-                new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success", "OK");
-                signupInfoPanel.resetPanel();
-                PopupFrame mainFrame = (PopupFrame) SwingUtilities.getWindowAncestor(SignupPanel.this);
-                mainFrame.dispose();
+            case VALID -> {
+                switch (accountController.signUp(username, password)) {
+                    case EXISTING_USER -> signupInfoPanel.showError("This username is already in use.");
+                    case SUCCESS -> {
+                        signupInfoPanel.resetPanel();
+                        new MessageDialog(this, "Account has been successfully created! Please log in to start playing.", "Sign Up Success", "OK");
+                    }
+                }
             }
         }
+        revalidate();
+        repaint();
     }
 }

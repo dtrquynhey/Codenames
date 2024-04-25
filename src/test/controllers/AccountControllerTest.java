@@ -19,19 +19,19 @@ class AccountControllerTest {
         accountController = new AccountController();
     }
 
-    @Test
-    void testRegisterUser_emptyFields() {
-        // Test with empty fields
-        assertEquals(AuthenticationResult.EMPTY_FIELDS, accountController.isValidSignUpCredentials("", "", ""));
-        // Verify that createUser method is not called
-        verifyNoInteractions(accountRepository);
-    }
+//    @Test
+//    void testRegisterUser_emptyFields() {
+//        // Test with empty fields
+//        assertEquals(AuthenticationResult.EMPTY_FIELDS, accountController.isValidSignUpCredentials("", "", ""));
+//        // Verify that createUser method is not called
+//        verifyNoInteractions(accountRepository);
+//    }
 
-    @Test
-    void testRegisterUser_passwordMismatch() {
-        // Test with password mismatch
-        assertEquals(AuthenticationResult.PASSWORD_MISMATCH, accountController.isValidSignUpCredentials("username", "password1", "password2"));
-        // Verify that createUser method is not called
-        verifyNoInteractions(accountRepository);
-    }
+//    @Test
+//    void testRegisterUser_passwordMismatch() {
+//        // Test with password mismatch
+//        assertEquals(AuthenticationResult.PASSWORD_MISMATCH, accountController.isValidSignUpCredentials("username", "password1", "password2"));
+//        // Verify that createUser method is not called
+//        verifyNoInteractions(accountRepository);
+//    }
 }

@@ -12,12 +12,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginPanel extends Panel {
+    private final LoginInfoPanel loginInfoPanel;
+    private final AccountController accountController;
     private Runnable onLoginSuccess;
 
     public LoginPanel(AccountController accountController) {
-
         super();
-
+        this.accountController = accountController;
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
         ShadowLabel labelLogin = new ShadowLabel("LOG IN", 35, CustomColor.TEXT.getColor());
@@ -26,7 +27,7 @@ public class LoginPanel extends Panel {
         gridBagConstraints.insets = new Insets(15, 0, 15, 0);
         centerGridBagPanel.add(labelLogin,gridBagConstraints);
 
-        LoginInfoPanel loginInfoPanel = new LoginInfoPanel();
+        loginInfoPanel = new LoginInfoPanel();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new Insets(5, 0, 0, 0);
@@ -58,40 +59,46 @@ public class LoginPanel extends Panel {
         bottomFlowPanel.add(signUpPanel);
 
 
-        buttonLogIn.addActionListener(e -> {
-            String username = loginInfoPanel.getUsername();
-            String password = String.valueOf(loginInfoPanel.getPassword());
+        buttonLogIn.addActionListener(e -> buttonLogInClicked());
 
-            switch (accountController.isValidLoginCredentials(username, password)) {
-                case EMPTY_FIELDS -> loginInfoPanel.showError("All the fields are required.");
-                case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
-                case SUCCESS -> {
-                    loginInfoPanel.resetPanel();
-                    switch (accountController.addAccount(username)) {
-                        case DUPLICATE_NAMES -> new MessageDialog(this, "This account already logged in.", "Log In Failure", "Try Again");
-                        case SUCCESS -> {
-                            if (onLoginSuccess != null) {
-                                onLoginSuccess.run();
+        buttonSignUp.addActionListener(e -> {
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
+            mainFrame.showPopupPanel(new SignupPanel(AccountController.getInstance()));
+        });
+
+        setVisible(true);
+    }
+    private AuthenticationResult isValidLogIn(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()) {
+            return AuthenticationResult.EMPTY_FIELDS;
+        }
+        return AuthenticationResult.VALID;
+    }
+
+    private void buttonLogInClicked() {
+        String username = loginInfoPanel.getUsername();
+        String password = loginInfoPanel.getPassword();
+
+        switch (isValidLogIn(username, password)) {
+
+            case EMPTY_FIELDS -> loginInfoPanel.showError("All the fields are required.");
+            case VALID -> {
+                switch (accountController.logIn(username, password)) {
+                    case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
+                    case SUCCESS -> {
+                        loginInfoPanel.resetPanel();
+                        switch (accountController.addAccount(username)) {
+                            case DUPLICATE_NAMES -> new MessageDialog(this, "This account already logged in.", "Log In Failure", "Try Again");
+                            case SUCCESS -> {
+                                if (onLoginSuccess != null) {
+                                    onLoginSuccess.run();
+                                }
                             }
                         }
                     }
                 }
             }
-        });
-
-        buttonSignUp.addActionListener(e -> {
-            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
-            mainFrame.showSignupPanel();
-        });
-
-        setVisible(true);
-    }
-
-    private AuthenticationResult isValidLoginCredentials(String username, String password) {
-        if (username.isEmpty() || password.isEmpty()){
-            return AuthenticationResult.EMPTY_FIELDS;
         }
-        else return AuthenticationResult.SUCCESS;
     }
     // Setter for the login success listener
     public void onLoginSuccess(Runnable onLoginSuccess) {

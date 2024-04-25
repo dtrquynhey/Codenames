@@ -1,6 +1,7 @@
 package views.gui;
 
 import controllers.AccountController;
+import repositories.DbConfig;
 import views.customPalettes.PopupFrame;
 
 import javax.swing.*;
@@ -9,7 +10,6 @@ public class MainFrame extends JFrame {
 
     private JPanel currentPanel;
     private JPanel previousPanel;
-
     private MainPanel mainPanel;
 
     public MainFrame(){
@@ -19,15 +19,16 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        initializePanels();
+        showMainPanel();
         setContentPane(mainPanel);
 
         setVisible(true);
     }
 
 
-    private void initializePanels() {
+    public void showMainPanel() {
         mainPanel = new MainPanel(new AccountController());
+        showPanel(mainPanel);
     }
 
     public void showPanel(JPanel panel) {
@@ -46,16 +47,6 @@ public class MainFrame extends JFrame {
         popupFrame.setContentPane(panel);
     }
 
-    public void showMainPanel() {
-        mainPanel = new MainPanel(AccountController.getInstance());
-        showPanel(mainPanel);
-    }
-
-    public void showSignupPanel() {
-        showPopupPanel(new SignupPanel(AccountController.getInstance()));
-    }
-
-
     public void goBack() {
         if (previousPanel != null) {
             showPanel(previousPanel);
@@ -63,6 +54,7 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
+        DbConfig.initializeDatabase();
         SwingUtilities.invokeLater(MainFrame::new);
     }
 }

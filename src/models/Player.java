@@ -10,21 +10,8 @@ public class Player {
         this.account = null;
     }
 
-    public Player(Account account) {
-        this.account = account;
-    }
-
     public String getNickname() {
         return nickname;
-    }
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-    public Account getAccount() {
-        return account;
-    }
-    public void setAccount(Account account) {
-        this.account = account;
     }
     @Override
     public String toString() {

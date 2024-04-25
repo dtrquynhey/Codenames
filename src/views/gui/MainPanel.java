@@ -111,6 +111,7 @@ public class MainPanel extends Panel {
                     case INVALID_CREDENTIALS -> loginInfoPanel.showError("The credentials is invalid.");
                     case SUCCESS -> {
                         loginInfoPanel.resetPanel();
+                        accountController.initializeAccounts();
                         accountController.setFirstAccount(username);
                         HomePanel homePanel = new HomePanel(accountController);
                         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(MainPanel.this);
@@ -119,5 +120,7 @@ public class MainPanel extends Panel {
                 }
             }
         }
+        revalidate();
+        repaint();
     }
 }

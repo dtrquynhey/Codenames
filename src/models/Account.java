@@ -5,7 +5,6 @@ public class Account {
     private String username;
     private String password;
 
-
     public Account(String username) {
         this.username = username;
     }
@@ -15,7 +14,6 @@ public class Account {
         this.username = username;
         this.password = password;
     }
-
 
     public String getUsername() {
         return username;
@@ -30,7 +28,6 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     @Override
     public String toString() {

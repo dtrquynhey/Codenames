@@ -1,6 +1,5 @@
 package controllers;
 
-import contracts.IGameContract;
 import controllers.enums.GuessResult;
 import models.Card;
 import models.Game;
@@ -10,18 +9,15 @@ import models.enums.GameResult;
 import repositories.GameRepository;
 import repositories.HistoryRepository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class GameController implements IGameContract {
+public class GameController {
 
-    private AccountController accountController;
     private Game game;
     private String currentPlayer;
-    private int numOfGuesses;
+    private int numOfGuess;
 
     public List<Card> guessedCards;
     public List<Card> allCards;
@@ -30,7 +26,7 @@ public class GameController implements IGameContract {
     public GameController() {
         guessedCards = new ArrayList<>();
         CardController cardController = CardController.getInstance();
-        List<String> randomWords = generateRandomWords();
+        List<String> randomWords = cardController.generateRandomWords();
         allCards = cardController.generateCards(randomWords);
     }
 
@@ -46,15 +42,15 @@ public class GameController implements IGameContract {
         return getGame().getBlueTeam();
     }
 
-    public void setNumOfGuesses(int numOfGuesses) {
-        this.numOfGuesses = numOfGuesses;
+    public void setNumOfGuess(int numOfGuess) {
+        this.numOfGuess = numOfGuess;
     }
     public void setGame() {
         this.game = new Game();
     }
 
     public boolean isAvailableGuess() {
-        return numOfGuesses > 0;
+        return numOfGuess > 0;
     }
 
     public GuessResult guessCard(Card card) {
@@ -116,8 +112,8 @@ public class GameController implements IGameContract {
         }
     }
 
-    public int getNumOfGuesses() {
-        return numOfGuesses;
+    public int getNumOfGuess() {
+        return numOfGuess;
     }
 
     public Team getCurrentTeam() {
@@ -145,7 +141,7 @@ public class GameController implements IGameContract {
     }
 
     public void decreaseNumOfGuess() {
-        this.numOfGuesses--;
+        this.numOfGuess--;
     }
 
     public void saveGame(String account) {
@@ -154,29 +150,4 @@ public class GameController implements IGameContract {
         new HistoryRepository().insertHistory(account, savedGameId);
     }
 
-    @Override
-    public List<String> generateRandomWords() {
-        Set<String> randomWords = new HashSet<>();
-        List<String> wordList = loadWords("src/words.txt");
-
-        Random rand = new Random();
-        while (randomWords.size() < 25) {
-            int index = rand.nextInt(wordList.size());
-            randomWords.add(wordList.get(index));
-        }
-        return new ArrayList<>(randomWords);
-    }
-
-    public static List<String> loadWords(String filename) {
-        List<String> wordList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                wordList.add(line.trim());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return wordList;
-    }
 }

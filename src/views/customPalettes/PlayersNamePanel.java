@@ -17,13 +17,20 @@ public class PlayersNamePanel extends ContainerPanel {
     private final IconTextFieldPanel[] playerTextFields;
     private final IconLabelPanel errorPanel;
 
+    private final Label labelLogin1;
+    private final Label labelLogin2;
+    private final Label labelLogin3;
 
-
-    public Label[] getLabelLogins() {
-        return labelLogins;
+    public Label getLabelLogin1() {
+        return labelLogin1;
+    }
+    public Label getLabelLogin2() {
+        return labelLogin2;
+    }
+    public Label getLabelLogin3() {
+        return labelLogin3;
     }
 
-    private final Label[] labelLogins;
 
     public PlayersNamePanel(String player1) {
         super(CustomColor.CONTAINER_BROWN.getColor(), new Dimension(500, 300));
@@ -47,7 +54,6 @@ public class PlayersNamePanel extends ContainerPanel {
 
 
         playerTextFields = new IconTextFieldPanel[4];
-        labelLogins = new Label[3];
 
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
@@ -72,17 +78,23 @@ public class PlayersNamePanel extends ContainerPanel {
             playerTextFields[i] = textField;
         }
 
-        for (int i = 0; i < labelLogins.length; i++) {
-            Label labelLogin = new Label("Log In", Font.HANGING_BASELINE, 16, CustomColor.TEXT.getColor());
-            gridBagConstraints.gridx = 1;
-            gridBagConstraints.gridy = i + 4;
-            gridBagConstraints.insets = new Insets(5, 0, 0, 0);
-            add(labelLogin, gridBagConstraints);
+        labelLogin1 = new Label("Log In", Font.HANGING_BASELINE, 16, CustomColor.TEXT.getColor());
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        add(labelLogin1, gridBagConstraints);
 
+        labelLogin2 = new Label("Log In", Font.HANGING_BASELINE, 16, CustomColor.TEXT.getColor());
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        add(labelLogin2, gridBagConstraints);
 
-            labelLogins[i] = labelLogin;
-
-        }
+        labelLogin3 = new Label("Log In", Font.HANGING_BASELINE, 16, CustomColor.TEXT.getColor());
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        add(labelLogin3, gridBagConstraints);
 
         errorPanel = new IconLabelPanel("");
         gridBagConstraints.gridx = 0;

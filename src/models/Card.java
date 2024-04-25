@@ -11,31 +11,14 @@ public class Card {
     public Card() {
     }
 
-    public Card(String word) {
-        this.word = word;
-    }
-
-    public Card(String word, Color color, Boolean isRevealed) {
+    public Card(String word, Color color) {
         this.word = word;
         this.color = color;
-        this.isRevealed = isRevealed;
-    }
-
-
-
-    public int getCardId() {
-        return cardId;
-    }
-    public void setCardId(int cardId) {
-        this.cardId = cardId;
+        this.isRevealed = false;
     }
 
     public String getWord() {
         return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
     }
 
     public Boolean getIsRevealed() {

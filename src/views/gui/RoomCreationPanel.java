@@ -19,7 +19,6 @@ public class RoomCreationPanel extends Panel {
     private final AccountController accountController;
     private final GameController gameController;
     private final PlayersNamePanel playersNamePanel;
-    private final Label[] labelLogins;
 
 
     public RoomCreationPanel(GameController gameController, AccountController accountController) {
@@ -57,8 +56,9 @@ public class RoomCreationPanel extends Panel {
         centerGridBagPanel.add(buttonGoBack, gridBagConstraints);
 
 
-        labelLogins = playersNamePanel.getLabelLogins();
-        labelLoginsClickedHandler();
+        labelLoginClickedHandler(playersNamePanel.getLabelLogin1(), 1);
+        labelLoginClickedHandler(playersNamePanel.getLabelLogin2(), 2);
+        labelLoginClickedHandler(playersNamePanel.getLabelLogin3(), 3);
 
         buttonCreateRoom.addActionListener(e -> buttonCreateRoomClickedHandler());
 
@@ -68,41 +68,34 @@ public class RoomCreationPanel extends Panel {
         });
     }
 
-    private void labelLoginsClickedHandler() {
-        for (int i = 0; i < labelLogins.length; i++) {
+    private void labelLoginClickedHandler(Label labelLogin, int index) {
+        labelLogin.setClickable(true);
+        IconTextFieldPanel textField = playersNamePanel.getPlayerTextFields()[index];
+        labelLogin.addActionListener(label -> {
+            if (labelLogin.getText().equals("Log In")) {
+                PopupFrame loginFrame = new PopupFrame();
+                LoginPanel loginPanel = new LoginPanel(this.accountController);
+                loginFrame.setContentPane(loginPanel);
 
-            int currentI = i + 1;
-            IconTextFieldPanel currentTextField = playersNamePanel.getPlayerTextFields()[i + 1];
-            Label currentLoginLabel = labelLogins[i];
-
-            labelLogins[i].setClickable(true);
-            labelLogins[i].addActionListener(label -> {
-                if (currentLoginLabel.getText().equals("Log In")) {
-                    PopupFrame loginFrame = new PopupFrame();
-                    LoginPanel loginPanel = new LoginPanel(this.accountController);
-                    loginFrame.setContentPane(loginPanel);
-
-                    accountController.accountIndex = currentI;
-                    loginPanel.onLoginSuccess(() -> {
-                        loginFrame.dispose();
-                        currentTextField.setTextFieldUsername(String.valueOf(accountController.getAccounts().get(currentI).getUsername()));
-                        currentTextField.getTextField().setEnabled(false);
-                        currentLoginLabel.setText("Log Out");
-
-                        revalidate();
-                        repaint();
-                    });
-                } else {
-                    accountController.removeAccount(playersNamePanel.getPlayerTextFields()[currentI].getTextFieldUsername());
-                    currentTextField.setTextFieldUsername("");
-                    currentTextField.getTextField().setEnabled(true);
-                    currentLoginLabel.setText("Log In");
+                loginPanel.onLoginSuccess(() -> {
+                    loginFrame.dispose();
+                    textField.setTextFieldUsername(String.valueOf(accountController.getAccounts().getLast().getUsername()));
+                    textField.getTextField().setEnabled(false);
+                    labelLogin.setText("Log Out");
 
                     revalidate();
                     repaint();
-                }
-            });
-        }
+                });
+            } else {
+                accountController.removeAccount(accountController.getAccounts().getLast().getUsername());
+                textField.setTextFieldUsername("");
+                textField.getTextField().setEnabled(true);
+                labelLogin.setText("Log In");
+
+                revalidate();
+                repaint();
+            }
+        });
     }
 
     private void buttonCreateRoomClickedHandler() {

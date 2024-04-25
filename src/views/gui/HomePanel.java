@@ -50,7 +50,8 @@ public class HomePanel extends Panel {
         buttonNewGame.addActionListener(e -> {
             GameController gameController = new GameController();
             gameController.setGame();
-
+            accountController.initializeAccounts();
+            accountController.setFirstAccount(accountController.getAccount().getUsername());
             RoomCreationPanel roomCreationPanel = new RoomCreationPanel(gameController, accountController);
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(HomePanel.this);
             mainFrame.showPanel(roomCreationPanel);

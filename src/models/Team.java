@@ -1,15 +1,14 @@
 package models;
 import models.enums.Color;
 
-import java.util.List;
-
 public class Team {
     private int teamId;
-    private Player spymaster;
-    private Player operative;
+    private final Player spymaster;
+    private final Player operative;
     private Color color;
     private int score;
     private boolean isWinner;
+
 
     public Team(Player spymaster, Player operative, Color color) {
         this.spymaster = spymaster;
@@ -17,12 +16,12 @@ public class Team {
         this.color = color;
     }
 
-    public int getTeamId() {
-        return teamId;
+    public String getSpymaster() {
+        return spymaster.getNickname();
     }
 
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
+    public String getOperative() {
+        return operative.getNickname();
     }
 
     public Color getColor() {
@@ -41,31 +40,13 @@ public class Team {
         this.score++;
     }
 
-    public String getSpymaster() {
-        return spymaster.getNickname();
-    }
-
-    public void setSpymaster(Player spymaster) {
-        this.spymaster = spymaster;
-    }
-
-    public String getOperative() {
-        return operative.getNickname();
-    }
-
-    public void setOperative(Player operative) {
-        this.operative = operative;
-    }
-
     public boolean isWinner() {
         return isWinner;
     }
 
-    public void setIsWinner(boolean winner) {
+    public void setWinner(boolean winner) {
         isWinner = winner;
     }
-
-
     @Override
     public String toString() {
         return "Team{" +
@@ -76,4 +57,5 @@ public class Team {
                 ", score=" + score +
                 '}';
     }
+
 }

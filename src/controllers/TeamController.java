@@ -1,6 +1,5 @@
 package controllers;
 
-import contracts.ITeamContract;
 import models.Player;
 import models.Team;
 import models.enums.Color;
@@ -8,7 +7,7 @@ import models.enums.Role;
 
 import java.util.*;
 
-public class TeamController implements ITeamContract {
+public class TeamController {
 
     private List<Team> teams;
 
@@ -35,7 +34,6 @@ public class TeamController implements ITeamContract {
     public TeamController() {
     }
 
-    @Override
     public boolean isValidRoom(String[] players) {
 
         Set<String> uniqueRoles = new HashSet<>(Arrays.asList(players));

@@ -1,16 +1,14 @@
 package controllers;
 
-import contracts.IAccountContract;
 import controllers.enums.AuthenticationResult;
 import controllers.enums.RoomCreationResult;
 import models.Account;
 import repositories.AccountRepository;
-import views.gui.RoomCreationPanel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountController implements IAccountContract {
+public class AccountController {
 
     private static AccountController instance;
     private final AccountRepository accountRepository = new AccountRepository();
@@ -22,11 +20,13 @@ public class AccountController implements IAccountContract {
     }
 
 
-    private final List<Account> accounts = new ArrayList<>();
+    private List<Account> accounts;
     public List<Account> getAccounts() {
         return accounts;
     }
-
+    public void initializeAccounts() {
+        accounts = new ArrayList<>();
+    }
 
     public RoomCreationResult addAccount(String username) {
         Account account = new Account(username);
@@ -35,7 +35,7 @@ public class AccountController implements IAccountContract {
                 return RoomCreationResult.DUPLICATE_NAMES;
             }
         }
-        accounts.add(accountIndex, account);
+        accounts.add(account);
         return RoomCreationResult.SUCCESS;
     }
 
@@ -49,7 +49,6 @@ public class AccountController implements IAccountContract {
     }
 
     public void setFirstAccount(String username) {
-
         if (accounts.isEmpty()) {
             accounts.add(new Account(username));
         } else {
@@ -67,22 +66,6 @@ public class AccountController implements IAccountContract {
         return instance;
     }
 
-    @Override
-    public AuthenticationResult isValidSignUpCredentials(String username, String password, String confirmedPassword) {
-
-        if (username.isEmpty() || password.isEmpty() || confirmedPassword.isEmpty()) {
-            return AuthenticationResult.EMPTY_FIELDS;
-
-        } else if (accountRepository.findAccount(username)) {
-            return AuthenticationResult.EXISTING_USER;
-
-        } else if (!password.equals(confirmedPassword)) {
-            return AuthenticationResult.PASSWORD_MISMATCH;
-        }
-        return AuthenticationResult.SUCCESS;
-    }
-
-    @Override
     public AuthenticationResult signUp(String username, String password) {
         if (accountRepository.findAccount(username)) {
             return AuthenticationResult.EXISTING_USER;
@@ -92,22 +75,6 @@ public class AccountController implements IAccountContract {
         return AuthenticationResult.SUCCESS;
     }
 
-    public void deleteAccount(String username) {
-        accountRepository.deleteAccount(username);
-    }
-
-    @Override
-    public AuthenticationResult isValidLoginCredentials(String username, String password) {
-        if (username.isEmpty() || password.isEmpty()){
-            return AuthenticationResult.EMPTY_FIELDS;
-        }
-        if (!accountRepository.findAccount(username, password)) {
-            return AuthenticationResult.INVALID_CREDENTIALS;
-        }
-        else return AuthenticationResult.SUCCESS;
-        }
-
-    @Override
     public AuthenticationResult logIn(String username, String password) {
         if (accountRepository.findAccount(username, password)) {
             account = new Account(username);
@@ -121,6 +88,8 @@ public class AccountController implements IAccountContract {
         account = null;
     }
 
-
+    public void deleteAccount(String username) {
+        accountRepository.deleteAccount(username);
+    }
 
 }
